@@ -14,7 +14,7 @@
             Jika kamu belum mendapatkan email verifikasi,
             <form class="d-inline" method="POST" action="">
                 @csrf
-                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('Request link verifikasi email baru') }}</button>.
+                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Request link verifikasi email baru</button>.
             </form>
         </div>
     </div>

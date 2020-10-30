@@ -23,7 +23,7 @@
                         <input type="checkbox" class="custom-control-input" id="customCheckDisabled1">
                         <label class="custom-control-label" for="customCheckDisabled1">Ingat Saya ?</label>
                     </div>
-                    <a class="ml-auto" href=""> {{ __('Forgot Your Password?') }} </a>
+                    <a class="ml-auto" href="">Lupa Password ?</a>
                 </div>
 
                 <button type="submit" class="btn btn-lg btn-block btn-primary mb-2 mt-5">Masuk Sekarang</button>
