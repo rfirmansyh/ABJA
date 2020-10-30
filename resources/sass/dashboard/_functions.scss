@@ -13,3 +13,7 @@
 @function to_opacity($color, $opacity) {
   @return rgba(color($color), $opacity);
 }
+
+@function breakpoint($key) {
+    @return map-get($grid-breakpoints, $key);
+}

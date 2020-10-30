@@ -54,7 +54,7 @@
     {{-- end of widget --}}
     
     {{-- Table --}}
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-header justify-content-between align-items-center">
             <h4>Daftar Mitra</h4>
             <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-1 px-3"><i class="fas fa-filter"></i></button>
@@ -158,18 +158,89 @@
             </ul>
             </nav>
         </div>
+    </div> --}}
+
+    {{-- Datatable --}}
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="datatable" class="table table-datatable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Email</th>
+                            <th>Nama</th>
+                            <th>Budidaya</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ($i = 0; $i < 3; $i++)
+                        <tr>
+                            <td>{{ $i+1 }}</td>
+                            <td class="align-middle">
+                                <div class="table-img"><img src="{{ asset('img/users/2.jpg') }}" alt=""></div>
+                            </td>
+                            <td>chealseolivierelizaberth@gmail.com</td>
+                            <td>Chelsea Olivier</td>
+                            <td>20</td>
+                            <td><span class="badge badge-success">Aktif</span></td>
+                            <td>
+                                <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="{{ url('ui/dashboard/admin/users/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ url('ui/dashboard/admin/users/show') }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     
 @endsection
 
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
+    <link rel="stylesheet" href="{{ asset('vendors/datatable/datatable.min.css') }}">
     <style>
-
+        .dataTables_wrapper .dataTables_length .custom-select {
+            padding-right: 45px !important;
+        }
+        .dataTables_wrapper .dataTables_length .custom-select, .dataTables_wrapper .dataTables_filter .form-control {
+            margin-left: 20px;
+        }
+        .dataTables_wrapper .dataTables_length label, .dataTables_wrapper .dataTables_filter label {
+            display: flex;
+            align-items: center;
+        }
+        @media screen and (max-width: 768px) {
+            .dataTables_wrapper .dataTables_length .custom-select, .dataTables_wrapper .dataTables_filter .form-control {
+                margin-left: 0;
+            }
+            .dataTables_wrapper .dataTables_length label, .dataTables_wrapper .dataTables_filter label {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
     </style>
 @endsection
 
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <script src="{{ asset('vendors/datatable/datatable.min.js') }}"></script>
+    <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
     <script src="{{ asset('js/page/index-0.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable({
+                'dom': `<'row no-gutters'<'col-md'l><'col-md-auto'f>>
+                        <'row'<'col-12't>>
+                        <'row no-gutters justify-content-center'<'col-md'i><'col-md-auto'p>>`,
+            });
+        } );
+    </script>
 @endsection
