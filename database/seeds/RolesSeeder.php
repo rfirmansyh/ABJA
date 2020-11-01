@@ -16,12 +16,14 @@ class RolesSeeder extends Seeder
         $roles = [];
         $roles[] = [
             'name' => 'Administrator',
+            'slug' => 'admin',
             'description' => 'Admin Merupakan User yang dapat Memanage semua akses aplikasi, tetapi tidak termasuk Privasi User/Mitra',
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null
         ];
         $roles[] = [
             'name' => 'Mitra',
+            'slug' => 'mitra',
             'description' => 'Mitra Merupakan User yang ditujukan untuk memanfaatkan Kemudahan aplikasi ABJA',
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null

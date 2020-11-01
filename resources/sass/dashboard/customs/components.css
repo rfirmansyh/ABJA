@@ -1,0 +1,63 @@
+.table-img {
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.table-img > img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.img-profile {
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 10px;
+}
+
+@media screen and (max-width: breakpoint("md")) {
+  .img-profile {
+    font-size: 8px;
+  }
+}
+
+@media screen and (max-width: breakpoint("sm")) {
+  .img-profile {
+    font-size: 6px;
+  }
+}
+
+.img-profile-flex {
+  width: 100%;
+  height: 100%;
+}
+
+.img-profile-sm {
+  width: 15em;
+  height: 15em;
+}
+
+.img-profile-md {
+  width: 25em;
+  height: 25em;
+}
+
+.img-profile-lg {
+  width: 45em;
+  height: 45em;
+}
+
+.img-profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+/*# sourceMappingURL=components.css.map */

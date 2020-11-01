@@ -14,7 +14,7 @@ class BudidayaController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**

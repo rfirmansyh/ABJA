@@ -39,4 +39,22 @@ Route::group(['prefix' => 'ui'], function () {
 
 
 
-// Auth::routes();
+Auth::routes();
+
+Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/admin', 'namespace' => 'Dashboard\Admin', 'as' => 'dashboard.admin.'], function() {
+    Route::get('/', 'DashboardController@index')->name('index');
+    Route::resource('users', 'UserController');
+
+    Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
+        Route::get('users', 'AdminController@getUsers')->name('users');
+    });
+});
+
+Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mitra', 'namespace' => 'Dashboard\Mitra', 'as' => 'dashboard.mitra.'], function() {
+    Route::get('/', 'DashboardController@index')->name('index');
+});
+
+
+
+// Route::get('test', 'Dashboard\Admin\DashboardController@test');
+
