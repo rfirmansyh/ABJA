@@ -160,11 +160,21 @@
         </div>
     </div> --}}
 
+    {{-- Export --}}
+    <div class="card">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md">Export Data</div>
+                <div class="col-md-auto" id="col-export-table"></div>
+            </div>
+        </div>
+    </div>
+
     {{-- Datatable --}}
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="datatable" class="table table-datatable">
+                <table id="datatable" class="table table-datatable" width="100%">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -205,6 +215,7 @@
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
     <link rel="stylesheet" href="{{ asset('vendors/datatable/datatable.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.css"/>
     <style>
         .dataTables_wrapper .dataTables_length .custom-select {
             padding-right: 45px !important;
@@ -230,17 +241,53 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
     <script src="{{ asset('vendors/datatable/datatable.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.bootstrap4.min.js"></script>
     <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
-    <script src="{{ asset('js/page/index-0.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable({
+            var table = $('#datatable').DataTable({
                 'dom': `<'row no-gutters'<'col-md'l><'col-md-auto'f>>
                         <'row'<'col-12't>>
                         <'row no-gutters justify-content-center'<'col-md'i><'col-md-auto'p>>`,
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-table mr-2"></i>Pilih Kolom',
+                        className: 'btn-primary',
+                        prefixButtons: [ 
+                            {
+                                extend: 'colvisRestore',
+                                text: 'Tampilkan Semua Kolom'
+                            }
+                        ]
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel mr-2"></i>Export Excel',
+                        className: 'btn-success',
+                        title: 'Test Data export',
+                        exportOptions: {
+                            columns: ":visible"
+                        }
+                    }, 
+                ],
+                "pagingType": "numbers",
+                "language": {
+                    "lengthMenu": "Tampilkan _MENU_",
+                    "zeroRecords": "Tidak Ada Data",
+                    "info": "Menampilkan _PAGE_ dari _PAGES_ page",
+                    "infoEmpty": "Tidak Ada Data",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                    "search": "Cari Data Mitra:"
+                },
             });
+
+            table.buttons().container().appendTo('#col-export-table');
+
         } );
     </script>
 @endsection

@@ -300,7 +300,6 @@
                     {data: 'action', name: 'action'},
                 ]
             });
-            console.log(table.buttons().container())
             table.buttons().container().appendTo('#col-export-table');
         } );
     </script>

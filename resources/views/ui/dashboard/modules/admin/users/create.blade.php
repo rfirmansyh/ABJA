@@ -62,6 +62,25 @@
                         <textarea class="form-control" style="min-height: 100px"></textarea>
                     </div>
                     <div class="form-group">
+                        <label for="">Alamat</label>
+                        <select class="custom-select mb-2">
+                            <option selected>Pilih Provinsi</option>
+                        </select>
+                        <select class="custom-select mb-2">
+                            <option selected>Pilih Kota/Kabupaten</option>
+                        </select>
+                        <select class="custom-select mb-2">
+                            <option selected>Pilih Kecamatan</option>
+                        </select>
+                        <select class="custom-select mb-2">
+                            <option selected>Pilih Desa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Detail Alamat</label>
+                        <textarea class="form-control" style="min-height: 100px"></textarea>
+                    </div>
+                    <div class="form-group">
                         <label for="">Status Mitra</label>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="aktif" name="status" class="custom-control-input" value="0">
