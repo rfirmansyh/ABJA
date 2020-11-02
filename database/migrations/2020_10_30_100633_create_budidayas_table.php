@@ -18,7 +18,11 @@ class CreateBudidayasTable extends Migration
             $table->string('name');
             $table->string('photo');
             $table->decimal('large', 6,2);
-            $table->text('address');
+            $table->string('provinsi', 50)->nullable();
+            $table->string('kabupaten', 50)->nullable();
+            $table->string('kecamatan', 50)->nullable();
+            $table->string('kelurahan', 50)->nullable();
+            $table->string('detail_address', 100)->nullable();
             $table->enum('status', ['0', '1']);
             $table->timestamps();
             $table->unsignedBigInteger('user_id');

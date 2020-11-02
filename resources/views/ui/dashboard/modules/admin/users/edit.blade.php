@@ -32,6 +32,14 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
+                        <label for="">Nama Lengkap</label>
+                        <input 
+                            type="text" 
+                            name="name"
+                            value="John Doe"
+                            class="form-control" placeholder="johndoe">
+                    </div>
+                    <div class="form-group">
                         <label for="">Foto Profil</label>
                         <div class="custom-file">
                             <input 
@@ -65,14 +73,6 @@
                                 class="form-control" 
                                 placeholder="Masukan Nomor">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Nama Lengkap</label>
-                        <input 
-                            type="text" 
-                            name="name"
-                            value="John Doe"
-                            class="form-control" placeholder="johndoe">
                     </div>
                     <div class="form-group">
                         <label for="">Bio</label>

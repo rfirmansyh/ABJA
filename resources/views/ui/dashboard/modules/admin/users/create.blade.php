@@ -32,6 +32,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
+                        <label for="">Nama Lengkap</label>
+                        <input type="text" class="form-control" name="name" placeholder="johndoe">
+                    </div>
+                    <div class="form-group">
                         <label for="">Foto Profil</label>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="customFile" onchange="openFile(event, '#img-user')">
@@ -52,10 +56,6 @@
                             </div>
                             <input type="tel" class="form-control" placeholder="Masukan Nomor">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Nama Lengkap</label>
-                        <input type="text" class="form-control" name="name" placeholder="johndoe">
                     </div>
                     <div class="form-group">
                         <label for="">Bio</label>

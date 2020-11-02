@@ -17,6 +17,13 @@
                     </div>
                 </div>
 
+                
+                @if(Session::has('alert-message'))
+                    <div class="alert alert-{{ Session::get('alert-type') }}">
+                    {{ Session::get('alert-message') }}
+                    </div>
+                @endif
+
                 <div class="section-body">
                     <div class="mb-4">
                     @yield('content-header')

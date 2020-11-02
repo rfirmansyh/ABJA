@@ -14,7 +14,7 @@ class AdminController extends Controller
         // foto, email, nama, budidaya,status, action
         return DataTables::of($users)
             ->addColumn('photo', function($user) {
-                return '<div class="table-img"><img src='. asset('img/users/2.jpg') .' alt=""></div>';
+                return '<div class="table-img"><img src='. asset('storage/'.$user->photo) .' alt=""></div>';
             })
             ->addColumn('email', function($user) {
                 return $user->email;
@@ -33,7 +33,9 @@ class AdminController extends Controller
                 }
             }) 
             ->addColumn('action', function($user) {
-                return '<a href="'.url('ui/unitkerja/show').'" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a><a href="'.url('ui/dashboard/admin/users/edit').'" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a><a href="'.url('ui/dashboard/admin/users/edit').'" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>';
+                return '<a href="'.route('dashboard.admin.users.create').'" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="'.route('dashboard.admin.users.edit', $user->id).'" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                        <a href="'.route('dashboard.admin.users.show', $user->id).'" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>';
             })
             ->rawColumns(['photo', 'status', 'action'])->make(true);
         

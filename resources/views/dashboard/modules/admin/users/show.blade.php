@@ -11,7 +11,7 @@
 	<div class="row align-items-center">
 		<div class="col-md"><h2 class="section-title">Detail Profil Mitra</h2></div>
 		<div class="col-md-auto">
-			<a href="{{ url('ui/dashboard/mitra/budidaya/') }}" class="btn btn-block btn-lg btn-outline-secondary"><i class="fas fa-arrow-left mr-2"></i> Tampilkan Semua Mitra</a>
+			<a href="{{ route('dashboard.admin.users.index') }}" class="btn btn-block btn-lg btn-outline-secondary"><i class="fas fa-arrow-left mr-2"></i> Data Semua Mitra</a>
 		</div>
 	</div>
 @endsection
@@ -22,25 +22,29 @@
         <div class="row justify-content-center">
             <div class="col-auto mb-md-0">
                 <div class="img-profile img-profile-md shadow-light p-3">
-                    <img src="{{ asset('img/users/2.jpg') }}" alt="">
+                    <img src="{{ asset('storage/'.$user->photo) }}" alt="">
                 </div>
             </div>
             <div class="col-lg-7 pt-3">
                 <div class="row mb-3">
                     <div class="col">
-                        <h3 class="mb-0">John Doe</h3>
-                        <h6 class="text-secondary">johndoe</h6>
+                        <h3 class="mb-0">{{ $user->name }}</h3>
+                        <h6 class="text-secondary">{{ $user->email }}</h6>
                     </div>
                     <div class="col-auto"><a href="{{ url('ui/dashboard/admin/users/edit') }}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a></div>
                 </div>
                 <div class="d-flex align-items-center mb-3">Status:
-                    <div class="badge badge-success  ml-2">Aktif</div>
+                    @if ($user->status == 1)
+                        <div class="badge badge-success ml-2">Aktif</div>
+                    @else
+                    <div class="badge badge-secondary ml-2">Nonaktif</div>
+                    @endif
                 </div>
                 <div class="border-bottom mb-3 pb-1">Nomor Hp :
-                    <div class="font-weight-bold">085748572354</div>
+                    <div class="font-weight-bold">{{ '0'.$user->phone }}</div>
                 </div>
                 <div class="border-bottom mb-3 pb-1">Bio :
-                    <div class="font-weight-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. A odit soluta recusandae consectetur exercitationem eaque labore culpa eligendi similique voluptates!</div>
+                    <div class="font-weight-bold">{{ $user->bio }}</div>
                 </div>
             </div>
         </div>

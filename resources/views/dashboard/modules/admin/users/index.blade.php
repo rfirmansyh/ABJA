@@ -11,7 +11,7 @@
   <div class="row align-items-center">
 		<div class="col-md"><h2 class="section-title">Daftar Mitra</h2></div>
 		<div class="col-md-auto">
-        	<a href="{{ url('ui/dashboard/admin/users/create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Mitra Manual</a>
+        	<a href="{{ route('dashboard.admin.users.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Mitra Manual</a>
         </div>
   </div>
 @endsection

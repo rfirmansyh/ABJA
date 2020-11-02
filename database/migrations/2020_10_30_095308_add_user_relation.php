@@ -14,10 +14,14 @@ class AddUserRelation extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->string('phone');
-            $table->text('bio');
-            $table->text('address');
+            $table->text('bio')->nullable();
+            $table->string('provinsi', 50)->nullable();
+            $table->string('kabupaten', 50)->nullable();
+            $table->string('kecamatan', 50)->nullable();
+            $table->string('kelurahan', 50)->nullable();
+            $table->string('detail_address', 100)->nullable();
             $table->enum('status', ['0', '1']);
             $table->softDeletes();
             $table->unsignedBigInteger('role_id');
@@ -37,7 +41,11 @@ class AddUserRelation extends Migration
             $table->dropcolumn('photo');
             $table->dropcolumn('phone');
             $table->dropcolumn('bio');
-            $table->dropcolumn('address');
+            $table->string('provinsi');
+            $table->string('kabupaten');
+            $table->string('kecamatan');
+            $table->string('kelurahan');
+            $table->string('detail_address');
             $table->dropcolumn('status', ['0', '1']);
             $table->dropcolumn('deleted_at');
             $table->dropcolumn('role_id');
