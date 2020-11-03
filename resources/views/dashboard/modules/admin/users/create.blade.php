@@ -118,7 +118,7 @@
                             class="form-control" style="min-height: 100px">{{ old('bio') }}</textarea>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="">Ganti Alamat</label>
+                        <label for="">Alamat</label>
                         <select 
                             data-location="provinsi" name="provinsi"
                             class="custom-select">
@@ -231,7 +231,6 @@
                     })
                 }
             });
-
             $('select[data-location="provinsi"]').on('change', function() {
                 $('select[data-location="kabupaten"]').attr('disabled', 'disabled');
                 $('select[data-location="kecamatan"]').attr('disabled', 'disabled');

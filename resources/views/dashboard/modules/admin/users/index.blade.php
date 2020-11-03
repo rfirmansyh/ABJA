@@ -182,6 +182,7 @@
                             <th>Email</th>
                             <th>Nama</th>
                             <th>Budidaya</th>
+                            <th>Pekerja</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -257,7 +258,6 @@
                 'dom': `<'row no-gutters'<'col-md'l><'col-md-auto'f><'col-md-auto'B>>
                         <'row'<'col-12't>>
                         <'row no-gutters justify-content-center'<'col-md'i><'col-md-auto'p>>`,
-                serverSide: true,
                 buttons: [
                     {
                         extend: 'colvis',
@@ -292,15 +292,17 @@
                 ajax: users_ajax_url,
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'photo', name: 'foto'},
+                    {data: 'photo', name: 'photo'},
                     {data: 'email', name: 'email'},
                     {data: 'name', name: 'name'},
                     {data: 'budidaya', name: 'budidaya'},
+                    {data: 'pekerja', name: 'pekerja'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'},
                 ]
             });
             table.buttons().container().appendTo('#col-export-table');
+            
         } );
     </script>
 @endsection

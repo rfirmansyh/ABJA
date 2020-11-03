@@ -28,6 +28,13 @@ class RolesSeeder extends Seeder
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null
         ];
+        $roles[] = [
+            'name' => 'Pekerja',
+            'slug' => 'pekerja',
+            'description' => 'Pekerja Merupakan User yang Membantu Mitra Mengembangkan Budidayanya',
+            'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
+            'updated_at' => null
+        ];
         DB::table('roles')->insert($roles);
         $this->command->info("Data Dummy Roles berhasil diinsert");
     }

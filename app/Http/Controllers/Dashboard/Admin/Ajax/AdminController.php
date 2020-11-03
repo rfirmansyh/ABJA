@@ -25,6 +25,12 @@ class AdminController extends Controller
             ->addColumn('budidaya', function($user) {
                 return count($user->budidayas);
             })
+            ->addColumn('pekerja', function($user) {
+                return $user->budidayas()->whereNotNull('maintenance_by_uid')
+                                                ->groupBy('owned_by_uid')
+                                                ->distinct('maintenance_by_uid')
+                                                ->count('maintenance_by_uid');
+            })
             ->addColumn('status', function($user) {
                 if ($user->status === '0') {
                     return '<span class="badge badge-secondary">Nonaktif</span>';

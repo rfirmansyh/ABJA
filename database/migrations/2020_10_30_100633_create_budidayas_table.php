@@ -25,9 +25,11 @@ class CreateBudidayasTable extends Migration
             $table->string('detail_address', 100)->nullable();
             $table->enum('status', ['0', '1']);
             $table->timestamps();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('owned_by_uid');
+            $table->unsignedBigInteger('maintenance_by_uid')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owned_by_uid')->references('id')->on('users');
+            $table->foreign('maintenance_by_uid')->references('id')->on('users');
         });
     }
 

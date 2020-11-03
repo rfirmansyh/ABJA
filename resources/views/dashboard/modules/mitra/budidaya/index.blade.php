@@ -11,7 +11,7 @@
   <div class="row align-items-center">
 		<div class="col-md"><h2 class="section-title">Daftar Tempat Budidaya Saya</h2></div>
 		<div class="col-md-auto">
-        	<a href="{{ url('ui/dashboard/mitra/budidaya/create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Tempat Budidaya</a>
+        	<a href="{{ route('dashboard.mitra.budidaya.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Tempat Budidaya</a>
         </div>
   </div>
 @endsection
@@ -24,6 +24,7 @@
     {{-- filter --}}
     <div class="card card-primary">
         <div class="card-body">
+            {{--  --}}
             <div class="card-title d-flex justify-content-between">
                 <h2 class="tx-24 font-weight-bolder">Filter</h2>
                 <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-0 px-3"><i class="fas fa-filter"></i></button>
@@ -81,7 +82,7 @@
             </div>
 
             <div class="row">
-                @for ($i = 0; $i < 2; $i++)
+                @foreach ($budidayas as $i => $budidaya)
                 <div class="col-lg-6">
                     <div class="card card-success border-bottom">
                         <div class="card-header tx-18 font-weight-bold"> Budidaya Sumber Maju Jember </div>
@@ -89,7 +90,7 @@
                             <div class="row">
                                 <div class="col-lg-auto">
                                     <div id="img-card">
-                                        <img src="{{ asset('img/budidaya/'.($i+1).'.jpg') }}" alt="">
+                                        <img src="{{ asset('storage/'.$budidaya->photo) }}" alt="">
 									</div>
                                 </div>
                                 <div class="col-lg">
@@ -97,24 +98,34 @@
 										<div class="badge badge-success  ml-2">Aktif</div>
                                     </div>
                                     <div class="border-bottom mb-1 pb-1">Detail Lokasi :
-                                        <div class="font-weight-bold">Desa Kemiri Kecamatan Panti, Jember, Jawa Timur</div>
+                                        <div class="font-weight-bold">
+                                            {{ $budidaya->detail_address }},
+                                            {{ $budidaya->kelurahan }} - 
+                                            {{ $budidaya->kecamatan }} - 
+                                            {{ $budidaya->kabupaten }} - 
+                                            {{ $budidaya->provinsi }}
+                                        </div>
                                     </div>
                                     <div class="border-bottom mb-1 pb-1">Luas Tempat :
-                                        <div class="font-weight-bold">10 M2</div>
+                                        <div class="font-weight-bold">{{ $budidaya->large }} M2</div>
                                     </div>
                                     <div class="">Tanggal Dibuat :
-                                        <div class="font-weight-bold">8 Januari 2020</div>
+                                        <div class="font-weight-bold">{{ $budidaya->created_at }}</div>
                                     </div>
                                 </div>
                             </div>
 						</div>
 						<div class="card-footer border-top border-light d-flex justify-content-end">
-							<a href="{{ url('ui/dashboard/mitra/budidaya/edit') }}" class="btn btn-sm btn-warning mr-1">Ubah</a>
-							<a href="{{ url('ui/dashboard/mitra/budidaya/show') }}" class="btn btn-sm btn-primary">Detail</a>
+							<a href="{{ route('dashboard.mitra.budidaya.edit', $budidaya->id) }}" class="btn btn-sm btn-warning mr-1">Ubah</a>
+							<a href="{{ route('dashboard.mitra.budidaya.show', $budidaya->id) }}" class="btn btn-sm btn-primary">Detail</a>
 						</div>
                     </div>
                 </div>    
-                @endfor
+                @endforeach
+            </div>
+
+            <div class="row justify-content-center justify-content-md-end">
+                <div class="col-auto">{{$budidayas->appends(Request::all())->links()}}</div>
             </div>
         </div>
     </div>

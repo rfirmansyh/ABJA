@@ -9,9 +9,9 @@
 @endsection
 @section('content-header')
 	<div class="row align-items-center">
-		<div class="col-md"><h2 class="section-title">Detain Rincian Data</h2></div>
+		<div class="col-md"><h2 class="section-title">Detail Rincian Data</h2></div>
 		<div class="col-md-auto">
-			<a href="{{ url('ui/dashboard/mitra/budidaya/') }}" class="btn btn-block btn-lg btn-outline-secondary"><i class="fas fa-arrow-left mr-2"></i> Tampilkan Semua Tempat</a>
+			<a href="{{ route('dashboard.mitra.budidaya.index') }}" class="btn btn-block btn-lg btn-outline-secondary"><i class="fas fa-arrow-left mr-2"></i> Data Semua Budidaya</a>
 		</div>
 	</div>
 @endsection
@@ -21,26 +21,36 @@
 	<div class="row mb-5">
 		<div class="col-md-auto mb-3 mb-md-0">
 			<div id="img-card" class="shadow-light">
-				<img src="{{ asset('img/budidaya/1.jpg') }}" alt="">
+				<img src="{{ asset('storage/'.$budidaya->photo) }}" alt="">
 			</div>
 		</div>
 		<div class="col-md">
 			<div class="card card-body mb-0">
 				<div class="row">
-					<div class="col"><h5>Budidaya Sumber Maju Jember</h5></div>
-					<div class="col-auto"><a href="{{ url('ui/dashboard/mitra/budidaya/edit') }}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a></div>
+					<div class="col"><h5>{{ $budidaya->name }}</h5></div>
+					<div class="col-auto"><a href="{{ route('dashboard.mitra.budidaya.edit', $budidaya->id) }}" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a></div>
 				</div>
 				<div class="d-flex align-items-center mb-3">Status:
-					<div class="badge badge-success  ml-2">Aktif</div>
+					@if ($budidaya->status === '1')
+					<div class="badge badge-success ml-2">Aktif</div>
+					@else
+					<div class="badge badge-secondary ml-2">Nonaktif</div>
+					@endif
 				</div>
 				<div class="border-bottom mb-1 pb-1">Detail Lokasi :
-					<div class="font-weight-bold">Desa Kemiri Kecamatan Panti, Jember, Jawa Timur</div>
+					<div class="font-weight-bold">
+						{{ $budidaya->detail_address }}, 
+						{{ $budidaya->kelurahan }} - 
+						{{ $budidaya->kecamatan }} - 
+						{{ $budidaya->kabupaten }} - 
+						{{ $budidaya->provinsi }}	
+					</div>
 				</div>
 				<div class="border-bottom mb-1 pb-1">Luas Tempat :
-					<div class="font-weight-bold">10 M2</div>
+					<div class="font-weight-bold">{{ $budidaya->large }} M2</div>
 				</div>
 				<div class="">Tanggal Dibuat :
-					<div class="font-weight-bold">8 Januari 2020</div>
+					<div class="font-weight-bold">{{ $budidaya->created_at }}</div>
 				</div>
 			</div>
 		</div>
@@ -58,7 +68,7 @@
 						<h4>Total Kumbung</h4>
 					</div>
 					<div class="card-body">
-						10
+						{{ 'NA' }}
 					</div>
                 </div>
             </div>
@@ -73,7 +83,13 @@
 						<h4>Pekerja</h4>
 					</div>
 					<div class="card-body">
-						20
+						<div class="tx-18">
+							@if ($budidaya->maintenance_by)
+								{{ $budidaya->maintenance_by->name }}
+							@else
+								None
+							@endif
+						</div>
 					</div>
                 </div>
             </div>
@@ -88,7 +104,7 @@
 						<h4>Total Pemasukan</h4>
 					</div>
 					<div class="card-body text-success">
-						200.000.000
+						0
 					</div>
                 </div>
             </div>

@@ -27,4 +27,62 @@ $(function() {
         }
         e.preventDefault()
     })
+
+    if ($('select[data-location="provinsi"]')) {
+        // getProvinsi : init provinsi location first on select input
+        $.ajax({
+            url: getProvinsi(),
+            success: function(result) {
+                console.log(result.data);
+                result.data.forEach((data) => {
+                    $('select[data-location="provinsi"]').append(`<option id="${data.id}" value="${data.name}">${data.name}</option>`)
+                })
+            }
+        });
+        $('select[data-location="provinsi"]').on('change', function() {
+            $('select[data-location="kabupaten"]').attr('disabled', 'disabled');
+            $('select[data-location="kecamatan"]').attr('disabled', 'disabled');
+            $('select[data-location="kelurahan"]').attr('disabled', 'disabled');
+            $.ajax({
+                url: getKabupaten($(this).find('option:selected').prop('id')),
+                success: function(result) {
+                    $('select[data-location="kabupaten"]')
+                        .removeAttr('disabled')
+                        .html('<option selected disabled>Pilih Kota/Kabupaten</option>');
+                    result.data.forEach((data) => {
+                        $('select[data-location="kabupaten"]').append(`<option id="${data.id}" value="${data.name}">${data.name}</option>`)
+                    })
+                }
+            });
+        });
+        $('select[data-location="kabupaten"]').on('change', function() {
+            $('select[data-location="kecamatan"]').attr('disabled', 'disabled');
+            $('select[data-location="kelurahan"]').attr('disabled', 'disabled');
+            $.ajax({
+                url: getKecamatan($(this).find('option:selected').prop('id')),
+                success: async function(result) {
+                    $('select[data-location="kecamatan"]')
+                        .removeAttr('disabled')
+                        .html('<option selected disabled>Pilih Kecamatan</option>');
+                    result.data.forEach((data) => {
+                        $('select[data-location="kecamatan"]').append(`<option id="${data.id}" value="${data.name}">${data.name}</option>`)
+                    })
+                }
+            });
+        });
+        $('select[data-location="kecamatan"]').on('change', function() {
+            $('select[data-location="kelurahan"]').attr('disabled', 'disabled');
+            $.ajax({
+                url: getKelurahan($(this).find('option:selected').prop('id')),
+                success: async function(result) {
+                    $('select[data-location="kelurahan"]')
+                        .removeAttr('disabled')
+                        .html('<option selected disabled>Pilih Kelurahan</option>');
+                    result.data.forEach((data) => {
+                        $('select[data-location="kelurahan"]').append(`<option id="${data.id}" value="${data.name}">${data.name}</option>`)
+                    })
+                }
+            });
+        });
+    }
 })

@@ -6,17 +6,33 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
 
+//     SELECT COUNT(DISTINCT maintenance_by_uid)
+// FROM `budidayas` 
+// WHERE `owned_by_uid` = 2 and `maintenance_by_uid` is NOT null
+// GROUP BY `owned_by_uid`
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        // $pekerja = \App\Budidaya::where('owned_by_uid', 3)
+        //                             ->whereNotNull('maintenance_by_uid')
+        //                             ->groupBy('owned_by_uid')
+        //                             ->distinct('maintenance_by_uid')->count('maintenance_by_uid');
+        // $pekerja = User::find('4')->budidayas()
+        //                 ->whereNotNull('maintenance_by_uid')
+        //                 ->groupBy('owned_by_uid')
+        //                 ->distinct('maintenance_by_uid')
+        //                 ->count('maintenance_by_uid'); 
+        // mencari pekerja dari mitra terkait
+        // $pekerja = User::find('2')->budidayas()->get();
         return view('dashboard.modules.admin.users.index');
     }
 

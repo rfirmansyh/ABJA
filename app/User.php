@@ -41,6 +41,6 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
     public function budidayas(){
-        return $this->hasMany('App\Budidaya');
+        return $this->hasMany('App\Budidaya', 'owned_by_uid');
     }
 }
