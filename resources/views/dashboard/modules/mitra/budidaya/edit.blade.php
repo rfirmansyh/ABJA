@@ -143,6 +143,31 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="font-weight-bold">Pekerja</h6>
+                    @if ($budidaya->maintenance_by)
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <div class="img-profile img-profile-sm shadow-light p-3">
+                                <img src="{{ asset('storage/'.$budidaya->maintenance_by->photo) }}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="tx-14 font-weight-bolder">{{ $budidaya->maintenance_by->name }}</div>
+                            <p class="">{{ $budidaya->maintenance_by->phone }}</p>
+                            <div class="border-bottom mb-1 pb-1">Tanggal Bergabung :
+                                <div class="font-weight-bold">{{ $budidaya->maintenance_by->joined_at }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                    <div class="bg-light text-center p-5 rounded-lg">
+                        Tidak Ada Pekerja
+                    </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
@@ -175,18 +200,4 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
-    <script>
-        var openFile = function(event) {
-            const input = event.target;
-            const reader = new FileReader();
-            reader.onload = function() {
-                const dataURL = reader.result;
-                const output =  document.querySelector('#img-card > img');
-                output.src = dataURL;
-                console.log(output.src)
-            }
-            reader.readAsDataURL(input.files[0])
-        }
-    </script>
 @endsection

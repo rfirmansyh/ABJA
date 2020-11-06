@@ -44,6 +44,6 @@ class AdminController extends Controller
                         <a href="'.route('dashboard.admin.users.show', $user->id).'" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>';
             })
             ->rawColumns(['photo', 'status', 'action'])->make(true);
-        
     }
+
 }

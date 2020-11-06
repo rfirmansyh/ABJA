@@ -109,8 +109,15 @@
                                     <div class="border-bottom mb-1 pb-1">Luas Tempat :
                                         <div class="font-weight-bold">{{ $budidaya->large }} M2</div>
                                     </div>
-                                    <div class="">Tanggal Dibuat :
+                                    <div class="border-bottom mb-1 pb-1">Tanggal Dibuat :
                                         <div class="font-weight-bold">{{ $budidaya->created_at }}</div>
+                                    </div>
+                                    <div class="">Pekerja (maintener) :
+                                        @if ($budidaya->maintenance_by)
+                                            <div class="font-weight-bold">{{ $budidaya->maintenance_by->name }}</div>
+                                        @else
+                                            <div class="font-weight-bold">Tidak ada</div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

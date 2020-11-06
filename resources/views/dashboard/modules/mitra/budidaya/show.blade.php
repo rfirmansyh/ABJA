@@ -87,7 +87,7 @@
 							@if ($budidaya->maintenance_by)
 								{{ $budidaya->maintenance_by->name }}
 							@else
-								None
+								Tidak ada
 							@endif
 						</div>
 					</div>

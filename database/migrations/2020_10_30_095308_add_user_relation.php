@@ -24,6 +24,8 @@ class AddUserRelation extends Migration
             $table->string('detail_address', 100)->nullable();
             $table->enum('status', ['0', '1']);
             $table->softDeletes();
+            $table->timestamp('started_at', 0)->nullable();
+            $table->timestamp('joined_at', 0)->nullable();
             $table->unsignedBigInteger('role_id');
     
             $table->foreign('role_id')->references('id')->on('roles');

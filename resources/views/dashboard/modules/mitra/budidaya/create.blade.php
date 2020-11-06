@@ -17,13 +17,13 @@
 @endsection
 
 @section('content')
-
+    <form action="{{ route('dashboard.mitra.budidaya.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('dashboard.mitra.budidaya.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                    
                     <div class="form-group">
                         <label for="">Foto Tempat</label>
                         <div class="custom-file">
@@ -114,7 +114,6 @@
                             style="min-height: 100px">{{ old('detail_address') }}</textarea>
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary ml-auto d-block">Tambahkan</button>          
-                    </form>          
                 </div>
             </div>
         </div>
@@ -126,8 +125,49 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="font-weight-bold">Tambahkan Pekerja</h6>
+                    <select 
+                        onchange="selectShowMaintenerById(event, '#d-maintener')"
+                        name="maintenance_by_uid" 
+                        id="select-maintener"
+                        class="selectpicker" 
+                        data-live-search="true" 
+                        title="Cari Pekerja..." 
+                        data-width="100%">
+                            @foreach ($mainteners as $maintener)
+                                <option value="{{ $maintener->id }}">{{ $maintener->name }}</option>
+                            @endforeach
+                    </select>
+                </div>
+            </div>
+            {{-- detail maintener : state d-none --}}
+            <div class="card d-none" id="d-maintener">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-bold">Detail Maintener</h6>
+                        <div class="csr-pointer" onclick="elDisappearResetSelect(event, '#d-maintener', '#select-maintener')">&times;</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <div class="img-profile img-profile-sm shadow-light p-3">
+                                <img src="" alt="" data-to-fill="maintener-img">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div data-to-fill="maintener-name" class="tx-14 font-weight-bolder"></div>
+                            <p data-to-fill="maintener-phone" class=""></p>
+                            <div class="border-bottom mb-1 pb-1">Menjadi Pekerja Sejak :
+                                <div data-to-fill="maintener-started-at" class="font-weight-bold"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    </form>    
 
     
 @endsection
@@ -158,17 +198,28 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
     <script>
-        var openFile = function(event) {
-            const input = event.target;
-            const reader = new FileReader();
-            reader.onload = function() {
-                const dataURL = reader.result;
-                const output = document.querySelector('#img-card > img');
-                output.src = dataURL;
-            }
-            reader.readAsDataURL(input.files[0])
+        let selectShowMaintenerById = function(event, target_id) {
+            let id = $(event.target).val();
+            $.ajax({
+                url: `{{ route("dashboard.mitra.ajax.users.show") }}/${id}`,
+                success: function(result) {
+                    console.log(result);
+                    let el = $(target_id);
+                    el.removeClass('d-none');
+                    el.find('[data-to-fill="maintener-img"]').attr('src', `{{ asset('storage/') }}/${result.data.photo}`);
+                    el.find('[data-to-fill="maintener-name"]').html(result.data.name);
+                    el.find('[data-to-fill="maintener-phone"]').html(result.data.phone);
+                    el.find('[data-to-fill="maintener-started-at"]').html(result.data.started_at);
+                }
+            })
+            event.preventDefault();
+        }
+
+        let elDisappearResetSelect = function(event, id_el, id_select) {
+            $(id_el).addClass('d-none');
+            $(id_select).selectpicker('val', '');
+            event.preventDefault();
         }
     </script>
 @endsection

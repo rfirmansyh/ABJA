@@ -27,7 +27,8 @@ class BudidayaController extends Controller
      */
     public function create()
     {
-        return view('dashboard.modules.mitra.budidaya.create');
+        $mainteners = \App\User::where('role_id', 3)->get();
+        return view('dashboard.modules.mitra.budidaya.create')->with(['mainteners' => $mainteners]);
     }
 
     /**
@@ -38,12 +39,12 @@ class BudidayaController extends Controller
      */
     public function store(Request $request)
     {
-        //      
+        
         $budidaya = new Budidaya;
-        if ($request->file('photo')) {
-            $file = $request->file('photo')->store('photo/budidaya', 'public');
-            $budidaya->photo = $file;
-        }
+        // if ($request->file('photo')) {
+        //     $file = $request->file('photo')->store('photo/budidaya', 'public');
+        //     $budidaya->photo = $file;
+        // }
         $budidaya->name = $request->name;
         $budidaya->large = $request->large;
         $budidaya->status = $request->status;
@@ -53,8 +54,8 @@ class BudidayaController extends Controller
         $budidaya->kelurahan = $request->kelurahan;
         $budidaya->detail_address = $request->detail_address;
         $budidaya->owned_by_uid = Auth::user()->id;
-
         $budidaya->save();
+        
         \Session::flash('alert-type', 'success'); 
         \Session::flash('alert-message', 'Data Budidaya Berhasil Ditambahkan!'); 
         return redirect()->route('dashboard.mitra.budidaya.create');

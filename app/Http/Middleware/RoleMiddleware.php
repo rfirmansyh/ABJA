@@ -23,7 +23,8 @@ class RoleMiddleware
         $role_auth = Auth::user()->role->slug;
         if ($role_request === $role_auth) {
             return $next($request);
+        } else {
+            return redirect()->route("dashboard.$role_auth.index");
         }
-        return redirect()->route("dashboard.$role_auth.index");
     }
 }
