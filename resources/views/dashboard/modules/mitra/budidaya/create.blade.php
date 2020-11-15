@@ -168,12 +168,10 @@
         </div>
     </div>
     </form>    
-
-    
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
         #img-card {
             width: 100%;

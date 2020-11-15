@@ -43,4 +43,7 @@ class User extends Authenticatable
     public function budidayas(){
         return $this->hasMany('App\Budidaya', 'owned_by_uid');
     }
+    public function productions(){
+        return $this->hasMany('App\Production', 'updated_by_uid');
+    }
 }

@@ -10,21 +10,23 @@
     <ul class="sidebar-menu">
       <li class="menu-header">Dashboard</li>
       {{-- acitve --}}
-      <li class="{{ Request::is('ui/dashboard/mitra') ? 'active' : '' }}">
+      <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
         <a href="#" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
       </li>
       <li class="menu-header">Budidaya</li>
-      <li class="{{ Request::is('ui/dashboard/mitra/budidaya*') ? 'active' : '' }}">
-        <a class="nav-link" href="blank.html"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
+      <li class="{{ Request::is('dashboard/mitra/budidaya*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard.mitra.budidaya.index') }}"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
       </li>
 
       @if (Request::is('dashboard/admin*'))
         <li class="menu-header">Membership</li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users-cog"></i> <span>Mitra</span></a></li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Administrator</span></a></li>
-          @elseif (Request::is('dashboard/mitra*'))
+      @elseif (Request::is('dashboard/mitra*'))
         <li class="menu-header">Internal</li>
-        <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-cogs"></i> <span>Produksi</span></a></li>
+        <li class="{{ Request::is('dashboard/mitra/productions*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.productions.index') }}"><i class="fas fa-cogs"></i> <span>Produksi</span></a>
+        </li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Pekerja</span></a></li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-money-bill-wave-alt"></i> <span>Keuangan</span></a></li>            
       @endif

@@ -11,4 +11,5 @@ class BudidayaController extends Controller
         $user = \App\User::findOrFail($id);
         return api_response(1, 'User By Id Success', $user);
     }
+    
 }

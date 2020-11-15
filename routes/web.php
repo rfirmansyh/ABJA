@@ -43,6 +43,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/admin', 'namespace' => 'Dashboard\Admin', 'as' => 'dashboard.admin.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
+    
     Route::resource('users', 'UserController');
 
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
@@ -50,9 +51,18 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/adm
     });
 });
 
+
 Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mitra', 'namespace' => 'Dashboard\Mitra', 'as' => 'dashboard.mitra.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
+    
+    // Modules : budidaya
+    Route::delete('budidaya/{maintener}', 'BudidayaController@destroyBudidaya')->name('budidaya.maintener.destroy');
     Route::resource('budidaya', 'BudidayaController');
+
+    // Modules : productions
+    Route::resource('productions', 'ProductionController');
+
+    // Ajax
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
         Route::get('users/{user?}', 'BudidayaController@getUserById')->name('users.show');
     });

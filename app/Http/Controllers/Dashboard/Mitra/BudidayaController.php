@@ -41,10 +41,10 @@ class BudidayaController extends Controller
     {
         
         $budidaya = new Budidaya;
-        // if ($request->file('photo')) {
-        //     $file = $request->file('photo')->store('photo/budidaya', 'public');
-        //     $budidaya->photo = $file;
-        // }
+        if ($request->file('photo')) {
+            $file = $request->file('photo')->store('photo/budidaya', 'public');
+            $budidaya->photo = $file;
+        }
         $budidaya->name = $request->name;
         $budidaya->large = $request->large;
         $budidaya->status = $request->status;
@@ -54,6 +54,7 @@ class BudidayaController extends Controller
         $budidaya->kelurahan = $request->kelurahan;
         $budidaya->detail_address = $request->detail_address;
         $budidaya->owned_by_uid = Auth::user()->id;
+        $budidaya->maintenance_by_uid = $request->maintenance_by_uid;
         $budidaya->save();
         
         \Session::flash('alert-type', 'success'); 
@@ -83,7 +84,8 @@ class BudidayaController extends Controller
     public function edit($id)
     {
         $budidaya = Budidaya::findOrFail($id);
-        return view('dashboard.modules.mitra.budidaya.edit')->with(['budidaya' => $budidaya]);
+        $mainteners = \App\User::where('role_id', 3)->get();
+        return view('dashboard.modules.mitra.budidaya.edit')->with(['budidaya' => $budidaya, 'mainteners' => $mainteners]);
     }
 
     /**
@@ -116,6 +118,9 @@ class BudidayaController extends Controller
         if ($request->detail_address){
             $user->detail_address = $request->detail_address;
         }
+        if ($request->maintenance_by_uid) {
+            $budidaya->maintenance_by_uid = $request->maintenance_by_uid;
+        }
 
         $budidaya->save();
         \Session::flash('alert-type', 'success'); 
@@ -132,5 +137,13 @@ class BudidayaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function destroyBudidaya($id) {
+        $budidaya = Budidaya::findOrFail($id);
+        $budidaya->maintenance_by_uid = null;
+        $budidaya->save();
+
+        return redirect()->route('dashboard.mitra.budidaya.edit', $id);
     }
 }

@@ -12,4 +12,7 @@ class Budidaya extends Model
     public function maintenance_by() {
         return $this->belongsTo('App\User', 'maintenance_by_uid');
     }
+    public function kumbungs(){
+        return $this->hasMany('App\Kumbung');
+    }
 }
