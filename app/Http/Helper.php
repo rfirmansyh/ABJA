@@ -32,7 +32,7 @@ use Carbon\Carbon;
             $start = Carbon::parse($start_date);
             $end = Carbon::parse($end_date);
             $now = Carbon::now();
-
+            
             $diff_from_now = $end->diff($now);
             $diff_from_start = $end->diff($start);
 
@@ -51,7 +51,7 @@ use Carbon\Carbon;
                 if ($dfn->d != 0) {$time_remain = "$dfn->d Hari Tersisa";} 
                 else if ($dfn->d === 0 && $dfn->h !== 0 && $dfn->i !== 0) {$time_remain = "$dfn->h Jam $dfn->i Menit Tersisa";}
                 else if ($dfn->d === 0 && $dfn->h === 0 && $dfn->i !== 0) {$time_remain = "$dfn->i Menit Tersisa";}
-                $percentage = (($total_min_from_start - $total_min_from_now) / $total_min_from_start) * 99.99;
+                $percentage = (($total_min_from_start - $total_min_from_now +1) / $total_min_from_start) * 99.99;
             }
 
             $progress = (object) [

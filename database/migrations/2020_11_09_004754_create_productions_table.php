@@ -19,7 +19,8 @@ class CreateProductionsTable extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
             $table->timestamp('done_at', 0)->nullable();
-            $table->decimal('harvest_total', 6,2)->nullable();
+            $table->enum('status', ['0', '1'])->default('0')->comment = "0 = Tidak Produksi, 1 = Progress Produksi";
+            $table->bigInteger('harvest_total')->nullable()->comment = "Gram";
             $table->unsignedBigInteger('updated_by_uid');
             $table->unsignedBigInteger('production_type_id');
             $table->unsignedBigInteger('kumbung_id');

@@ -9,10 +9,7 @@
 
 @section('content-header') {{-- section : content-header --}}
   <div class="row align-items-center">
-		<div class="col-md"><h2 class="section-title">Halaman Produksi Kumbung/Rumah Jamur</h2></div>
-		<div class="col-md-auto">
-        	<a href="{{ route('dashboard.mitra.productions.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Produksi</a>
-        </div>
+		<div class="col-md"><h2 class="section-title">Produksi Kumbung/Rumah Jamur</h2></div>
   </div>
 @endsection {{-- section : content-header --}}
 
@@ -86,8 +83,12 @@
                 @foreach ($kumbungs as $kumbung)
                 @php
                     $progress = null; 
-                    if (isset($kumbung->productions()->orderBy('id', 'desc')->first()->done_at)) {
-                        $progress = getProgress($kumbung->productions()->orderBy('id', 'desc')->first()->created_at, $kumbung->productions()->orderBy('id', 'desc')->first()->done_at);
+                    // check apa ada produksi di kumbung terkait
+                    if ($kumbung->productions()->orderBy('id', 'desc')->first()) {
+                        // check apa status sedang inprogress / '1' ?
+                        if ($kumbung->productions()->orderBy('id', 'desc')->first()->status === '1') {
+                            $progress = getProgress($kumbung->productions()->orderBy('id', 'desc')->first()->created_at, $kumbung->productions()->orderBy('id', 'desc')->first()->done_at);
+                        }
                     }
                 @endphp
                 <div class="col-lg-6">
@@ -121,7 +122,7 @@
                                     <div class="">Terakhir Selesai Produksi :
                                         <div class="font-weight-bold">
                                             @if (count($kumbung->productions) > 1) 
-                                                {{ \Carbon\Carbon::parse($kumbung->productions()->orderBy('id', 'desc')->get()[1]->created_at)->toDayDateTimeString() }}    
+                                                {{ \Carbon\Carbon::parse($kumbung->productions()->orderBy('id', 'desc')->get()[1]->done_at)->toDayDateTimeString() }}    
                                             @else
                                                 Belum Ada
                                             @endif
@@ -131,40 +132,45 @@
                             </div>
                             <div class="row">
                                 @if ($progress)
-                                <div class="col">
-                                    <div class="font-weight-bold mb-2">Progress Produksi : {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
-                                    <div class="progress">
-                                        <div class="progress-bar text-dark" 
-                                            role="progressbar" 
-                                            style="width: {{ round($progress->percentage,2) }}%; overflow: visible;">
-                                            {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                                    <div class="col">
+                                        <div class="font-weight-bold mb-2">Progress Produksi : {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                                        <div class="progress">
+                                            <div class="progress-bar text-dark" 
+                                                role="progressbar" 
+                                                style="width: {{ round($progress->percentage,2) }}%; overflow: visible;">
+                                                {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                                        </div>
                                     </div>
-                                </div>
                                 @else
-                                <div class="col">
-                                    <div class="font-weight-bold mb-2">Progress Produksi : Belum Melakukan Produksi</div>
-                                    <div class="progress">
-                                        <div class="progress-bar text-dark" 
-                                            role="progressbar" 
-                                            style="width: 0%; overflow: visible;">
-                                            Belum Melakukan Produksi</div>
+                                    <div class="col">
+                                        <div class="font-weight-bold mb-2">Progress Produksi : Belum Melakukan Produksi</div>
+                                        <div class="progress">
+                                            <div class="progress-bar text-dark" 
+                                                role="progressbar" 
+                                                style="width: 0%; overflow: visible;">
+                                                Belum Melakukan Produksi</div>
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
                             </div>
 						</div>
 						<div class="card-footer border-top border-light">
 							<div class="row gutters-xs justify-content-end">
-                                <div class="col-sm-auto mb-2 mb-sm-0">
-                                    <button class="btn btn-block btn-sm btn-outline-primary">Detail Produksi</button>
+                                <div class="col-sm mb-2 mb-sm-0">
+                                    <button class="btn btn-block h-100 btn-outline-primary">Detail Produksi</button>
                                 </div>
-                                <div class="col-sm-auto">
+                                @if ($progress)
+                                <div class="col-sm mb-2 mb-sm-0">
+                                    <button data-production-id="{{ $kumbung->productions()->orderBy('id', 'desc')->first()->id }}" class="btn btn-block h-100 btn-outline-dark">Input Data</button>
+                                </div>
+                                @endif
+                                <div class="col-sm">
                                     @if ($progress && $progress->percentage < 100)
-                                        <button class="btn btn-block btn-sm btn-secondary" disabled>Konfirmasi Produksi</button>    
+                                        <button class="btn btn-block h-100 btn-secondary" disabled>Konfirmasi</button>    
                                     @elseif ($progress && $progress->percentage == 100)
-                                        <button class="btn btn-block btn-sm btn-success">Konfirmasi Produksi</button>   
+                                        <button class="btn btn-block h-100 btn-success">Konfirmasi</button>   
                                     @else
-                                        <button data-toggle="modal" data-target="#m-production-start" data-send="{{ $kumbung->id }}" class="btn btn-block btn-sm btn-primary">Mulai Produksi</button>   
+                                        <button data-toggle="modal" data-target="#m-production-start" data-send="{{ $kumbung->id }}" class="btn btn-block h-100 btn-primary">Mulai Produksi</button>   
                                     @endif
                                 </div>
                             </div>
@@ -194,9 +200,9 @@
             <form action="{{ route('dashboard.mitra.productions.store') }}" method="POST" enctype="multipart/form-data"> {{-- form --}}
             @csrf
             <div class="modal-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Data</a>
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Detail</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Kebutuhan</a>
@@ -240,24 +246,80 @@
                     <div class="tab-pane fade" style="max-height: 420px; overflow-y: auto; overflow-x: hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <h6>Kebutuhan 1</h6>
                         <div class="form-group mb-2">
-                            <label for="">Nominal</label>
-                            <input type="number" class="form-control" name="pengeluaran_nominal[]">
+                            <label for="">Tipe Kebutuhan</label>
+                            <select 
+                                name="kebutuhanType_id[]" 
+                                class="selectpicker" 
+                                data-style="form-control"
+                                data-live-search="true" 
+                                onchange=""
+                                title="Cari Jenis Kebutuhan..." 
+                                data-width="100%">
+                                    @foreach ($kebutuhanTypes as $kebutuhanType)
+                                        <option value="{{ $kebutuhanType->id }}">{{ $kebutuhanType->name }}</option>
+                                    @endforeach
+                            </select>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="">Deskripsi produksi</label>
+                            <label for="">Nominal</label>
+                            <div class="input-group">
+                                <input 
+                                    type="number" 
+                                    name="kebutuhanType_nominal[]"
+                                    class="form-control" 
+                                    placeholder="Masukan Jumlah"
+                                    disabled>
+                                <div class="input-group-append">
+                                  <span class="input-group-text" id="basic-addon2">Unknown</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="">Nominal Pengeluaran</label>
+                            <input name="pengeluaran_nominal[]" type="number" class="form-control">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="">Catatan Pengeluaran</label>
                             <textarea name="pengeluaran_description[]" id="" class="form-control" rows="3"></textarea>
                         </div>
-                        <hr>
                         <h6>Kebutuhan 2</h6>
                         <div class="form-group mb-2">
-                            <label for="">Nominal</label>
-                            <input type="number" class="form-control" name="pengeluaran_nominal[]">
+                            <label for="">Tipe Kebutuhan</label>
+                            <select 
+                                name="kebutuhanType_id[]" 
+                                class="selectpicker" 
+                                data-style="form-control"
+                                data-live-search="true" 
+                                onchange=""
+                                title="Cari Jenis Kebutuhan..." 
+                                data-width="100%">
+                                    @foreach ($kebutuhanTypes as $kebutuhanType)
+                                        <option value="{{ $kebutuhanType->id }}">{{ $kebutuhanType->name }}</option>
+                                    @endforeach
+                            </select>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="">Deskripsi produksi</label>
+                            <label for="">Nominal</label>
+                            <div class="input-group">
+                                <input 
+                                    type="number" 
+                                    name="kebutuhanType_nominal[]"
+                                    class="form-control" 
+                                    placeholder="Masukan Jumlah"
+                                    disabled>
+                                <div class="input-group-append">
+                                  <span class="input-group-text" id="basic-addon2">Unknown</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="">Nominal Pengeluaran</label>
+                            <input name="pengeluaran_nominal[]" type="number" class="form-control">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="">Catatan Pengeluaran</label>
                             <textarea name="pengeluaran_description[]" id="" class="form-control" rows="3"></textarea>
                         </div>
-                        <hr>
                         
                         <div class="row justify-content-end">
                             <div class="col-auto">
@@ -328,6 +390,19 @@
 
         $('[data-send]').on('click', function() {
             $('#kumbung_id').val($(this).data('send'));
+        })
+
+        $('select[name="kebutuhanType_id[]"]').on('change', function() {
+            let nearest_nominal_input = $(this).closest('.form-group').next().find('input[name="kebutuhanType_nominal[]"]');
+            let nearest_append_text = $(this).closest('.form-group').next().find('span.input-group-text');
+            let ajax_url = `{{ route('dashboard.mitra.ajax.getKebutuhanTypeById') }}/${$(this).val()}`;
+            $.ajax({
+                url: ajax_url,
+                success: function(result) {
+                    nearest_nominal_input.removeAttr('disabled');
+                    nearest_append_text.html(result.data.unit);
+                }
+            })
         })
 
         // function getDate(el) {

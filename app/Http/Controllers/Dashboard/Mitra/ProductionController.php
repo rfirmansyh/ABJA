@@ -21,9 +21,11 @@ class ProductionController extends Controller
         // $end = Carbon::now()->addDays(7)->addSeconds(30)->addMinutes(23)->toDateTimeString();
         $kumbungs = \App\Kumbung::all();
         $productionTypes = \App\ProductionType::all();
+        $kebutuhanTypes = \App\KebutuhanType::all();
         return view('dashboard.modules.mitra.productions.index')
             ->withKumbungs($kumbungs)
-            ->withproductionTypes($productionTypes);
+            ->withProductionTypes($productionTypes)
+            ->withKebutuhanTypes($kebutuhanTypes);
     }
 
     /**
@@ -49,6 +51,7 @@ class ProductionController extends Controller
         $production->description = $request->description;
         $production->created_at = Carbon::parse($request->created_at);
         $production->done_at = Carbon::parse($request->done_at);
+        $production->status = '1';
         $production->production_type_id = $request->production_type_id;
         $production->updated_by_uid = $request->updated_by_uid;
         $production->kumbung_id = $request->kumbung_id;
@@ -62,6 +65,7 @@ class ProductionController extends Controller
         $keuangan->save();
 
         $pengeluarans = [];
+        $kebutuhans = [];
         foreach ($request->pengeluaran_nominal as $i => $value) {
             $pengeluarans[] = [
                 'nominal' => $request->pengeluaran_nominal[$i],
@@ -69,8 +73,15 @@ class ProductionController extends Controller
                 'created_at' => now(),
                 'keuangan_id' => $keuangan->id
             ];
+            DB::table('pengeluarans')->insert($pengeluarans[$i]);
+            $kebutuhans[] = [
+                'nominal' => $request->kebutuhanType_nominal[$i],
+                'kebutuhan_type_id' => $request->kebutuhanType_id[$i],
+                'pengeluaran_id' => \App\Pengeluaran::orderBy('id', 'desc')->first()->id
+            ]; 
         }
-        DB::table('pengeluarans')->insert($pengeluarans);
+        DB::table('kebutuhans')->insert($kebutuhans);
+        
         // $this->command->info("Data Dummy Pengeluaran berhasil diinsert");
         \Session::flash('alert-type', 'success'); 
         \Session::flash('alert-message', 'Data Produksi Berhasil Ditambahkan!'); 
@@ -108,7 +119,7 @@ class ProductionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

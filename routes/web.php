@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
     // Ajax
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
         Route::get('users/{user?}', 'BudidayaController@getUserById')->name('users.show');
+        Route::get('kebutuhans/{kebutuhan?}', 'ProductionController@getKebutuhanTypeById')->name('getKebutuhanTypeById');
     });
 });
 

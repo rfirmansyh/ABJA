@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePengeluaransTable extends Migration
+class CreateKebutuhanTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreatePengeluaransTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengeluarans', function (Blueprint $table) {
+        Schema::create('kebutuhan_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('nominal')->nullable();
-            $table->text('description')->nullable();
+            $table->string('name');
+            $table->string('unit', 50)->comment = "Ex : KG, G, ONS";
+            $table->text('description');
             $table->timestamps();
-            $table->unsignedBigInteger('keuangan_id')->nullable();
-
-            $table->foreign('keuangan_id')->references('id')->on('keuangans');
         });
     }
 
@@ -31,6 +29,6 @@ class CreatePengeluaransTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengeluarans');
+        Schema::dropIfExists('kebutuhan_types');
     }
 }
