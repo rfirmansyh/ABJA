@@ -21,11 +21,13 @@ class CreateProductionsTable extends Migration
             $table->timestamp('done_at', 0)->nullable();
             $table->enum('status', ['0', '1'])->default('0')->comment = "0 = Tidak Produksi, 1 = Progress Produksi";
             $table->bigInteger('harvest_total')->nullable()->comment = "Gram";
+            $table->unsignedBigInteger('maked_by_uid');
             $table->unsignedBigInteger('updated_by_uid');
             $table->unsignedBigInteger('production_type_id');
             $table->unsignedBigInteger('kumbung_id');
 
             $table->foreign('production_type_id')->references('id')->on('production_types');
+            $table->foreign('maked_by_uid')->references('id')->on('users');
             $table->foreign('updated_by_uid')->references('id')->on('users');
             $table->foreign('kumbung_id')->references('id')->on('kumbungs');
         });

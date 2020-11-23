@@ -60,7 +60,10 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
     Route::resource('budidaya', 'BudidayaController');
 
     // Modules : productions
-    Route::resource('productions', 'ProductionController');
+    Route::get('productions', 'ProductionController@index')->name('productions.index');
+    Route::post('productions', 'ProductionController@store')->name('productions.store');
+    Route::put('productions/inputdata/{production?}', 'ProductionController@inputdata')->name('productions.inputdata');
+    Route::put('productions/updatestatus/{production?}', 'ProductionController@updatestatus')->name('productions.updatestatus');
 
     // Ajax
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {

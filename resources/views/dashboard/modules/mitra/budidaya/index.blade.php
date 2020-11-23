@@ -85,7 +85,7 @@
                 @foreach ($budidayas as $i => $budidaya)
                 <div class="col-lg-6">
                     <div class="card card-success border-bottom">
-                        <div class="card-header tx-18 font-weight-bold"> Budidaya Sumber Maju Jember </div>
+                        <div class="card-header tx-18 font-weight-bold"> {{ $budidaya->name }} </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-auto">

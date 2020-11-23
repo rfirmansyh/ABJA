@@ -44,6 +44,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Budidaya', 'owned_by_uid');
     }
     public function productions(){
-        return $this->hasMany('App\Production', 'updated_by_uid');
+        return $this->hasOne('App\Production', 'updated_by_uid');
+    }
+    public function production_makers(){
+        return $this->hasOne('App\Production', 'maked_by_uid');
     }
 }

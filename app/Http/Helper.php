@@ -31,27 +31,27 @@ use Carbon\Carbon;
         {
             $start = Carbon::parse($start_date);
             $end = Carbon::parse($end_date);
-            $now = Carbon::now();
+            $now = Carbon::parse('2020-11-30 14:37:11');
             
             $diff_from_now = $end->diff($now);
             $diff_from_start = $end->diff($start);
+            $total_min_from_start = (($diff_from_start->d * 24 + $diff_from_start->h) * 60)+$diff_from_start->i;
+            $total_min_from_now = (($diff_from_now->d * 24 + $diff_from_now->h) * 60)+$diff_from_now->i;
 
-
-            $total_min_from_start = ($diff_from_start->d * 24 + $diff_from_start->h) * 60;
-            $total_min_from_now = ($diff_from_now->d * 24 + $diff_from_now->h) * 60;
 
             $dfn = $diff_from_now;
             $time_remain = '';
             $percentage = 0;
 
-            if ($now->greaterThanOrEqualTo($end)) {
+            if ($now->diffInMinutes() > $end->diffInMinutes()) {
                 $time_remain = 'Selesai';
                 $percentage = 100;
             } else {
                 if ($dfn->d != 0) {$time_remain = "$dfn->d Hari Tersisa";} 
                 else if ($dfn->d === 0 && $dfn->h !== 0 && $dfn->i !== 0) {$time_remain = "$dfn->h Jam $dfn->i Menit Tersisa";}
                 else if ($dfn->d === 0 && $dfn->h === 0 && $dfn->i !== 0) {$time_remain = "$dfn->i Menit Tersisa";}
-                $percentage = (($total_min_from_start - $total_min_from_now +1) / $total_min_from_start) * 99.99;
+                // dd($total_min_from_start);
+                $percentage = (($total_min_from_start - $total_min_from_now) / $total_min_from_start) * 99.99;
             }
 
             $progress = (object) [

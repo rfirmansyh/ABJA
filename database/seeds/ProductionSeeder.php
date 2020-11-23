@@ -21,6 +21,7 @@ class ProductionSeeder extends Seeder
             'done_at' => Carbon::now()->subDays(1)->toDateTimeString(),
             'harvest_total' => null,
             'production_type_id' => 1,
+            'maked_by_uid' => 3,
             'updated_by_uid' => 3,
             'kumbung_id' => 1
         ];
@@ -32,6 +33,7 @@ class ProductionSeeder extends Seeder
             'done_at' => null,
             'harvest_total' => null,
             'production_type_id' => 1,
+            'maked_by_uid' => 3,
             'updated_by_uid' => 3,
             'kumbung_id' => 1
         ];

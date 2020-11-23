@@ -16,7 +16,7 @@ class BudidayaController extends Controller
      */
     public function index()
     {   
-        $budidayas = Budidaya::paginate(4);
+        $budidayas = Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->paginate(4);
         return view('dashboard.modules.mitra.budidaya.index')->with(['budidayas' => $budidayas]);
     }
 
