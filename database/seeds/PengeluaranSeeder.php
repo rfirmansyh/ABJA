@@ -15,14 +15,12 @@ class PengeluaranSeeder extends Seeder
         $pengeluarans[] = [
             'nominal' => 200000,
             'description' => 'Pembelian Bibit',
-            'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
-            'updated_at' => null
+            'keuangan_id' => 1,
         ];
         $pengeluarans[] = [
             'nominal' => 50000,
             'description' => 'Pembelian Baglog 1 (ada yang rusak)',
-            'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
-            'updated_at' => null
+            'keuangan_id' => 1,
         ];
         DB::table('pengeluarans')->insert($pengeluarans);
         $this->command->info("Data Dummy Pengeluaran berhasil diinsert");

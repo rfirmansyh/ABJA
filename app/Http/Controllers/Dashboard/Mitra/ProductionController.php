@@ -15,17 +15,75 @@ class ProductionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        // $start = Carbon::now()->toDateTimeString();
-        // $end = Carbon::now()->addDays(7)->addSeconds(30)->addMinutes(23)->toDateTimeString();
-        $kumbungs = \App\Kumbung::all();
+    public function index(Request $request)
+    {   
+
+        $budidayas = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->get();
+        
+        $budiayaSelected = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->first();
+        if ($request->select_budidaya_id) {
+            $budiayaSelected = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->find($request->select_budidaya_id);
+        }
+
+        $kumbungs = \App\Kumbung::where('budidaya_id', '=', $budiayaSelected->id)->get();
         $productionTypes = \App\ProductionType::all();
         $kebutuhanTypes = \App\KebutuhanType::all();
         return view('dashboard.modules.mitra.productions.index')
+            ->withBudidayas($budidayas)
+            ->withBudidayaSelected($budiayaSelected)
             ->withKumbungs($kumbungs)
             ->withProductionTypes($productionTypes)
             ->withKebutuhanTypes($kebutuhanTypes);
+    }
+
+
+    public function indextable()
+    {
+        // $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
+        //                     ->groupBy('keuangan_id');
+        // $pengeluaran_sum = \App\Pengeluaran::select(\DB::raw('pengeluarans.keuangan_id, SUM(nominal) as pengeluaran_sum, 0 as pemasukan_sum'))
+        //                     ->groupBy('keuangan_id'); 
+        // $keuangans = \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as month, SUM(pemasukans.pemasukan_sum) as pemasukan_total, SUM(pengeluarans.pengeluaran_sum) as pengeluaran_total'))
+        //                     ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
+        //                         $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
+        //                     })
+        //                     ->leftJoinSub($pengeluaran_sum, 'pengeluarans', function($join) {
+        //                         $join->on('keuangans.id', '=', 'pengeluarans.keuangan_id');
+        //                     })
+        //                     ->groupBy('month')
+        //                     ->get();
+        $panen_sum = \App\Panen::select(\DB::raw('panens.pemasukan_id, SUM(panens.nominal) as panen_sum, 0 as pemasukan_sum, 0 as pengeluaran_sum'))
+                        ->rightJoin('pemasukans', 'pemasukans.id', '=', 'panens.pemasukan_id')
+                        ->groupBy('pemasukans.keuangan_id');
+        $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, panen_sum, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
+                            ->leftJoinSub($panen_sum, 'panen', function($join) {
+                                $join->on('pemasukans.id', '=', 'panen.pemasukan_id');
+                            })
+                            ->groupBy('keuangan_id');
+        $pengeluaran_sum = \App\Pengeluaran::select(\DB::raw('pengeluarans.keuangan_id, SUM(nominal) as pengeluaran_sum, 0 as pemasukan_sum'))
+                            ->groupBy('keuangan_id'); 
+        $keuangans = \App\Keuangan::select(\DB::raw('
+                                keuangans.production_id,
+                                SUM(pemasukans.pemasukan_sum) as pemasukan_total, 
+                                SUM(pengeluarans.pengeluaran_sum) as pengeluaran_total,
+                                SUM(pemasukans.panen_sum) as panen_total'))
+                            ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
+                                $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
+                            })
+                            ->leftJoinSub($pengeluaran_sum, 'pengeluarans', function($join) {
+                                $join->on('keuangans.id', '=', 'pengeluarans.keuangan_id');
+                            })
+                            ->groupBy('production_id');
+        $productions = \App\Production::select(\DB::raw('productions.*, pemasukan_total, pengeluaran_total, panen_total'))
+                            ->leftJoinSub($keuangans, 'keuangans', function($join) {
+                                $join->on('productions.id', '=', 'keuangans.production_id');
+                            })
+                            ->join('kumbungs', 'kumbungs.id', '=', 'productions.kumbung_id')
+                            ->join('budidayas', 'budidayas.id', '=', 'kumbungs.budidaya_id')
+                            ->where('budidayas.owned_by_uid', '=', \Auth::user()->id)
+                            ->groupBy('productions.id')
+                            ->get();
+        return view('dashboard.modules.mitra.productions.index-table');
     }
 
 
@@ -60,14 +118,13 @@ class ProductionController extends Controller
         $kebutuhans = [];
         foreach ($request->pengeluaran_nominal as $i => $value) {
             $pengeluarans[] = [
-                'nominal' => $request->pengeluaran_nominal[$i],
+                'nominal' => $request->pengeluaran_nominal[$i] ? $request->pengeluaran_nominal[$i] : 0,
                 'description' => $request->pengeluaran_description[$i],
-                'created_at' => now(),
                 'keuangan_id' => $keuangan->id
             ];
             DB::table('pengeluarans')->insert($pengeluarans[$i]);
             $kebutuhans[] = [
-                'nominal' => $request->kebutuhan_nominal[$i],
+                'nominal' => $request->kebutuhan_nominal[$i] ? $request->kebutuhan_nominal[$i] : 0,
                 'kebutuhan_type_id' => $request->kebutuhan_type_id[$i],
                 'pengeluaran_id' => \App\Pengeluaran::orderBy('id', 'desc')->first()->id
             ]; 
@@ -116,15 +173,14 @@ class ProductionController extends Controller
                 $pemasukans = [];
                 foreach ($request->panen_nominal as $i => $value) {
                     $pemasukans[] = [
-                        'nominal' => $request->pemasukan_nominal[$i],
+                        'nominal' => $request->pemasukan_nominal[$i] ? $request->pemasukan_nominal[$i] : 0,
                         'description' => $request->pemasukan_description[$i],
-                        'created_at' => now(),
                         'keuangan_id' => $keuangan->id
                     ];
                     if ($value !== null) {
                         DB::table('pemasukans')->insert($pemasukans[$i]);
                         $panens[] = [
-                            'nominal' => $request->panen_nominal[$i],
+                            'nominal' => $request->panen_nominal[$i] ? $request->panen_nominal[$i] : 0,
                             'description' => $request->panen_description[$i],
                             'panen_at' => $request->panen_at[$i] !== null ? Carbon::parse($request->panen_at[$i]) : Carbon::now(),
                             'pemasukan_id' => \App\Pemasukan::orderBy('id', 'desc')->first()->id
@@ -141,15 +197,14 @@ class ProductionController extends Controller
                 $pengeluarans = [];
                 foreach ($request->kebutuhan_nominal as $i => $value) {
                     $pengeluarans[] = [
-                        'nominal' => $request->pengeluaran_nominal[$i],
+                        'nominal' => $request->pengeluaran_nominal[$i] ? $request->pengeluaran_nominal[$i] : 0,
                         'description' => $request->pengeluaran_description[$i],
-                        'created_at' => now(),
                         'keuangan_id' => $keuangan->id
                     ];
                     if ($value !== null) {
                         DB::table('pengeluarans')->insert($pengeluarans[$i]);
                         $kebutuhans[] = [
-                            'nominal' => $request->kebutuhan_nominal[$i],
+                            'nominal' => $request->kebutuhan_nominal[$i] ? $request->kebutuhan_nominal[$i] : 0,
                             'kebutuhan_type_id' => $request->kebutuhan_type_id[$i],
                             'pengeluaran_id' => \App\Pengeluaran::orderBy('id', 'desc')->first()->id
                         ]; 
@@ -164,9 +219,8 @@ class ProductionController extends Controller
                 foreach ($request->pemasukan_other_nominal as $i => $value) {
                     if($value !== null) {
                         $pemasukan_others[] = [
-                            'nominal' => $request->pemasukan_other_nominal[$i],
+                            'nominal' => $request->pemasukan_other_nominal[$i] ? $request->pemasukan_other_nominal[$i] : 0,
                             'description' => $request->pemasukan_other_description[$i],
-                            'created_at' => now(),
                             'keuangan_id' => $keuangan->id
                         ];
                     }
@@ -180,9 +234,8 @@ class ProductionController extends Controller
                 foreach ($request->pengeluaran_other_nominal as $i => $value) {
                     if ($value !== null) {
                         $pengeluaran_others[] = [
-                            'nominal' => $request->pengeluaran_other_nominal[$i],
+                            'nominal' => $request->pengeluaran_other_nominal[$i] ? $request->pengeluaran_other_nominal[$i] : 0,
                             'description' => $request->pengeluaran_other_description[$i],
-                            'created_at' => now(),
                             'keuangan_id' => $keuangan->id
                         ];
                     }

@@ -15,10 +15,9 @@ class CreatePemasukansTable extends Migration
     {
         Schema::create('pemasukans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('nominal')->nullable();
+            $table->bigInteger('nominal')->default('0');
             $table->text('description')->nullable();
-            $table->timestamps();
-            $table->unsignedBigInteger('keuangan_id')->nullable();
+            $table->unsignedBigInteger('keuangan_id');
 
             $table->foreign('keuangan_id')->references('id')->on('keuangans');
         });

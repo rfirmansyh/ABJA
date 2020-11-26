@@ -9,14 +9,35 @@
 
 @section('content-header') {{-- section : content-header --}}
   <div class="row align-items-center">
-		<div class="col-md"><h2 class="section-title">Produksi Kumbung/Rumah Jamur</h2></div>
+        <div class="col-md"><h2 class="section-title">Produksi Kumbung/Rumah Jamur</h2></div>
+        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.table') }}" class="btn btn-outline-info">Tampilkan Semua Tabel Produksi</a></div>
   </div>
 @endsection {{-- section : content-header --}}
 
 @section('content') {{-- section : content --}}
-
-    {{-- if widget added --}}
-    {{-- end of if widget added --}}
+    {{-- list budidaya --}}
+    <div class="row mb-4">
+        <div class="col-md">
+            <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
+        </div>
+        <div class="col-md-4">
+            <form action="" id="select_budidaya_id" method="get">
+            <select 
+                name="select_budidaya_id" 
+                class="selectpicker" 
+                data-style="form-control"
+                data-live-search="true" 
+                onchange=""
+                title="Cari Budidaya..." 
+                data-width="100%">
+                    @foreach ($budidayas as $budidaya)
+                        <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
+                    @endforeach
+            </select>
+            </form>
+        </div>
+    </div>
+    {{-- end of list budidaya --}}
 
     {{-- main content --}}
     <div class="card card-primary">
@@ -705,6 +726,12 @@
 @section('script') {{-- section : script --}}
     <script src="{{ asset('vendors/bs-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
+
+        $('[name="select_budidaya_id"]').on('change', function() {
+            $('#select_budidaya_id').submit();
+        })
+        
+        // INIT DATETIME PICKER
         $('#created_at, #panen_at, #done_at').datetimepicker({
             timeZone:'Asia/Jakarta',
             widgetPositioning: {

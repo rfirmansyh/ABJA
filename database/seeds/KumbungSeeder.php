@@ -32,6 +32,16 @@ class KumbungSeeder extends Seeder
             'jamur_id' => 1,
             'budidaya_id' => 1
         ];
+        $kumbungs[] = [
+            'name' => 'Kumbung Nuri 1',
+            'photo' => 'kumbung/default-kumbung.png',
+            'large' => 8.2,
+            'status' => 1,
+            'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
+            'updated_at' => null,
+            'jamur_id' => 1,
+            'budidaya_id' => 3
+        ];
         DB::table('kumbungs')->insert($kumbungs);
         $this->command->info("Data Dummy Kumbung berhasil diinsert");
     }

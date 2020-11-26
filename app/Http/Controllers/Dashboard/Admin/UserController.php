@@ -95,7 +95,7 @@ class UserController extends Controller
         $user->save();
 
         \Session::flash('alert-type', 'success'); 
-        \Session::flash('alert-message', 'Data Pengurus Berhasil Ditambahkan!'); 
+        \Session::flash('alert-message', 'Data Mitra Berhasil Ditambahkan!'); 
 
         $password = getRandomPassword();
         return redirect()->route('dashboard.admin.users.create')->withPassword($password);

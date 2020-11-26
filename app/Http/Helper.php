@@ -31,7 +31,7 @@ use Carbon\Carbon;
         {
             $start = Carbon::parse($start_date);
             $end = Carbon::parse($end_date);
-            $now = Carbon::parse('2020-11-30 14:37:11');
+            $now = Carbon::now();
             
             $diff_from_now = $end->diff($now);
             $diff_from_start = $end->diff($start);
@@ -60,6 +60,70 @@ use Carbon\Carbon;
             ];
 
             return $progress;
+        }
+    }
+
+        
+    if (!function_exists('getForecast')) {
+        function getForecasts($data, $bobot=3, $next=0) {
+            $data_forecasted = [];
+            
+            // WMA : MIN 3 BULAN
+            for ($i=count($data); $i > 0; $i--) { 
+                if ($i > $bobot) {
+                    $total = 0;
+                    $bbt = 0;
+                    $b = $bobot;
+                    for ($j = $i; $j > $i-$bobot; $j--) {
+                        $total += $data[$j-2]['total']*$b;
+                        $b--;
+                    }
+                    for($k = $bobot; $k > 0; $k--) {
+                        $bbt += $k;
+                    }
+                    array_unshift($data_forecasted,  [
+                        'created_at' => Carbon::parse($data[$i-1]['created_at']),
+                        'month_year' => Carbon::parse($data[$i-1]['created_at'])->format('M Y'),
+                        'total' => $total/$bbt
+                    ]);
+                } else {
+                    array_unshift($data_forecasted,  [
+                        'created_at' => Carbon::parse($data[$i-1]['created_at']),
+                        'month_year' => Carbon::parse($data[$i-1]['created_at'])->format('M Y'),
+                        'total' => 0
+                    ]);
+                }
+            }
+
+            for ($i = count($data_forecasted); $i < count($data)+$next; $i++) {
+                if ($i > $bobot) {
+                    $total = 0;
+                    $bbt = 0;
+                    $b = $bobot;
+                    for($j = $i; $j > $i-$bobot; $j--) {
+                        $total += isset($data[$j-1]) ? $data[$j-1]['total']*$b : $data_forecasted[$j-1]['total']*$b;
+                        $b--;
+                    }
+                    for($k = $bobot; $k > 0; $k--) {
+                        $bbt += $k;
+                    }
+                    array_push($data_forecasted, [
+                        'created_at' => $data_forecasted[$i-1]['created_at'],
+                        'month_year' => $data_forecasted[$i-1]['created_at']->addMonths(1)->format('M Y'),
+                        'total' => $total/$bbt
+                    ]);
+                } else {
+                    array_push($data_forecasted, [
+                        'created_at' => $data_forecasted[$i-1]['created_at'],
+                        'month_year' => $data_forecasted[$i-1]['created_at']->addMonths(1)->format('M Y'),
+                        'total' => 0
+                    ]);
+                }
+            }
+
+            // dd($data_forecasted);
+
+            return $data_forecasted;
         }
     }
 

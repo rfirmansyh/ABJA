@@ -18,4 +18,7 @@ class Production extends Model
     public function productionType(){
         return $this->belongsTo('App\ProductionType');
     }
+    public function keuangans() {
+        return $this->hasMany('App\Keuangan');
+    }
 }

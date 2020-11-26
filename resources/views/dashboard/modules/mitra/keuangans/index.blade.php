@@ -1,18 +1,15 @@
 @extends('dashboard._layouts.app-dashboard')
 
 @section('title', 'Dashboard')
+@section('header', 'Keuangan')
 
-@section('header', 'Mitra Aplikasi ABJA')
 @section('breadcrumb')
-    <div class="breadcrumb-item active"><a href="#">Mitra</a></div>
-    {{-- <div class="breadcrumb-item">Activities</div> --}}
+    <div class="breadcrumb-item active"><a href="#">Keuangan</a></div>
 @endsection
 @section('content-header')
   <div class="row align-items-center">
-		<div class="col-md"><h2 class="section-title">Daftar Mitra</h2></div>
-		<div class="col-md-auto">
-        	<a href="{{ route('dashboard.admin.users.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Mitra Manual</a>
-        </div>
+        <div class="col-md"><h2 class="section-title">Tabel Data Keuangan Bulanan</h2></div>
+        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.keuangans.analysis') }}" class="btn btn-primary"><i class="fas fa-chart-line mr-2"></i>Analisis Pendapatan</a></div>
   </div>
 @endsection
 
@@ -22,12 +19,12 @@
     <div class="row">
         <div class="col-md">
             <div class="card card-statistic-1">
-                <div class="card-icon bg-success">
-                	<i class="fas fa-user"></i>
+                <div class="card-icon bg-info">
+                	<i class="fas fa-cogs"></i>
                 </div>
                 <div class="card-wrap">
 					<div class="card-header">
-						<h4>Mitra Baru</h4>
+						<h4>Total Data Keuangan Bulanan</h4>
 					</div>
 					<div class="card-body">
 						8
@@ -37,12 +34,27 @@
         </div>
         <div class="col-md">
             <div class="card card-statistic-1">
-                <div class="card-icon bg-primary">
-                	<i class="fas fa-user"></i>
+                <div class="card-icon bg-success">
+                	<i class="fas fa-cogs"></i>
                 </div>
                 <div class="card-wrap">
 					<div class="card-header">
-						<h4>Total Mitra</h4>
+						<h4>Total Pemasukan</h4>
+					</div>
+					<div class="card-body">
+						20
+					</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-primary">
+                	<i class="fas fa-cogs"></i>
+                </div>
+                <div class="card-wrap">
+					<div class="card-header">
+						<h4>Total Pengeluaran</h4>
 					</div>
 					<div class="card-body">
 						20
@@ -53,113 +65,6 @@
     </div>
     {{-- end of widget --}}
     
-    {{-- Table --}}
-    {{-- <div class="card">
-        <div class="card-header justify-content-between align-items-center">
-            <h4>Daftar Mitra</h4>
-            <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-1 px-3"><i class="fas fa-filter"></i></button>
-        </div>
-        <div class="card-body py-0">
-            <div class="collapse" id="collapseExample">
-                <div class="row align-items-end gutters-xs border-bottom py-4 mb-3"> 
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Status</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Aktif</option>
-                                <option value="2">Nonaktif</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Lokasi Kota</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Jember</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Luas</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">> 10 M2</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Tanggal Buat</label>
-                            <input type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-12 d-none d-md-block mb-3"></div>
-                    <div class="col-md">
-                        <div class="form-group mb-md-0">
-                            <label for="">Nama Tempat</label>
-                            <input type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
-                        </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <button class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>Foto</th>
-                    <th>Email</th>
-                    <th>Nama</th>
-                    <th>Budidaya</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td class="align-middle">
-                        <div class="table-img"><img src="{{ asset('img/users/2.jpg') }}" alt=""></div>
-                    </td>
-                    <td>chealseolivierelizaberth@gmail.com</td>
-                    <td>Chelsea Olivier</td>
-                    <td>20</td>
-                    <td><span class="badge badge-success">Aktif</span></td>
-                    <td>
-                        <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                        <a href="{{ url('ui/dashboard/admin/users/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
-                    </td>
-                </tr>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer text-right">
-            <nav class="d-inline-block">
-            <ul class="pagination mb-0">
-                <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                <li class="page-item">
-                <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                </li>
-            </ul>
-            </nav>
-        </div>
-    </div> --}}
-
     {{-- Export --}}
     <div class="card">
         <div class="card-body">
@@ -177,14 +82,9 @@
                 <table id="datatable" class="table table-datatable" width="100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Foto</th>
-                            <th>Email</th>
-                            <th>Nama</th>
-                            <th>Budidaya</th>
-                            <th>Pekerja</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Bulan</th>
+                            <th>Pemasukan</th>
+                            <th>Pengeluaran</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -257,13 +157,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"></script>
     <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
     
     <script>
-        let users_ajax_url = '{{ route('dashboard.admin.ajax.users') }}';
+        let productions_ajax_url = '{{ route('dashboard.mitra.ajax.getKeuanganBulanans') }}';
 
         $(document).ready(function() {
             var table = $('#datatable').DataTable({
+                // serverSide: true,
+                processing: true,
+                "lengthMenu": [ 12, 24, 32, 64 ],
                 'dom': `<'row no-gutters'<'col-md'l><'col-md-auto'f><'col-md-auto'B>>
                         <'row'<'col-12't>>
                         <'row no-gutters justify-content-center'<'col-md'i><'col-md-auto'p>>`,
@@ -289,6 +193,8 @@
                         }
                     }, 
                 ],
+                // "ordering" : false,
+                "aaSorting" : [],
                 "pagingType": "numbers",
                 "language": {
                     "lengthMenu": "Tampilkan _MENU_",
@@ -298,17 +204,18 @@
                     "infoFiltered": "(filtered from _MAX_ total records)",
                     "search": "Cari Data Mitra:"
                 },
-                ajax: users_ajax_url,
+                ajax: productions_ajax_url,
+                preDrawCallback: () => {
+                    $('#datatable').loader(true);
+                },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'photo', name: 'photo'},
-                    {data: 'email', name: 'email'},
-                    {data: 'name', name: 'name'},
-                    {data: 'budidaya', name: 'budidaya'},
-                    {data: 'pekerja', name: 'pekerja'},
-                    {data: 'status', name: 'status'},
-                    {data: 'action', name: 'action'},
+                    {data: 'month', name: 'month'},
+                    {data: 'pemasukan', name: 'pemasukan'},
+                    {data: 'pengeluaran', name: 'pengeluaran'},
                 ],
+                drawCallback: () => {
+                    $('#datatable').loader(false);
+                },
                 select: true
             });
             table.buttons().container().appendTo('#col-export-table');
