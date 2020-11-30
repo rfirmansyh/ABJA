@@ -27,11 +27,10 @@ class UsersSeeder extends Seeder
             'kelurahan' => 'KEMIRI',
             'detail_address' => 'JL. Teropong Bintang no.6',
             'status' => '1',
-            'started_at' => null, // mulai bekerja
-            'joined_at' => null, // mulai bekerja di tempat yg baru
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null,
             'deleted_at' => null,
+            'manager_id' => null,
             'role_id' => '1'
         ];
         $users[] = [
@@ -47,11 +46,10 @@ class UsersSeeder extends Seeder
             'kelurahan' => 'KEMIRI',
             'detail_address' => 'JL. Teropong Bintang no.6',
             'status' => '1',
-            'started_at' => null, // mulai bekerja
-            'joined_at' => null, // mulai bekerja di tempat yg baru
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null,
             'deleted_at' => null,
+            'manager_id' => null,
             'role_id' => '2'
         ];
         $users[] = [
@@ -67,11 +65,10 @@ class UsersSeeder extends Seeder
             'kelurahan' => 'KEMIRI',
             'detail_address' => 'JL. Teropong Bintang no.6',
             'status' => '1',
-            'started_at' => null, // mulai bekerja
-            'joined_at' => null, // mulai bekerja di tempat yg baru
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null,
             'deleted_at' => null,
+            'manager_id' => null,
             'role_id' => '2'
         ];
         $users[] = [
@@ -87,11 +84,10 @@ class UsersSeeder extends Seeder
             'kelurahan' => 'KAPONGAN',
             'detail_address' => 'JL. Kapongan no.6',
             'status' => '1',
-            'started_at' => now(), // mulai bekerja
-            'joined_at' => now(), // mulai bekerja di tempat yg baru
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null,
             'deleted_at' => null,
+            'manager_id' => '2',
             'role_id' => '3'
         ];
         $users[] = [
@@ -107,11 +103,10 @@ class UsersSeeder extends Seeder
             'kelurahan' => 'KAPONGAN',
             'detail_address' => 'JL. Kapongan no.6',
             'status' => '1',
-            'started_at' => now(), // mulai bekerja
-            'joined_at' => now(), // mulai bekerja di tempat yg baru
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
             'updated_at' => null,
             'deleted_at' => null,
+            'manager_id' => '3',
             'role_id' => '3'
         ];
         DB::table('users')->insert($users);

@@ -64,22 +64,31 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
 
     // Modules : production type
     Route::resource('productiontypes', 'ProductiontypeController')->except('show');
+
     // Modules : productions
     Route::get('productions/table', 'ProductionController@indextable')->name('productions.index.table');
+    Route::get('productions/panen', 'ProductionController@indexpanen')->name('productions.index.panen');
     Route::get('productions/{budidaya?}', 'ProductionController@index')->name('productions.index');
     Route::post('productions', 'ProductionController@store')->name('productions.store');
     Route::put('productions/inputdata/{production?}', 'ProductionController@inputdata')->name('productions.inputdata');
     Route::put('productions/updatestatus/{production?}', 'ProductionController@updatestatus')->name('productions.updatestatus');
 
+    // Modules : pekerjas
+    Route::resource('pekerjas', 'PekerjaController');
+
     // Modules : keuangan
     Route::get('keuangans/analysis', 'KeuanganController@analysis')->name('keuangans.analysis');
     Route::get('keuangans', 'KeuanganController@index')->name('keuangans.index');
+
+    // Modules : posts
+    Route::resource('posts', 'PostController');
 
     // Ajax
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
         Route::get('users/{user?}', 'MitraController@getUserById')->name('users.show');
         Route::get('kebutuhans/{kebutuhan?}', 'MitraController@getKebutuhanTypeById')->name('getKebutuhanTypeById');
         Route::get('productions', 'MitraController@getProductions')->name('getProductions');
+        Route::get('pekerjas', 'MitraController@getPekerjas')->name('getPekerjas');
         Route::get('keuangan-bulanans', 'MitraController@getKeuanganBulanans')->name('getKeuanganBulanans');
     });
 });

@@ -123,7 +123,35 @@ class MitraController extends Controller
             ->rawColumns(['pemasukan', 'pengeluaran'])->make(true);
     }
 
-    public function getAnalysisKeuangan($bobot) {
-        
+    public function getPekerjas(Request $request) {
+        $pekerjas = \App\User::where('manager_id', \Auth::user()->id)->get();
+        return DataTables::of($pekerjas)
+            ->addColumn('id', function($pekerja) {
+                return $pekerja->id;
+            })
+            ->addColumn('photo', function($pekerja) {
+                return '<div class="table-img"><img src='. asset('storage/'.$pekerja->photo) .' alt=""></div>';
+            })
+            ->addColumn('email', function($pekerja) {
+                return $pekerja->email;
+            })
+            ->addColumn('budidaya', function($pekerja) {
+                return $pekerja->maintance_on ? $pekerja->maintance_on->name : '-';
+            })
+            ->addColumn('joined_at', function($pekerja) {
+                return Carbon::parse($pekerja->created_at)->format('j M Y');
+            })
+            ->addColumn('status', function($pekerja) {
+                if ($pekerja->status === '0') {
+                    return '<span class="badge badge-secondary">Nonaktif</span>';
+                } else {
+                    return '<span class="badge badge-success">Aktif</span>';
+                }
+            })
+            ->addColumn('action', function($pekerja) {
+                return '<a href="" class="btn btn-sm btn-primary mr-1"><i class="fas fa-eye"></i></a>
+                        <a href="'.route('dashboard.mitra.pekerjas.edit', $pekerja->id).'" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>';
+            })
+            ->rawColumns(['photo', 'status', 'action'])->make(true);
     }
 }

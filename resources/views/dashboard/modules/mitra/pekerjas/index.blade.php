@@ -4,14 +4,14 @@
 
 @section('header', 'Mitra Aplikasi ABJA')
 @section('breadcrumb')
-    <div class="breadcrumb-item active"><a href="#">Mitra</a></div>
+    <div class="breadcrumb-item active"><a href="#">Pekerja</a></div>
     {{-- <div class="breadcrumb-item">Activities</div> --}}
 @endsection
 @section('content-header')
   <div class="row align-items-center">
-		<div class="col-md"><h2 class="section-title">Daftar Mitra</h2></div>
+		<div class="col-md"><h2 class="section-title">Daftar Pekerja</h2></div>
 		<div class="col-md-auto">
-        	<a href="{{ route('dashboard.admin.users.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Mitra Manual</a>
+        	<a href="{{ route('dashboard.mitra.pekerjas.create') }}" class="btn btn-block btn-lg btn-primary"><i class="fas fa-plus mr-2"></i> Tambah Pekerja</a>
         </div>
   </div>
 @endsection
@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-wrap">
 					<div class="card-header">
-						<h4>Mitra Baru</h4>
+						<h4>Total Akun Pekerja</h4>
 					</div>
 					<div class="card-body">
 						8
@@ -42,7 +42,22 @@
                 </div>
                 <div class="card-wrap">
 					<div class="card-header">
-						<h4>Total Mitra</h4>
+						<h4>Total Akun Aktif</h4>
+					</div>
+					<div class="card-body">
+						20
+					</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-secondary">
+                	<i class="fas fa-user"></i>
+                </div>
+                <div class="card-wrap">
+					<div class="card-header">
+						<h4>Total Akun Nonaktif</h4>
 					</div>
 					<div class="card-body">
 						20
@@ -53,112 +68,6 @@
     </div>
     {{-- end of widget --}}
     
-    {{-- Table --}}
-    {{-- <div class="card">
-        <div class="card-header justify-content-between align-items-center">
-            <h4>Daftar Mitra</h4>
-            <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-1 px-3"><i class="fas fa-filter"></i></button>
-        </div>
-        <div class="card-body py-0">
-            <div class="collapse" id="collapseExample">
-                <div class="row align-items-end gutters-xs border-bottom py-4 mb-3"> 
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Status</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Aktif</option>
-                                <option value="2">Nonaktif</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Lokasi Kota</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Jember</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Luas</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">> 10 M2</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Tanggal Buat</label>
-                            <input type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-12 d-none d-md-block mb-3"></div>
-                    <div class="col-md">
-                        <div class="form-group mb-md-0">
-                            <label for="">Nama Tempat</label>
-                            <input type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
-                        </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <button class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>Foto</th>
-                    <th>Email</th>
-                    <th>Nama</th>
-                    <th>Budidaya</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td class="align-middle">
-                        <div class="table-img"><img src="{{ asset('img/users/2.jpg') }}" alt=""></div>
-                    </td>
-                    <td>chealseolivierelizaberth@gmail.com</td>
-                    <td>Chelsea Olivier</td>
-                    <td>20</td>
-                    <td><span class="badge badge-success">Aktif</span></td>
-                    <td>
-                        <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                        <a href="{{ url('ui/dashboard/admin/users/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
-                    </td>
-                </tr>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer text-right">
-            <nav class="d-inline-block">
-            <ul class="pagination mb-0">
-                <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                <li class="page-item">
-                <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                </li>
-            </ul>
-            </nav>
-        </div>
-    </div> --}}
 
     {{-- Export --}}
     <div class="card">
@@ -182,7 +91,7 @@
                             <th>Email</th>
                             <th>Nama</th>
                             <th>Budidaya</th>
-                            <th>Pekerja</th>
+                            <th>Bekerja Sejak</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -217,6 +126,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
     <link rel="stylesheet" href="{{ asset('vendors/datatable/datatable.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.css"/>
+    <link type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
     <style>
         .dataTables_wrapper .dataTables_length .custom-select {
             padding-right: 45px !important;
@@ -250,17 +160,16 @@
 @endsection
 
 @section('script')
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script> --}}
     <script src="{{ asset('vendors/datatable/datatable.min.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
-    
     <script>
-        let users_ajax_url = '{{ route('dashboard.admin.ajax.users') }}';
+        let users_ajax_url = '{{ route('dashboard.mitra.ajax.getPekerjas') }}';
 
         $(document).ready(function() {
             var table = $('#datatable').DataTable({
@@ -302,20 +211,32 @@
                 preDrawCallback: () => {
                     $('#datatable').loader(true);
                 },
+                'columnDefs': [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                        'selectRow': true
+                        }
+                    }
+                ],
+                'select': {
+                    'style': 'multi',
+                    'selector': 'td:not(:last-child)'
+                },
+                'order': [[1, 'asc']],
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'photo', name: 'photo'},
                     {data: 'email', name: 'email'},
                     {data: 'name', name: 'name'},
                     {data: 'budidaya', name: 'budidaya'},
-                    {data: 'pekerja', name: 'pekerja'},
+                    {data: 'joined_at', name: 'joined_at'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'},
                 ],
                 drawCallback: () => {
                     $('#datatable').loader(false);
                 },
-                select: true
             });
             table.buttons().container().appendTo('#col-export-table');
             

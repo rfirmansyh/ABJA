@@ -208,7 +208,7 @@
                     el.find('[data-to-fill="maintener-img"]').attr('src', `{{ asset('storage/') }}/${result.data.photo}`);
                     el.find('[data-to-fill="maintener-name"]').html(result.data.name);
                     el.find('[data-to-fill="maintener-phone"]').html(result.data.phone);
-                    el.find('[data-to-fill="maintener-started-at"]').html(result.data.started_at);
+                    el.find('[data-to-fill="maintener-started-at"]').html(result.data.created_at);
                 }
             })
             event.preventDefault();

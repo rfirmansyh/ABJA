@@ -86,6 +86,11 @@ class ProductionController extends Controller
         return view('dashboard.modules.mitra.productions.index-table');
     }
 
+    public function indexpanen()
+    {
+        
+    }
+
 
     /**
      * Store a newly created resource in storage.

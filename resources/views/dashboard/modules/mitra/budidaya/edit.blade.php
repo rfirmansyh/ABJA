@@ -157,7 +157,7 @@
                             <div class="tx-14 font-weight-bolder">{{ $budidaya->maintenance_by->name }}</div>
                             <p class="">{{ $budidaya->maintenance_by->phone }}</p>
                             <div class="border-bottom mb-1 pb-1">Tanggal Bergabung :
-                                <div class="font-weight-bold">{{ $budidaya->maintenance_by->joined_at }}</div>
+                                <div class="font-weight-bold">{{ $budidaya->maintenance_by->created_at }}</div>
                             </div>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
                     el.find('[data-to-fill="maintener-img"]').attr('src', `{{ asset('storage/') }}/${result.data.photo}`);
                     el.find('[data-to-fill="maintener-name"]').html(result.data.name);
                     el.find('[data-to-fill="maintener-phone"]').html(result.data.phone);
-                    el.find('[data-to-fill="maintener-started-at"]').html(result.data.started_at);
+                    el.find('[data-to-fill="maintener-started-at"]').html(result.data.created_at);
                 }
             })
             event.preventDefault();

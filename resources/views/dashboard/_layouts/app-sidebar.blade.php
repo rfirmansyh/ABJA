@@ -18,7 +18,7 @@
         <a class="nav-link" href="{{ route('dashboard.mitra.budidaya.index') }}"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
       </li>
       <li class="{{ Request::is('dashboard/mitra/kebutuhantypes*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.mitra.kebutuhantypes.index') }}"><i class="fas fa-map"></i> <span>Kebutuhan Saya</span></a>
+        <a class="nav-link" href="{{ route('dashboard.mitra.kebutuhantypes.index') }}"><i class="fas fa-hands"></i> <span>Kebutuhan Saya</span></a>
       </li>
 
       @if (Request::is('dashboard/admin*'))
@@ -33,15 +33,21 @@
         <li class="{{ Request::is('dashboard/mitra/productions*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.mitra.productions.index') }}"><i class="fas fa-cogs"></i> <span>Produksi</span></a>
         </li>
-        <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Pekerja</span></a></li>
+        <li class="{{ Request::is('dashboard/mitra/pekerjas*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.pekerjas.index') }}"><i class="fas fa-users"></i> <span>Pekerja</span></a>
+        </li>
         <li class="{{ Request::is('dashboard/mitra/keuangans*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.mitra.keuangans.index') }}"><i class="fas fa-money-bill-wave-alt"></i> <span>Keuangan</span></a>
         </li>            
       @endif
 
       <li class="menu-header">Explore</li>
-      <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a></li>
-      <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-chart-bar"></i> <span>Harga Jamur</span></a></li>
+      <li class="{{ Request::is('dashboard/mitra/posts*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+      </li>
+      <li class="">
+        <a class="nav-link" href="blank.html"><i class="fas fa-chart-bar"></i> <span>Harga Jamur</span></a>
+      </li>
     </ul>
 
     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

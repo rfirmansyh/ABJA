@@ -8,9 +8,10 @@
 @endsection {{-- section : breadcrumb --}}
 
 @section('content-header') {{-- section : content-header --}}
-  <div class="row align-items-center">
+  <div class="row gutters-xs align-items-center">
         <div class="col-md"><h2 class="section-title">Produksi Kumbung/Rumah Jamur</h2></div>
         <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.table') }}" class="btn btn-outline-info">Tampilkan Semua Tabel Produksi</a></div>
+        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.panen') }}" class="btn btn-outline-info">Tampilkan Panen Bulanan</a></div>
   </div>
 @endsection {{-- section : content-header --}}
 

@@ -90,6 +90,7 @@ class UserController extends Controller
         $user->kelurahan = $request->kelurahan;
         $user->detail_address = $request->detail_address;
         $user->status = $request->status;
+        $user->created_at = now();
         $user->role_id = '2';
 
         $user->save();

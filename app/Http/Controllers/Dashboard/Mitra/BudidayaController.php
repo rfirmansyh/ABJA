@@ -27,7 +27,7 @@ class BudidayaController extends Controller
      */
     public function create()
     {
-        $mainteners = \App\User::where('role_id', 3)->get();
+        $mainteners = \App\User::where('role_id', 3)->where('manager_id', \Auth::user()->id)->get();
         return view('dashboard.modules.mitra.budidaya.create')->with(['mainteners' => $mainteners]);
     }
 
@@ -84,7 +84,7 @@ class BudidayaController extends Controller
     public function edit($id)
     {
         $budidaya = Budidaya::findOrFail($id);
-        $mainteners = \App\User::where('role_id', 3)->get();
+        $mainteners = \App\User::where('role_id', 3)->where('manager_id', \Auth::user()->id)->get();
         return view('dashboard.modules.mitra.budidaya.edit')->with(['budidaya' => $budidaya, 'mainteners' => $mainteners]);
     }
 
