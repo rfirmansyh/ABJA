@@ -20,7 +20,6 @@
 
     {{-- if widget added --}}
     {{-- end of if widget added --}}
-
     {{-- filter --}}
     <div class="card card-primary">
         <div class="card-body">
@@ -30,55 +29,64 @@
                 <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-0 px-3"><i class="fas fa-filter"></i></button>
             </div>
             <hr>
-            <div class="collapse" id="collapseExample">
-                <div class="row align-items-end gutters-xs border-bottom pb-4 mb-5"> 
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Status</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Aktif</option>
-                                <option value="2">Nonaktif</option>
-                            </select>
+            <div class="collapse {{ $filtered ? 'show' : '' }}" id="collapseExample">
+                <form action=""{{ url()->current() }} method="GET">
+                    <div class="row align-items-end gutters-xs border-bottom pb-4 mb-5"> 
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Pilih Status</label>
+                                <select name="status" class="custom-select">
+                                    <option value="*" selected>Semua</option>
+                                    <option {{ isset($filtered['status']) && $filtered['status'] === '1' ? 'selected' : '' }} value="1">Aktif</option>
+                                    <option {{ isset($filtered['status']) && $filtered['status'] === '0' ? 'selected' : '' }} value="0">Nonaktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Pilih Lokasi Kota</label>
+                                <select name="kabupaten" class="custom-select">
+                                    <option value="" selected>Semua</option>
+                                    @foreach ($locations as $location)
+                                        <option {{ isset($filtered['location']) && $filtered['location'] === $location->kabupaten ? 'selected' : '' }} value="{{ $location->kabupaten }}">{{ $location->kabupaten }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Luas</label>
+                                <select name="large" class="custom-select">
+                                    <option value="" selected>Semua</option>
+                                    <option {{ isset($filtered['large']) && $filtered['large'] === '10' ? 'selected' : '' }} value="10">> 10 M2</option>
+                                    <option {{ isset($filtered['large']) && $filtered['large'] === '20' ? 'selected' : '' }} value="20">> 20 M2</option>
+                                    <option {{ isset($filtered['large']) && $filtered['large'] === '50' ? 'selected' : '' }} value="50">> 50 M2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Tahun Dibuat</label>
+                                <select name="year" class="custom-select">
+                                    <option value="" selected>Semua</option>
+                                    <option {{ isset($filtered['year']) && $filtered['year'] === '1' ? 'selected' : '' }} value="1">1 Tahun Lalu</option>
+                                    <option {{ isset($filtered['year']) && $filtered['year'] === '2' ? 'selected' : '' }} value="2">2 Tahun Lalu</option>
+                                    <option {{ isset($filtered['year']) && $filtered['year'] === '3' ? 'selected' : '' }} value="3">3 Tahun Lalu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-none d-md-block mb-3"></div>
+                        <div class="col-md">
+                            <div class="form-group mb-md-0">
+                                <label for="">Nama Tempat</label>
+                                <input name="keyword" value="{{ isset($filtered['keyword']) ? $filtered['keyword'] : '' }}" type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
+                            </div>
+                        </div>
+                        <div class="col-md-auto">
+                            <button name="filter" value="submit" type="submit" class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
                         </div>
                     </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Lokasi Kota</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Jember</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Luas</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">> 10 M2</option>
-                                <option value="2">Lumajang</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Tanggal Buat</label>
-                            <input type="date" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-12 d-none d-md-block mb-3"></div>
-                    <div class="col-md">
-                        <div class="form-group mb-md-0">
-                            <label for="">Nama Tempat</label>
-                            <input type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
-                        </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <button class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
-                    </div>
-                </div>
+                </form>
             </div>
 
             <div class="row">
@@ -95,7 +103,11 @@
                                 </div>
                                 <div class="col-lg">
                                     <div class="d-flex align-items-center border-bottom mb-1 pb-2">Status:
-										<div class="badge badge-success  ml-2">Aktif</div>
+										@if ($budidaya->status === '1')
+                                        <div class="badge badge-success ml-2">Aktif</div>
+                                        @else
+                                        <div class="badge badge-secondary ml-2">Nonaktif</div>
+                                        @endif
                                     </div>
                                     <div class="border-bottom mb-1 pb-1">Detail Lokasi :
                                         <div class="font-weight-bold">

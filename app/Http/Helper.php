@@ -63,6 +63,11 @@ use Carbon\Carbon;
         }
     }
 
+    if (!function_exists('getIdrFormat')) {
+        function getIdrFormat($value) {
+            return number_format($value,2,',','.');
+        }
+    }
         
     if (!function_exists('getForecast')) {
         function getForecasts($data, $bobot=3, $next=0) {

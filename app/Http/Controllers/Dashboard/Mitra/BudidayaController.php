@@ -14,10 +14,42 @@ class BudidayaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $budidayas = Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->paginate(4);
-        return view('dashboard.modules.mitra.budidaya.index')->with(['budidayas' => $budidayas]);
+        $locations = Budidaya::select('kabupaten')->where('owned_by_uid', '=', \Auth::user()->id)->groupBy('kabupaten')->get();
+        $status = Budidaya::select('status')->where('owned_by_uid', '=', \Auth::user()->id)->groupBy('status')->get();
+        $filtered = null;
+
+        if ($request->filter){
+            $status = $request->status === '*' ? null : ($request->status === '1' ? '1' : '0');
+            $kabupaten = $request->kabupaten;
+            $large = intval($request->large);
+            $year = $request->year ? \Carbon\Carbon::now()->subYears($request->year)->year : null;
+            $keyword = $request->keyword ?  $request->keyword : '';
+
+            
+            $budidayas = Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->where('name', 'LIKE', "%$keyword%");
+            if ($status) $budidayas = $budidayas->where('status', $status);
+            if ($kabupaten)  $budidayas = $budidayas->where('kabupaten', $kabupaten);
+            if ($large) $budidayas = $budidayas->where('large', '>', $large);
+            if ($year) $budidayas = $budidayas->where(\DB::raw('YEAR(created_at)'), '=', $year);
+            $budidayas = $budidayas->paginate(4);
+
+            $filtered = [
+                'status' => $status,
+                'location' => $request->kabupaten,
+                'large' => $request->large,
+                'year' => $request->year,
+                'keyword' => $request->keyword
+            ];
+        } else {
+            $budidayas = Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->paginate(4);
+        }   
+        return view('dashboard.modules.mitra.budidaya.index')
+            ->withBudidayas($budidayas)
+            ->withLocations($locations)
+            ->withStatus($status)
+            ->withFiltered($filtered);
     }
 
     /**
@@ -39,7 +71,12 @@ class BudidayaController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validation = \Validator::make($request->all(), [
+            'name'                  => 'required|min:5|max:191',
+            'large'                 => 'required|numeric|min:4',
+            'status'                => 'required',
+        ])->validate();
+
         $budidaya = new Budidaya;
         if ($request->file('photo')) {
             $file = $request->file('photo')->store('photo/budidaya', 'public');
@@ -70,9 +107,34 @@ class BudidayaController extends Controller
      */
     public function show($id)
     {
-        $budidaya = Budidaya::findOrFail($id);
 
-        return view('dashboard.modules.mitra.budidaya.show')->with(['budidaya' => $budidaya]);
+        $budidaya = Budidaya::findOrFail($id);
+        $kumbungTotal = Budidaya::find($id)->kumbungs()->count();
+        
+        $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
+                            ->groupBy('keuangan_id');
+        $pengeluaran_sum = \App\Pengeluaran::select(\DB::raw('pengeluarans.keuangan_id, SUM(nominal) as pengeluaran_sum, 0 as pemasukan_sum'))
+                            ->groupBy('keuangan_id'); 
+        $hasilBersih = Budidaya::select(\DB::raw('( COALESCE(SUM(pemasukans.pemasukan_sum), 0) - COALESCE(SUM(pengeluarans.pengeluaran_sum), 0) ) as hasilBersih '))
+                            ->leftJoin('kumbungs', 'budidayas.id', '=', 'kumbungs.budidaya_id')
+                            ->leftJoin('productions', 'kumbungs.id', '=', 'productions.kumbung_id')
+                            ->leftJoin('keuangans', 'productions.id', '=', 'keuangans.production_id')
+                            ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
+                                $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
+                            })
+                            ->leftJoinSub($pengeluaran_sum, 'pengeluarans', function($join) {
+                                $join->on('keuangans.id', '=', 'pengeluarans.keuangan_id');
+                            })
+                            ->where('budidayas.id', $id)
+                            ->groupBy('budidayas.id')
+                            ->first();
+                
+
+        return view('dashboard.modules.mitra.budidaya.show')->with([
+            'budidaya' => $budidaya,
+            'kumbungTotal' => $kumbungTotal,
+            'hasilBersih' => $hasilBersih->hasilBersih
+        ]);
     }
 
     /**
@@ -97,7 +159,11 @@ class BudidayaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validation = \Validator::make($request->all(), [
+            'name'                  => 'required|min:5|max:191',
+            'large'                 => 'required|numeric|min:4',
+            'status'                => 'required',
+        ])->validate();
         $budidaya = Budidaya::findOrFail($id);
         if ($request->file('photo')) {
             if($budidaya->photo && file_exists(storage_path('app/public/' . $budidaya->photo))){

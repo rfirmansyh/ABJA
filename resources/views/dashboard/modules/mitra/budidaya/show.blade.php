@@ -68,7 +68,7 @@
 						<h4>Total Kumbung</h4>
 					</div>
 					<div class="card-body">
-						{{ 'NA' }}
+						{{ $kumbungTotal }}
 					</div>
                 </div>
             </div>
@@ -101,39 +101,16 @@
                 </div>
                 <div class="card-wrap">
 					<div class="card-header">
-						<h4>Total Pemasukan</h4>
+						<h4>Pemasukan Bersih</h4>
 					</div>
 					<div class="card-body text-success">
-						0
+						Rp. {{ getIdrFormat($hasilBersih) }}
 					</div>
                 </div>
             </div>
         </div>
     </div>
 	{{-- end of widget --}}
-	
-	{{-- chart --}}
-	<div class="card">
-		<div class="card-body">
-			<div class="row align-items-center mb-4">
-				<div class="col-md"><h4>Rincian Produksi Bulanan</h4></div>
-				<div class="col-md-auto">
-					<div class="d-flex align-items-center mb-0">
-						<label for="" class="flex-shrink-0 mr-3 mt-1 font-weight-bolder">Pilih Tahun :</label>
-						<select class="custom-select">
-							<option selected>{{ date('Y') }}</option>
-							@for ($i = 2018; $i < date('Y'); $i++)
-								<option value="1">{{ $i }}</option>
-							@endfor
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="chart-container">
-				<canvas id="dashboard-chart" height="182"></canvas>
-			</div>
-		</div>
-	</div>
 
 
 @endsection
@@ -162,20 +139,8 @@
 @endsection
 
 @section('script')
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
 	<script src="{{ asset('js/page/index-0.js') }}"></script>
     <script>
-        var openFile = function(event) {
-            const input = event.target;
-            const reader = new FileReader();
-            reader.onload = function() {
-                const dataURL = reader.result;
-                const output =  document.querySelector('#img-card > img');
-                output.src = dataURL;
-                console.log(output.src)
-            }
-            reader.readAsDataURL(input.files[0])
-		}
 		
     </script>
 @endsection

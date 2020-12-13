@@ -43,21 +43,32 @@
                             type="text" 
                             name="name"
                             value="{{ old('name') ? old('name') : $budidaya->name }}"
-                            class="form-control" 
+                            class="form-control @error('name') is-invalid @enderror" 
                             placeholder="Contoh : Budidaya Jamur Sumber Jaya Jember">
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="">Luas</label>
                         <div class="input-group mb-3">
                             <input 
-                                type="number" 
+                                type="number"
+                                step="0.01" 
                                 name="large"
                                 value="{{ old('large') ? old('large') : $budidaya->large }}"
-                                class="form-control" 
+                                class="form-control @error('large') is-invalid @enderror" 
                                 placeholder="Masukan Luas">
                             <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">M2</span>
+                                <span class="input-group-text" id="basic-addon2">M2</span>
                             </div>
+                            @error('large')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group">
@@ -69,7 +80,7 @@
                                 name="status"
                                 value="1"
                                 id="aktif" 
-                                class="custom-control-input">
+                                class="custom-control-input @error('status') is-invalid @enderror">
                             <label class="custom-control-label text-success font-weight-bold" for="aktif">Aktif</label>
                         </div>
                         <div class="custom-control custom-radio">
@@ -79,9 +90,14 @@
                                 name="status"
                                 value="0"
                                 id="nonaktif" 
-                                class="custom-control-input">
+                                class="custom-control-input @error('status') is-invalid @enderror">
                             <label class="custom-control-label text-gray font-weight-bold" for="nonaktif">Nonaktif</label>
                         </div>
+                        @error('status')
+                            <span class="tx-12 text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="">Alamat Saat Ini</label>
@@ -131,7 +147,7 @@
                             class="form-control" 
                             style="min-height: 100px">{{ old('detail_address') }}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-primary ml-auto d-block">Tambahkan</button>          
+                    <button type="submit" class="btn btn-lg btn-primary ml-auto d-block">Ubah</button>          
                 </div>
             </div>
         </div>
