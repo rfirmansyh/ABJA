@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
     Route::delete('budidaya/{maintener}', 'BudidayaController@destroyBudidaya')->name('budidaya.maintener.destroy');
     Route::resource('budidaya', 'BudidayaController');
 
+    // Modules : kumbung
+    Route::resource('kumbung', 'KumbungController');
+
     // Modules : kebutuhan type
     Route::resource('kebutuhantypes', 'KebutuhantypeController')->except('show');
 

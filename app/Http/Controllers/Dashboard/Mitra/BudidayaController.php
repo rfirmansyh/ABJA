@@ -128,7 +128,6 @@ class BudidayaController extends Controller
                             ->where('budidayas.id', $id)
                             ->groupBy('budidayas.id')
                             ->first();
-                
 
         return view('dashboard.modules.mitra.budidaya.show')->with([
             'budidaya' => $budidaya,

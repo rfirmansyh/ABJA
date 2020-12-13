@@ -17,6 +17,9 @@
       <li class="{{ Request::is('dashboard/mitra/budidaya*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.mitra.budidaya.index') }}"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
       </li>
+      <li class="{{ Request::is('dashboard/mitra/kumbung*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard.mitra.kumbung.index') }}"><i class="fas fa-warehouse"></i> <span>Kumbung Saya</span></a>
+      </li>
       <li class="{{ Request::is('dashboard/mitra/kebutuhantypes*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard.mitra.kebutuhantypes.index') }}"><i class="fas fa-hands"></i> <span>Kebutuhan Saya</span></a>
       </li>
