@@ -32,7 +32,7 @@
                         </ol>
                         <div class="carousel-inner">
                             @foreach ($headlines as $i => $headline)
-                                <a href="{{ route('dashboard.mitra.posts.show', $headline->slug) }}">
+                                
                                     <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
                                         @if ($headline->photo)
                                             <img src="{{ asset('storage/'.$headline->photo) }}" alt="...">
@@ -40,11 +40,13 @@
                                             <img src="{{ asset('storage/photo/post/default-post.png') }}" alt="...">
                                         @endif
                                         <div class="carousel-caption d-none d-md-block">
+                                        <a class="text-white" href="{{ route('dashboard.mitra.posts.show', $headline->slug) }}">
                                             <h5>{{ $headline->title }}</h5>
                                             <p>{{ substr(strip_tags($headline->body), 0, 60).( (strlen(strip_tags($headline->body)) > 50) ? '...' : ''  ) }}</p>
+                                        </a>
                                         </div>
                                     </div>
-                                </a>
+                                
                             @endforeach
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -80,7 +82,7 @@
                                         </div>
                                         <div class="col-xl">
                                             <h5>{{ $post->title }}</h5>
-                                            <p>{{ substr(strip_tags($headline->body), 0, 60).( (strlen(strip_tags($headline->body)) > 50) ? '...' : ''  ) }}</p>
+                                            <p>{{ substr(strip_tags($post->body), 0, 60).( (strlen(strip_tags($post->body)) > 50) ? '...' : ''  ) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -125,6 +127,12 @@
 
 @section('style')
 <style>
+    a {
+        color: gray;
+    }
+    a:hover {
+        color: gray;
+    }
     .carousel-item {
         height: 300px;
     }

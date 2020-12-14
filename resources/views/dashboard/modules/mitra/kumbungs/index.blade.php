@@ -82,6 +82,10 @@
         @endforeach
     </div>
 
+    <div class="row justify-content-center justify-content-md-end">
+        <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
+    </div>
+
     
 @endsection {{-- section : content --}}
 
@@ -121,7 +125,9 @@
 @section('script') {{-- section : script --}}
     <script src="{{ asset('vendors/bs-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
-
+        $('[name="select_budidaya_id"]').on('change', function() {
+            $('#select_budidaya_id').submit();
+        })
 
     </script>
 @endsection {{-- section : script --}}

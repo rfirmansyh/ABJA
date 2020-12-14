@@ -17,10 +17,10 @@ class KumbungController extends Controller
     {
         $budidayas = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->get();
         $budidayaSelected = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->first();
-        $kumbungs = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->first()->kumbungs;
         if ($request->select_budidaya_id) {
             $budidayaSelected = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->find($request->select_budidaya_id);
         }
+        $kumbungs = \App\Kumbung::where('budidaya_id', '=', $budidayaSelected->id)->paginate(4);
         return view('dashboard.modules.mitra.kumbungs.index')->with([
             'budidayas' => $budidayas,
             'budidayaSelected' => $budidayaSelected,

@@ -43,6 +43,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/admin', 'namespace' => 'Dashboard\Admin', 'as' => 'dashboard.admin.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
+    Route::get('/profile', 'DashboardController@profile')->name('profile');
     
     Route::resource('users', 'UserController');
 
@@ -51,9 +52,24 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/adm
     });
 });
 
+Route::group(['middleware' => ['auth', 'role:pekerja'], 'prefix' => 'dashboard/pekerja', 'namespace' => 'Dashboard\Pekerja', 'as' => 'dashboard.pekerja.'], function() {
+    Route::get('/', 'DashboardController@index')->name('index');
+    Route::get('/profile', 'DashboardController@profile')->name('profile');
+
+    Route::get('productions', 'ProductionController@index')->name('productions.index');
+    Route::post('productions', 'ProductionController@store')->name('productions.store');
+    Route::put('productions/inputdata/{production?}', 'ProductionController@inputdata')->name('productions.inputdata');
+    Route::put('productions/updatestatus/{production?}', 'ProductionController@updatestatus')->name('productions.updatestatus');
+
+    // Ajax
+    Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
+        Route::get('kebutuhans/{kebutuhan?}', 'PekerjaController@getKebutuhanTypeById')->name('getKebutuhanTypeById');
+    });
+});
 
 Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mitra', 'namespace' => 'Dashboard\Mitra', 'as' => 'dashboard.mitra.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
+    Route::get('/profile', 'DashboardController@profile')->name('profile');
     
     // Modules : budidaya
     Route::delete('budidaya/{maintener}', 'BudidayaController@destroyBudidaya')->name('budidaya.maintener.destroy');

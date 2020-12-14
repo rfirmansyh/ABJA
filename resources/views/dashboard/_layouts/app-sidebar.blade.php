@@ -10,26 +10,25 @@
     <ul class="sidebar-menu">
       <li class="menu-header">Dashboard</li>
       {{-- acitve --}}
-      <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
-        <a href="#" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
-      </li>
-      <li class="menu-header">Budidaya</li>
-      <li class="{{ Request::is('dashboard/mitra/budidaya*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.mitra.budidaya.index') }}"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
-      </li>
-      <li class="{{ Request::is('dashboard/mitra/kumbung*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.mitra.kumbung.index') }}"><i class="fas fa-warehouse"></i> <span>Kumbung Saya</span></a>
-      </li>
-      <li class="{{ Request::is('dashboard/mitra/kebutuhantypes*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.mitra.kebutuhantypes.index') }}"><i class="fas fa-hands"></i> <span>Kebutuhan Saya</span></a>
-      </li>
-
       @if (Request::is('dashboard/admin*'))
         <li class="menu-header">Membership</li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users-cog"></i> <span>Mitra</span></a></li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Administrator</span></a></li>
       @elseif (Request::is('dashboard/mitra*'))
+        <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
+          <a href="{{ route('dashboard.mitra.index') }}" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
+        </li>
         <li class="menu-header">Internal</li>
+        <li class="{{ Request::is('dashboard/mitra/budidaya*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.budidaya.index') }}"><i class="fas fa-map"></i> <span>Tempat Budidaya</span></a>
+        </li>
+        <li class="{{ Request::is('dashboard/mitra/kumbung*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.kumbung.index') }}"><i class="fas fa-warehouse"></i> <span>Kumbung Saya</span></a>
+        </li>
+        <li class="{{ Request::is('dashboard/mitra/kebutuhantypes*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.kebutuhantypes.index') }}"><i class="fas fa-hands"></i> <span>Kebutuhan Saya</span></a>
+        </li>
+        <li class="menu-header">Budidaya</li>
         <li class="{{ Request::is('dashboard/mitra/productiontypes*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.mitra.productiontypes.index') }}"><i class="fas fa-cog"></i> <span>Produksi Saya</span></a>
         </li>
@@ -41,16 +40,25 @@
         </li>
         <li class="{{ Request::is('dashboard/mitra/keuangans*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('dashboard.mitra.keuangans.index') }}"><i class="fas fa-money-bill-wave-alt"></i> <span>Keuangan</span></a>
-        </li>            
+        </li>
+        <li class="menu-header">Explore</li>
+        <li class="{{ Request::is('dashboard/mitra/posts*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+        </li>      
+      @elseif(Request::is('dashboard/pekerja*'))      
+        <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
+          <a href="{{ route('dashboard.mitra.index') }}" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
+        </li>
+        <li class="menu-header">Aktifitas</li>
+        <li class="{{ Request::is('dashboard/pekerja/productions*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.pekerja.productions.index') }}"><i class="fas fa-cogs"></i> <span>Produksi</span></a>
+        </li>
+        <li class="menu-header">Explore</li>
+        <li class="{{ Request::is('dashboard/mitra/posts*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+        </li> 
       @endif
 
-      <li class="menu-header">Explore</li>
-      <li class="{{ Request::is('dashboard/mitra/posts*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
-      </li>
-      <li class="">
-        <a class="nav-link" href="blank.html"><i class="fas fa-chart-bar"></i> <span>Harga Jamur</span></a>
-      </li>
     </ul>
 
     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

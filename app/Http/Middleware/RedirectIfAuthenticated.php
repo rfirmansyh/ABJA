@@ -24,8 +24,11 @@ class RedirectIfAuthenticated
                 case '1':
                     return redirect()->route('dashboard.admin.users.index');
                     break;
+                case '2':
+                    return redirect()->route('dashboard.mitra.index');
+                    break;
                 default:
-                    return redirect()->route('dashboard.mitra.budidaya.index');;
+                    return redirect()->route('dashboard.pekerja.index');;
                     break;
             }
         }

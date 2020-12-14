@@ -36,8 +36,11 @@ class LoginController extends Controller
             case '1':
                 return "dashboard/admin";
                 break;
-            default:
+            case '2':
                 return "dashboard/mitra";
+                break;
+            default:
+                return "dashboard/pekerja";
                 break;
         }
     }

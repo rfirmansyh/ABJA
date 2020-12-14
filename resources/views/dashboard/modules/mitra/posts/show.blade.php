@@ -42,6 +42,7 @@
                 <div class="card-body px-3">
                     <h5>Kabar Lainnya</h5>
                     @foreach ($otherPosts as $p)
+                    <a href="{{ route('dashboard.mitra.posts.show', $post->slug) }}">
                     <div class="card mb-2">
                         <div class="card-body p-3">
                             <div class="row gutters-xs">
@@ -59,6 +60,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
@@ -69,6 +71,12 @@
 
 @section('style')
     <style>
+        a {
+        color: gray;
+        }
+        a:hover {
+            color: gray;
+        }
         .img-post {
             width: 100%;
             height: 400px;

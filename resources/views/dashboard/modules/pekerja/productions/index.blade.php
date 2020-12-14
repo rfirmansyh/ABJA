@@ -10,8 +10,6 @@
 @section('content-header') {{-- section : content-header --}}
   <div class="row gutters-xs align-items-center">
         <div class="col-md"><h2 class="section-title">Produksi Kumbung/Rumah Jamur</h2></div>
-        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.table') }}" class="btn btn-outline-info">Tampilkan Semua Tabel Produksi</a></div>
-        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.panen') }}" class="btn btn-outline-info">Tampilkan Panen Bulanan</a></div>
   </div>
 @endsection {{-- section : content-header --}}
 
@@ -19,24 +17,9 @@
     {{-- list budidaya --}}
     <div class="row mb-4">
         <div class="col-md">
-            <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
+            <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidaya->name }}</h4>
         </div>
-        <div class="col-md-4">
-            <form action="" id="select_budidaya_id" method="get">
-            <select 
-                name="select_budidaya_id" 
-                class="selectpicker" 
-                data-style="form-control"
-                data-live-search="true" 
-                onchange=""
-                title="Cari Budidaya..." 
-                data-width="100%">
-                    @foreach ($budidayas as $budidaya)
-                        <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
-                    @endforeach
-            </select>
-            </form>
-        </div>
+        <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
     </div>
     {{-- end of list budidaya --}}
 
@@ -212,11 +195,6 @@
         </div>
     </div>
     {{-- end of main content --}}
-
-    <div class="row justify-content-center justify-content-md-end">
-        <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
-    </div>
-
     
 @endsection {{-- section : content --}}
 
@@ -231,7 +209,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('dashboard.mitra.productions.store') }}" method="POST" enctype="multipart/form-data"> {{-- form --}}
+                <form action="{{ route('dashboard.pekerja.productions.store') }}" method="POST" enctype="multipart/form-data"> {{-- form --}}
                 @csrf
                 <div class="modal-body">
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -733,10 +711,6 @@
     <script src="{{ asset('vendors/bs-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
 
-        $('[name="select_budidaya_id"]').on('change', function() {
-            $('#select_budidaya_id').submit();
-        })
-        
         // INIT DATETIME PICKER
         $('#created_at, #panen_at, #done_at').datetimepicker({
             timeZone:'Asia/Jakarta',
@@ -756,7 +730,7 @@
         $('select[name="kebutuhan_type_id[]"]').on('change', function() {
             let nearest_nominal_input = $(this).closest('.form-group').next().find('input[name="kebutuhan_nominal[]"]');
             let nearest_append_text = $(this).closest('.form-group').next().find('span.input-group-text');
-            let ajax_url = `{{ route('dashboard.mitra.ajax.getKebutuhanTypeById') }}/${$(this).val()}`;
+            let ajax_url = `{{ route('dashboard.pekerja.ajax.getKebutuhanTypeById') }}/${$(this).val()}`;
             $.ajax({
                 url: ajax_url,
                 success: function(result) {
@@ -770,13 +744,13 @@
 
         // IF button[data-inputdata-production-id] CLICKED, LAUNCH MODAL INPUT DATA
         $('[data-inputdata-production-id]').on('click', function() {
-            $('#m-input-data form').attr('action', `{{ route('dashboard.mitra.productions.inputdata') }}/${$(this).data('inputdata-production-id')}`);
+            $('#m-input-data form').attr('action', `{{ route('dashboard.pekerja.productions.inputdata') }}/${$(this).data('inputdata-production-id')}`);
             $('#m-input-data').modal('show');
         })
 
         // IF button selesaikan / button[data-updatestatus-production-id] CLICKED, LAUNCH MODAL UPDATED STATUS FOR CONFIRMATION
         $('[data-updatestatus-production-id]').on('click', function() {
-            $('#m-update-status form').attr('action', `{{ route('dashboard.mitra.productions.updatestatus') }}/${$(this).data('updatestatus-production-id')}`);
+            $('#m-update-status form').attr('action', `{{ route('dashboard.pekerja.productions.updatestatus') }}/${$(this).data('updatestatus-production-id')}`);
             $('#m-update-status').modal('show');
         })
 
