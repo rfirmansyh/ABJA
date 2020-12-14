@@ -111,8 +111,8 @@ class ProductionController extends Controller
                 'total' => $keuangan->panen_total
             ];
         }     
-        if ( ($request->bobot && $request->bobot >= 3) || ($request->next !== null) ) {
-            return view('dashboard.modules.mitra.keuangans.analysis')
+        if ( ($request->bobot !== null && $request->bobot >= 3) || ($request->next !== null) ) {
+            return view('dashboard.modules.mitra.productions.panen-analysis')
                 ->withKeuangans($keuangans)
                 ->withForecastedPanen(getForecasts($panen_datasets, $request->bobot, $request->next))
                 ->withMessage("Analisa Data Keuangan dengan bobot $request->bobot Bulan Terakhir, dan Perkiraan $request->next Bulan Kedepan")

@@ -56,7 +56,7 @@ class KeuanganController extends Controller
                 'total' => $keuangan->pengeluaran_total
             ];
         }
-        if ( ($request->bobot && $request->bobot >= 3) || ($request->next !== null) ) {
+        if ( ($request->bobot !== null && $request->bobot >= 3) || ($request->next !== null) ) {
             return view('dashboard.modules.mitra.keuangans.analysis')
                 ->withKeuangans($keuangans)
                 ->withForecastedPemasukan(getForecasts($pemasukan_datasets, $request->bobot, $request->next))

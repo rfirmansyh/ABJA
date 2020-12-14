@@ -1,10 +1,10 @@
 @extends('dashboard._layouts.app-dashboard')
 
 @section('title', 'Dashboard')
-@section('header', 'Keuangan')
+@section('header', 'Panen')
 
 @section('breadcrumb')
-    <div class="breadcrumb-item active"><a href="#">Keuangan</a></div>
+    <div class="breadcrumb-item active"><a href="#">Panen</a></div>
 @endsection
 @section('content-header')
     @if(!empty($message))
@@ -14,7 +14,7 @@
     @endif
     <form action="" id="select_budidaya_id" method="get">
     <div class="row gutters-xs align-items-center">
-        <div class="col-lg"><h2 class="section-title">Analisa Keuangan</h2></div>
+        <div class="col-lg"><h2 class="section-title">Analisa Panen</h2></div>
         <div class="col-lg-3">
             <select 
                 name="bobot" 
