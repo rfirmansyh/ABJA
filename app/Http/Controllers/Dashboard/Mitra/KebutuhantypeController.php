@@ -15,7 +15,8 @@ class KebutuhantypeController extends Controller
      */
     public function index()
     {
-        $kebutuhanTypes = \App\KebutuhanType::paginate(5);
+        $kebutuhanTypes = \App\KebutuhanType::join('kebutuhans', 'kebutuhan_types.id', '=', 'kebutuhan_type_id')
+                            ->paginate(5);
         return view('dashboard.modules.mitra.kebutuhantypes.index')
                 ->withKebutuhanTypes($kebutuhanTypes);
     }

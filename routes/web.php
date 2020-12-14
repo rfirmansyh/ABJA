@@ -71,12 +71,14 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
     // Modules : productions
     Route::get('productions/table', 'ProductionController@indextable')->name('productions.index.table');
     Route::get('productions/panen', 'ProductionController@indexpanen')->name('productions.index.panen');
+    Route::get('productions/panen/analysis', 'ProductionController@panenAnalysis')->name('productions.index.panen.analysis');
     Route::get('productions/{budidaya?}', 'ProductionController@index')->name('productions.index');
     Route::post('productions', 'ProductionController@store')->name('productions.store');
     Route::put('productions/inputdata/{production?}', 'ProductionController@inputdata')->name('productions.inputdata');
     Route::put('productions/updatestatus/{production?}', 'ProductionController@updatestatus')->name('productions.updatestatus');
 
     // Modules : pekerjas
+    Route::put('pekerjas/update/password/{pekerja}', 'PekerjaController@updatePassword')->name('pekerjas.updatePassword');
     Route::resource('pekerjas', 'PekerjaController');
 
     // Modules : keuangan
@@ -93,6 +95,7 @@ Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mit
         Route::get('productions', 'MitraController@getProductions')->name('getProductions');
         Route::get('pekerjas', 'MitraController@getPekerjas')->name('getPekerjas');
         Route::get('keuangan-bulanans', 'MitraController@getKeuanganBulanans')->name('getKeuanganBulanans');
+        Route::get('panen-bulanans', 'MitraController@getPanenBulanans')->name('getPanenBulanans');
     });
 });
 

@@ -15,9 +15,14 @@ class PekerjaController extends Controller
      */
     public function index()
     {
-        // dd($pekerjas = \App\User::where('manager_id', \Auth::user()->id)->get());
-        // dd(\App\User::find(5)->maintance_on->name);
-        return view('dashboard.modules.mitra.pekerjas.index');
+        $totalPekerjas = \Auth::user()->workers()->count();
+        $totalPekerjasActive = \Auth::user()->workers()->where('status', '1')->count();
+        $totalPekerjasNonActive = \Auth::user()->workers()->where('status', '0')->count();
+        return view('dashboard.modules.mitra.pekerjas.index')->with([
+            'totalPekerjas' => $totalPekerjas,
+            'totalPekerjasActive' => $totalPekerjasActive,
+            'totalPekerjasNonActive' => $totalPekerjasNonActive
+        ]);
     }
 
     /**
@@ -39,6 +44,14 @@ class PekerjaController extends Controller
      */
     public function store(Request $request)
     {
+        $validation = \Validator::make($request->all(), [
+            'name'                  => 'required|min:5|max:191',
+            'email'                 => 'required|email|unique:users',
+            'password'              => 'required|min:8',
+            'phone'                 => 'required|digits_between:10,12',
+            'status'                => 'required',
+        ])->validate();
+
         $user = new User;
         $user->name = $request->name;
         if ($request->file('photo')) {
@@ -76,7 +89,10 @@ class PekerjaController extends Controller
      */
     public function show($id)
     {
-        //
+        $pekerja = User::findOrFail($id);
+        return view('dashboard.modules.mitra.pekerjas.show')->with([
+            'pekerja' => $pekerja
+        ]);
     }
 
     /**
@@ -101,6 +117,11 @@ class PekerjaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validation = \Validator::make($request->all(), [
+            'name'                  => 'required|min:5|max:191',
+            'phone'                 => 'required|digits_between:10,12',
+            'status'                => 'required',
+        ])->validate();
         $user = User::findOrFail($id);
         $user->name = $request->name;
         if ($request->file('photo')) {
@@ -127,6 +148,23 @@ class PekerjaController extends Controller
 
         \Session::flash('alert-type', 'success'); 
         \Session::flash('alert-message', 'Data Pekerja Berhasil Diubah!'); 
+
+        return redirect()->route('dashboard.mitra.pekerjas.edit', $id);
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $validation = \Validator::make($request->all(), [
+            'password'              => 'required|min:8',
+        ])->validate();
+
+        $user = User::findOrFail($id);
+        $user->password = $request->password;
+
+        $user->save();
+
+        \Session::flash('alert-type', 'success'); 
+        \Session::flash('alert-message', 'Data Password Pekerja Berhasil Diubah!'); 
 
         return redirect()->route('dashboard.mitra.pekerjas.edit', $id);
     }

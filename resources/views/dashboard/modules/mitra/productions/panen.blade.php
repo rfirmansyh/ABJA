@@ -1,140 +1,65 @@
 @extends('dashboard._layouts.app-dashboard')
 
 @section('title', 'Dashboard')
-@section('header', 'Keuangan')
+@section('header', 'Panen')
 
 @section('breadcrumb')
-    <div class="breadcrumb-item active"><a href="#">Keuangan</a></div>
+    <div class="breadcrumb-item active"><a href="#">Panen</a></div>
 @endsection
 @section('content-header')
-    @if(!empty($message))
-        <div class="alert alert-info">
-            {{ $message }}
-        </div>
-    @endif
-    <form action="" id="select_budidaya_id" method="get">
-    <div class="row gutters-xs align-items-center">
-        <div class="col-lg"><h2 class="section-title">Analisa Keuangan</h2></div>
-        <div class="col-lg-3">
-            <select 
-                name="bobot" 
-                class="selectpicker" 
-                data-style="form-control"
-                title="Bobot Bulan" 
-                data-width="100%">
-                    @for ($i = 3; $i <= count($keuangans)-1; $i++)
-                        <option value="{{ $i }}" {{ isset($bobot) && $bobot === strval($i) ? 'selected' : '' }}>{{ "$i Bulan Terakhir" }}</option>   
-                    @endfor
-            </select>
-        </div>
-        <div class="col-lg-3">
-            <select 
-                name="next" 
-                class="selectpicker" 
-                data-style="form-control"
-                title="Jumlah Perkiraan" 
-                data-width="100%">
-                    @for ($i = 1; $i <= 12; $i++)
-                        <option value="{{ $i }}" {{ isset($next) && $next === strval($i) ? 'selected' : '' }}>{{ "$i Bulan Kedepan" }}</option>   
-                    @endfor
-            </select>
-        </div>
-        <div class="col-lg-auto">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-chart-line mr-2"></i>Analisis Sekarang</button>
-        </div>
-    </div>
-    </form>
+  <div class="row align-items-center">
+        <div class="col-md"><h2 class="section-title">Tabel Data Panen Bulanan</h2></div>
+        <div class="col-md-auto"><a href="{{ route('dashboard.mitra.productions.index.panen.analysis') }}" class="btn btn-primary"><i class="fas fa-chart-line mr-2"></i>Analisis Hasil Panen</a></div>
+  </div>
 @endsection
 
 @section('content')
-    <nav class="mb-4">
-        <ul class="nav nav-pills nav-fill">
-            <li class="nav-item mr-3">
-              <a class="btn btn-lg btn-block btn-success" id="pemasukan-tab" data-toggle="tab" href="#pemasukan">Pemasukan</a>
-            </li>
-            <li class="nav-item ml-3">
-              <a class="btn btn-lg btn-block btn-warning" id="pengeluaran-tab" data-toggle="tab" href="#pengeluaran">Pengeluaran</a>
-            </li>
-        </ul>
-    </nav>
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="pemasukan">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="pemasukan-chart" height="280"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table w-100">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Bulan</th>
-                                            <th scope="col">Pemasukan</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($forecastedPemasukan as $pemasukan)
-                                            <tr>
-                                                <td>{{ $pemasukan['month_year'] }}</td>
-                                                <td>{{ "Rp. $pemasukan[total]" }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pengeluaran">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="pengeluaran-chart" height="280"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table w-100">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Bulan</th>
-                                            <th scope="col">Pengeluaran</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($forecastedPengeluaran as $pengeluaran)
-                                            <tr>
-                                                <td>{{ $pengeluaran['month_year'] }}</td>
-                                                <td>{{ "Rp. $pengeluaran[total]" }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    {{-- Export --}}
+    <div class="card">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md">Export Data</div>
+                <div class="col-md-auto" id="col-export-table"></div>
             </div>
         </div>
     </div>
 
+    {{-- Datatable --}}
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="datatable" class="table table-datatable" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Total Panen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{-- @for ($i = 0; $i < 3; $i++)
+                        <tr>
+                            <td>{{ $i+1 }}</td>
+                            <td class="align-middle">
+                                <div class="table-img"><img src="{{ asset('img/users/2.jpg') }}" alt=""></div>
+                            </td>
+                            <td>chealseolivierelizaberth@gmail.com</td>
+                            <td>Chelsea Olivier</td>
+                            <td>20</td>
+                            <td><span class="badge badge-success">Aktif</span></td>
+                            <td>
+                                <a href="{{ url('ui/unitkerja/show') }}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="{{ url('ui/dashboard/admin/users/edit') }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ url('ui/dashboard/admin/users/show') }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                        @endfor --}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
 @endsection
 
 @section('style')
@@ -174,7 +99,7 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script> --}}
     <script src="{{ asset('vendors/datatable/datatable.min.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
@@ -183,93 +108,66 @@
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.11/sorting/date-eu.js"></script>
     <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
-
+    
     <script>
-        var keuangan_datasets = JSON.parse('{!! json_encode($keuangans) !!}');
-        var forcasted_pemasukan_datasets = JSON.parse('{!! json_encode($forecastedPemasukan) !!}');
-        var forcasted_pengeluaran_datasets = JSON.parse('{!! json_encode($forecastedPengeluaran) !!}');
-        // console.log(forcasted_data_data.map(data => data));
-        console.log(keuangan_datasets.map(data => data.pengeluaran_total));
-        var chartKeuangan = function(el, data, title) {
-            return new Chart(el, {
-                type: 'line',
-                data: data,
-                options: {
-                    responsive: true,
-                    hoverMode: 'index',
-                    stacked: false,
-                    title: {
-                        display: true,
-                        text: title,
-                        fontSize: 24
-                    },
-                    scales: {
-                        beginAtZero: true,
-                        xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Month'
-						}
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Rp..'
-                            },
-                        }]
-                    }
-                }
-            });
-        }
-        var parseKeuanganChart = function(actual_color, actual_data, forcasted_data, type) {
-            if (type === 'pemasukan') {
-                return {
-                    labels: forcasted_data.map(data => data.month_year),
-                    datasets: [
-                    {
-                        label: 'Data Aktual',
-                        borderColor: actual_color,
-                        fill: false,
-                        data: actual_data.map(data => data.pemasukan_total),
-                    }, 
-                    {
-                        label: 'Data Perkiraan',
-                        borderColor: '#6777ef',
-                        fill: false,
-                        data: forcasted_data.map(data => data.total),
-                    }]
-                };
-            } else {
-                return {
-                    labels: forcasted_data.map(data => data.month_year),
-                    datasets: [
-                    {
-                        label: 'Data Aktual',
-                        borderColor: actual_color,
-                        fill: false,
-                        data: actual_data.map(data => data.pengeluaran_total),
-                    }, 
-                    {
-                        label: 'Data Perkiraan',
-                        borderColor: '#6777ef',
-                        fill: false,
-                        data: forcasted_data.map(data => data.total),
-                    }]
-                };
-            }
-        }
+        let productions_ajax_url = '{{ route('dashboard.mitra.ajax.getPanenBulanans') }}';
 
-        var chart_pemasukan = chartKeuangan(
-                document.getElementById('pemasukan-chart').getContext('2d'), 
-                parseKeuanganChart('#47c363', keuangan_datasets, forcasted_pemasukan_datasets, 'pemasukan'),
-                'Grafik Perbandingan Peramalan Pemasukan'
-            );
-        var chart_pengeluaran = chartKeuangan(
-                document.getElementById('pengeluaran-chart').getContext('2d'), 
-                parseKeuanganChart('#ffa426', keuangan_datasets, forcasted_pengeluaran_datasets, 'pengeluaran'),
-                'Grafik Perbandingan Peramalan Pengeluaran'
-            );
+        $(document).ready(function() {
+            var table = $('#datatable').DataTable({
+                // serverSide: true,
+                processing: true,
+                "lengthMenu": [ 12, 24, 32, 64 ],
+                'dom': `<'row no-gutters'<'col-md'l><'col-md-auto'f><'col-md-auto'B>>
+                        <'row'<'col-12't>>
+                        <'row no-gutters justify-content-center'<'col-md'i><'col-md-auto'p>>`,
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-table mr-2"></i>Pilih Kolom',
+                        className: 'btn-primary',
+                        prefixButtons: [ 
+                            {
+                                extend: 'colvisRestore',
+                                text: 'Tampilkan Semua Kolom'
+                            }
+                        ]
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel mr-2"></i>Export Excel',
+                        className: 'btn-success',
+                        title: 'Test Data export',
+                        exportOptions: {
+                            columns: ":visible"
+                        }
+                    }, 
+                ],
+                // "ordering" : false,
+                "aaSorting" : [],
+                "pagingType": "numbers",
+                "language": {
+                    "lengthMenu": "Tampilkan _MENU_",
+                    "zeroRecords": "Tidak Ada Data",
+                    "info": "Menampilkan _PAGE_ dari _PAGES_ page",
+                    "infoEmpty": "Tidak Ada Data",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                    "search": "Cari Data Mitra:"
+                },
+                ajax: productions_ajax_url,
+                preDrawCallback: () => {
+                    $('#datatable').loader(true);
+                },
+                columns: [
+                    {data: 'month', name: 'month'},
+                    {data: 'totalPanen', name: 'totalPanen'},
+                ],
+                drawCallback: () => {
+                    $('#datatable').loader(false);
+                },
+                select: true
+            });
+            table.buttons().container().appendTo('#col-export-table');
+            
+        } );
     </script>
 @endsection

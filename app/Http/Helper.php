@@ -38,12 +38,15 @@ use Carbon\Carbon;
             $total_min_from_start = (($diff_from_start->d * 24 + $diff_from_start->h) * 60)+$diff_from_start->i;
             $total_min_from_now = (($diff_from_now->d * 24 + $diff_from_now->h) * 60)+$diff_from_now->i;
 
+            // dd($total_min_from_now, $total_min_from_start);
 
             $dfn = $diff_from_now;
             $time_remain = '';
             $percentage = 0;
 
-            if ($now->diffInMinutes() > $end->diffInMinutes()) {
+            // dd($total_min_from_start, $total_min_from_now);
+
+            if ($total_min_from_now > $total_min_from_start || $now->greaterThan($end)) {
                 $time_remain = 'Selesai';
                 $percentage = 100;
             } else {
@@ -51,7 +54,7 @@ use Carbon\Carbon;
                 else if ($dfn->d === 0 && $dfn->h !== 0 && $dfn->i !== 0) {$time_remain = "$dfn->h Jam $dfn->i Menit Tersisa";}
                 else if ($dfn->d === 0 && $dfn->h === 0 && $dfn->i !== 0) {$time_remain = "$dfn->i Menit Tersisa";}
                 // dd($total_min_from_start);
-                $percentage = (($total_min_from_start - $total_min_from_now) / $total_min_from_start) * 99.99;
+                $percentage = $total_min_from_start !== 0 || $total_min_from_start < 0 ? (($total_min_from_start - $total_min_from_now) / $total_min_from_start) * 100 : 100;
             }
 
             $progress = (object) [

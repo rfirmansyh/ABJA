@@ -170,6 +170,38 @@
 					</div>
 					<button type="submit" class="btn btn-lg btn-primary ml-auto d-block">Ubah Data</button>
 				</form>
+
+				</div>
+			</div>
+
+			<a data-toggle="collapse" href="#c-password" class="tx-12 font-weight-bold" style="color: rgb(157, 157, 157);">Lupa Password Pekerja ?</a>
+
+			<div class="collapse @error('password') show @enderror" id="c-password">
+				<div class="card mt-5">
+					<div class="card-body">
+						<form action="{{ route('dashboard.mitra.pekerjas.updatePassword', $pekerja->id) }}" method="POST">
+							@csrf @method('PUT')
+							<div class="form-group">
+								<label for="">Password Baru</label>
+								<div class="input-group input-group-password">
+									<input 
+										type="password" 
+										name="password"
+										value=""
+										class="form-control @error('password') is-invalid @enderror">
+									<div class="input-group-append">
+										<span class="input-group-text text-secondary csr-pointer" id="basic-addon2"><i class="fa fa-eye"></i></span>
+									</div>
+									@error('password')
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $message }}</strong>
+										</span>
+									@enderror
+								</div>
+							</div>
+							<button type="submit" class="btn btn-lg btn-warning ml-auto d-block">Ubah Passsword</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -30,7 +30,7 @@
 						<h4>Total Akun Pekerja</h4>
 					</div>
 					<div class="card-body">
-						8
+						{{ $totalPekerjas }}
 					</div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
 						<h4>Total Akun Aktif</h4>
 					</div>
 					<div class="card-body">
-						20
+						{{ $totalPekerjasActive }}
 					</div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
 						<h4>Total Akun Nonaktif</h4>
 					</div>
 					<div class="card-body">
-						20
+						{{ $totalPekerjasNonActive }}
 					</div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
     <link rel="stylesheet" href="{{ asset('vendors/datatable/datatable.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.css"/>
-    <link type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+    {{-- <link type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" /> --}}
     <style>
         .dataTables_wrapper .dataTables_length .custom-select {
             padding-right: 45px !important;
@@ -166,7 +166,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
-    <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+    {{-- <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script> --}}
     <script src="{{ asset('vendors/datatable/datatable-bs.min.js') }}"></script>
     <script>
         let users_ajax_url = '{{ route('dashboard.mitra.ajax.getPekerjas') }}';
@@ -211,18 +211,18 @@
                 preDrawCallback: () => {
                     $('#datatable').loader(true);
                 },
-                'columnDefs': [
-                    {
-                        'targets': 0,
-                        'checkboxes': {
-                        'selectRow': true
-                        }
-                    }
-                ],
-                'select': {
-                    'style': 'multi',
-                    'selector': 'td:not(:last-child)'
-                },
+                // 'columnDefs': [
+                //     {
+                //         'targets': 0,
+                //         'checkboxes': {
+                //         'selectRow': true
+                //         }
+                //     }
+                // ],
+                // 'select': {
+                //     'style': 'multi',
+                //     'selector': 'td:not(:last-child)'
+                // },
                 'order': [[1, 'asc']],
                 columns: [
                     {data: 'id', name: 'id'},

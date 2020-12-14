@@ -39,19 +39,6 @@ class ProductionController extends Controller
 
     public function indextable()
     {
-        // $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
-        //                     ->groupBy('keuangan_id');
-        // $pengeluaran_sum = \App\Pengeluaran::select(\DB::raw('pengeluarans.keuangan_id, SUM(nominal) as pengeluaran_sum, 0 as pemasukan_sum'))
-        //                     ->groupBy('keuangan_id'); 
-        // $keuangans = \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as month, SUM(pemasukans.pemasukan_sum) as pemasukan_total, SUM(pengeluarans.pengeluaran_sum) as pengeluaran_total'))
-        //                     ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
-        //                         $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
-        //                     })
-        //                     ->leftJoinSub($pengeluaran_sum, 'pengeluarans', function($join) {
-        //                         $join->on('keuangans.id', '=', 'pengeluarans.keuangan_id');
-        //                     })
-        //                     ->groupBy('month')
-        //                     ->get();
         $panen_sum = \App\Panen::select(\DB::raw('panens.pemasukan_id, SUM(panens.nominal) as panen_sum, 0 as pemasukan_sum, 0 as pengeluaran_sum'))
                         ->rightJoin('pemasukans', 'pemasukans.id', '=', 'panens.pemasukan_id')
                         ->groupBy('pemasukans.keuangan_id');
@@ -88,7 +75,54 @@ class ProductionController extends Controller
 
     public function indexpanen()
     {
-        
+        return view('dashboard.modules.mitra.productions.panen');
+    }
+
+    public function panenAnalysis(Request $request) 
+    {
+        $panen_sum = \App\Panen::select(\DB::raw('panens.pemasukan_id, SUM(panens.nominal) as panen_sum, 0 as pemasukan_sum, 0 as pengeluaran_sum'))
+                        ->rightJoin('pemasukans', 'pemasukans.id', '=', 'panens.pemasukan_id')
+                        ->groupBy('pemasukans.keuangan_id');
+        $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, panen_sum, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
+                        ->leftJoinSub($panen_sum, 'panen', function($join) {
+                            $join->on('pemasukans.id', '=', 'panen.pemasukan_id');
+                        })
+                        ->groupBy('keuangan_id');
+        // dd($pemasukan_sum->get());
+        $keuangans = \App\Keuangan::select(\DB::raw('
+                                keuangans.*, 
+                                CONCAT(MONTHNAME(keuangans.created_at), " ", YEAR(keuangans.created_at)) as month_year, 
+                                COALESCE(SUM(pemasukans.panen_sum), 0) as panen_total')
+                            )
+                            ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
+                                $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
+                            })
+                            ->leftJoin('productions', 'productions.id', '=', 'keuangans.production_id')
+                            ->leftJoin('kumbungs', 'kumbungs.id', '=', 'productions.kumbung_id')
+                            ->leftJoin('budidayas', 'budidayas.id', '=', 'kumbungs.budidaya_id')
+                            ->where('budidayas.owned_by_uid', \Auth::user()->id)
+                            ->groupBy('month_year')
+                            ->orderBy('keuangans.created_at')
+                            ->get();
+        $panen_datasets = [];
+        foreach ($keuangans as $i => $keuangan) {
+            $panen_datasets[] = [
+                'created_at' => $keuangan->created_at,
+                'total' => $keuangan->panen_total
+            ];
+        }     
+        if ( ($request->bobot && $request->bobot >= 3) || ($request->next !== null) ) {
+            return view('dashboard.modules.mitra.keuangans.analysis')
+                ->withKeuangans($keuangans)
+                ->withForecastedPanen(getForecasts($panen_datasets, $request->bobot, $request->next))
+                ->withMessage("Analisa Data Keuangan dengan bobot $request->bobot Bulan Terakhir, dan Perkiraan $request->next Bulan Kedepan")
+                ->withBobot($request->bobot)
+                ->withNext($request->next);
+        }
+        // getForecasts($keuangan);
+        return view('dashboard.modules.mitra.productions.panen-analysis')
+                ->withKeuangans($keuangans)
+                ->withForecastedPanen(getForecasts($panen_datasets));   
     }
 
 

@@ -16,57 +16,6 @@ class KeuanganController extends Controller
      */
     public function index()
     {
-        // $budidayas = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->get();
-        // $kumbungs = [];
-        // foreach ($budidayas as $i => $budidaya) {
-        //     foreach ($budidaya->kumbungs as $j => $kumbung) {
-        //         $kumbungs[] = $kumbung;
-        //     }
-        // }
-        // $keuangans = [];
-        // foreach ($kumbungs as $i => $kumbung) {
-        //     foreach ($kumbung->productions as $j => $production) {
-        //         foreach ($production->keuangans as $k => $keuangan) {
-        //             $keuangans[] = $keuangan->select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as bulan, SUM(pemasukans.nominal) as pemasukan'))
-        //                 ->join('pemasukans', 'keuangans.id', '=', 'pemasukans.keuangan_id')
-        //                 ->where('keuangans.id', '=', $keuangan->id)
-        //                 ->groupBy('keuangans.created_at')
-        //                 ->first();
-        //         }
-        //     }
-        // }
-        // dd($keuangans);
-        
-        // dd(
-        //     \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as bulan, SUM(pemasukans.nominal) as total'))
-        //                 ->join('pemasukans', 'keuangans.id', '=', 'pemasukans.keuangan_id')
-        //                 ->join('productions', 'productions.id', '=', 'keuangans.production_id')
-        //                 ->join('kumbungs', 'kumbungs.id', '=', 'productions.kumbung_id')
-        //                 ->join('budidayas', 'budidayas.id', '=', 'kumbungs.budidaya_id')
-        //                 ->where('budidayas.owned_by_uid', '=', \Auth::user()->id)
-        //                 ->groupBy(\DB::raw('bulan'))
-        //                 ->get()
-        // );
-        // dd(
-        //     \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as bulan, SUM(pemasukans.nominal) as total'))
-        //                     ->join('pemasukans', 'keuangans.id', '=', 'pemasukans.keuangan_id')
-        //                     ->whereNotNull('pemasukans.nominal')
-        //                     ->groupBy('keuangans.id')
-        //                     ->get()
-        // );
-        
-        // dd(
-        //     \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as bulan, SUM(pemasukans.nominal) as pemasukan_total, SUM(pengeluarans.nominal) as pengeluaran_total'))
-        //                     ->leftJoin('pemasukans', 'keuangans.id', '=', 'pemasukans.keuangan_id')
-        //                     ->leftJoin('pengeluarans', 'keuangans.id', '=', 'pengeluarans.keuangan_id')
-        //                     ->leftJoin('productions', 'productions.id', '=', 'keuangans.production_id')
-        //                     ->leftJoin('kumbungs', 'kumbungs.id', '=', 'productions.kumbung_id')
-        //                     ->leftJoin('budidayas', 'budidayas.id', '=', 'kumbungs.budidaya_id')
-        //                     ->where('budidayas.owned_by_uid', '=', \Auth::user()->id)
-        //                     ->groupBy(\DB::raw('bulan'))
-        //                     ->get()
-        // );
-        
         return view('dashboard.modules.mitra.keuangans.index');
     }
 

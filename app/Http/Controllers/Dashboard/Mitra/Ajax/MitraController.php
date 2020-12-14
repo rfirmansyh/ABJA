@@ -123,6 +123,40 @@ class MitraController extends Controller
             ->rawColumns(['pemasukan', 'pengeluaran'])->make(true);
     }
 
+    public function getPanenBulanans(Request $request) {
+        $panen_sum = \App\Panen::select(\DB::raw('panens.pemasukan_id, SUM(panens.nominal) as panen_sum, 0 as pemasukan_sum, 0 as pengeluaran_sum'))
+                        ->rightJoin('pemasukans', 'pemasukans.id', '=', 'panens.pemasukan_id')
+                        ->groupBy('pemasukans.keuangan_id');
+        $pemasukan_sum = \App\Pemasukan::select(\DB::raw('pemasukans.keuangan_id, panen_sum, SUM(nominal) as pemasukan_sum, 0 as pengeluaran_sum'))
+                            ->leftJoinSub($panen_sum, 'panen', function($join) {
+                                $join->on('pemasukans.id', '=', 'panen.pemasukan_id');
+                            })
+                            ->groupBy('keuangan_id');
+        $keuangans = \App\Keuangan::select(\DB::raw('keuangans.*, MONTH(keuangans.created_at) as month, SUM(pemasukans.pemasukan_sum) as pemasukan_total, SUM(panen_sum) as panen_total'))
+                            ->leftJoinSub($pemasukan_sum, 'pemasukans', function($join) {
+                                $join->on('keuangans.id', '=', 'pemasukans.keuangan_id');
+                            })
+                            ->leftJoin('productions', 'productions.id', '=', 'keuangans.production_id')
+                            ->leftJoin('kumbungs', 'kumbungs.id', '=', 'productions.kumbung_id')
+                            ->leftJoin('budidayas', 'budidayas.id', '=', 'kumbungs.budidaya_id')
+                            ->where('budidayas.owned_by_uid', \Auth::user()->id)
+                            ->groupBy('month')
+                            ->orderBy('created_at')
+                            ->get();
+        return DataTables::of($keuangans)
+            ->addColumn('month', function($keuangan) {
+                return Carbon::parse($keuangan->created_at)->format('F Y');
+            })
+            ->addColumn('totalPanen', function($keuangan) {
+                if ($keuangan->panen_total) {
+                    return "<span class='text-success font-weight-bold'> $keuangan->panen_total gram </span>";
+                } else {
+                    return "<span class='text-gray font-weight-bold'> - </span>";
+                }
+            })
+            ->rawColumns(['totalPanen', 'pengeluaran'])->make(true);
+    }
+
     public function getPekerjas(Request $request) {
         $pekerjas = \App\User::where('manager_id', \Auth::user()->id)->get();
         return DataTables::of($pekerjas)
@@ -149,7 +183,7 @@ class MitraController extends Controller
                 }
             })
             ->addColumn('action', function($pekerja) {
-                return '<a href="" class="btn btn-sm btn-primary mr-1"><i class="fas fa-eye"></i></a>
+                return '<a href="'.route('dashboard.mitra.pekerjas.show', $pekerja->id).'" class="btn btn-sm btn-primary mr-1"><i class="fas fa-eye"></i></a>
                         <a href="'.route('dashboard.mitra.pekerjas.edit', $pekerja->id).'" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>';
             })
             ->rawColumns(['photo', 'status', 'action'])->make(true);
