@@ -5,8 +5,6 @@
     <div class="card card-primary">
         <div class="card-header tx-18 font-weight-bold">Daftar Akun</div>
 
-        @dump($errors)
-
         <div class="card-body">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
