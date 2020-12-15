@@ -28,7 +28,7 @@
 
                 <button type="submit" class="btn btn-lg btn-block btn-primary mb-2 mt-5">Daftar Sekarang</button>
             </form>
-            <a href="{{ url('ui/login') }}" class="btn btn-lg btn-block btn-outline-primary">Sudah Punya Akun ?</a>
+            <a href="{{ route('login') }}" class="btn btn-lg btn-block btn-outline-primary">Sudah Punya Akun ?</a>
         </div>
     </div>
 @endsection
