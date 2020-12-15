@@ -41,6 +41,10 @@
 
 Auth::routes();
 
+Route::group(['namespace' => 'Frontpage', 'as' => 'frontpage.'], function() {
+    Route::get('/', 'FrontpageController@home')->name('home');
+});
+
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/admin', 'namespace' => 'Dashboard\Admin', 'as' => 'dashboard.admin.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/profile', 'DashboardController@profile')->name('profile');
