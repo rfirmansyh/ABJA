@@ -11,7 +11,8 @@
                 <a class="nav-item nav-link" href="#">TENTANG</a>
                 <a class="nav-item nav-link" href="#">CARA KERJA</a>
                 <a class="nav-item nav-link" href="#">BERITA</a>
-                <a class="btn btn-outline-primary" href="#">LOGIN</a>
+                <a class="btn btn-outline-primary mr-3" href="#">MASUK</a>
+                <a class="btn btn-primary" href="#">REGISTRASI</a>
             </div>
         </div>
     </div>
