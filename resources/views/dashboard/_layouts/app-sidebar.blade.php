@@ -11,9 +11,16 @@
       <li class="menu-header">Dashboard</li>
       {{-- acitve --}}
       @if (Request::is('dashboard/admin*'))
+        <li class="">
+          <a href="" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
+        </li>
         <li class="menu-header">Membership</li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users-cog"></i> <span>Mitra</span></a></li>
         <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Administrator</span></a></li>
+        <li class="menu-header">Informasi</li>
+        <li class="">
+          <a class="nav-link" href=""><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+        </li> 
       @elseif (Request::is('dashboard/mitra*'))
         <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
           <a href="{{ route('dashboard.mitra.index') }}" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
@@ -54,8 +61,8 @@
           <a class="nav-link" href="{{ route('dashboard.pekerja.productions.index') }}"><i class="fas fa-cogs"></i> <span>Produksi</span></a>
         </li>
         <li class="menu-header">Explore</li>
-        <li class="{{ Request::is('dashboard/mitra/posts*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+        <li class="{{ Request::is('dashboard/pekerja/posts*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.pekerja.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
         </li> 
       @endif
 

@@ -65,6 +65,9 @@ Route::group(['middleware' => ['auth', 'role:pekerja'], 'prefix' => 'dashboard/p
     Route::put('productions/inputdata/{production?}', 'ProductionController@inputdata')->name('productions.inputdata');
     Route::put('productions/updatestatus/{production?}', 'ProductionController@updatestatus')->name('productions.updatestatus');
 
+    // Modules : posts
+    Route::resource('posts', 'PostController');
+
     // Ajax
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
         Route::get('kebutuhans/{kebutuhan?}', 'PekerjaController@getKebutuhanTypeById')->name('getKebutuhanTypeById');
