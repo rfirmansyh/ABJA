@@ -63,4 +63,12 @@ class DashboardController extends Controller
             'keuangans' => $keuangans
         ]);
     }
+
+    public function profile()
+    {
+        $user = \Auth::user();
+        return view('dashboard.modules.mitra.profile')->with([
+            'mitra' => $user
+        ]);
+    }
 }

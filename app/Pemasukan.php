@@ -12,4 +12,5 @@ class Pemasukan extends Model
     public function panen() {
         return $this->hasOne('App\Panen');
     }
+
 }

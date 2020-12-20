@@ -15,4 +15,5 @@ class Budidaya extends Model
     public function kumbungs(){
         return $this->hasMany('App\Kumbung');
     }
+
 }

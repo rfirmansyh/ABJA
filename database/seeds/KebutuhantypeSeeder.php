@@ -17,14 +17,16 @@ class KebutuhantypeSeeder extends Seeder
             'unit' => 'gram',
             'description' => 'Dibutuhkan saat awal produksi',
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
-            'updated_at' => null
+            'updated_at' => null,
+            'user_id' => 2
         ];
         $kebutuhan_types[] = [
             'name' => 'Backlog',
             'unit' => 'buah',
             'description' => 'Dibutuhkan Jumlah Saat Produksi',
             'created_at' => new DateTime(null, new DateTimeZone('Asia/Bangkok')),
-            'updated_at' => null
+            'updated_at' => null,
+            'user_id' => 3
         ];
         DB::table('kebutuhan_types')->insert($kebutuhan_types);
         $this->command->info("Data Dummy Tipe Kebutuhan berhasil diinsert");

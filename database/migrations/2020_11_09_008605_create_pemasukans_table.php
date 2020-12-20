@@ -19,7 +19,7 @@ class CreatePemasukansTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('keuangan_id');
 
-            $table->foreign('keuangan_id')->references('id')->on('keuangans');
+            $table->foreign('keuangan_id')->references('id')->on('keuangans')->onDelete('cascade');
         });
     }
 

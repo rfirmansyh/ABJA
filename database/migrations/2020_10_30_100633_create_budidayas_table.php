@@ -28,8 +28,8 @@ class CreateBudidayasTable extends Migration
             $table->unsignedBigInteger('owned_by_uid');
             $table->unsignedBigInteger('maintenance_by_uid')->nullable();
 
-            $table->foreign('owned_by_uid')->references('id')->on('users');
-            $table->foreign('maintenance_by_uid')->references('id')->on('users');
+            $table->foreign('owned_by_uid')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('maintenance_by_uid')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

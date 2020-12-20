@@ -15,5 +15,5 @@ class Kumbung extends Model
     public function productions(){
         return $this->hasMany('App\Production');
     }
-    
+
 }

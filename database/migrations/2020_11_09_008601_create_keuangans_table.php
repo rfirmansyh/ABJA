@@ -20,7 +20,7 @@ class CreateKeuangansTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('production_id')->nullable();
 
-            $table->foreign('production_id')->references('id')->on('productions');
+            $table->foreign('production_id')->references('id')->on('productions')->onDelete('cascade');
         });
     }
 

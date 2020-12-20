@@ -20,8 +20,8 @@ class CreateKebutuhansTable extends Migration
             $table->unsignedBigInteger('kebutuhan_type_id')->nullable();
             $table->unsignedBigInteger('pengeluaran_id')->nullable();
 
-            $table->foreign('kebutuhan_type_id')->references('id')->on('kebutuhan_types');
-            $table->foreign('pengeluaran_id')->references('id')->on('pengeluarans');
+            $table->foreign('kebutuhan_type_id')->references('id')->on('kebutuhan_types')->onDelete('cascade');
+            $table->foreign('pengeluaran_id')->references('id')->on('pengeluarans')->onDelete('cascade');
         });
     }
 

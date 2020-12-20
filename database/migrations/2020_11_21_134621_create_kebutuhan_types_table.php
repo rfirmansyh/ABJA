@@ -19,6 +19,9 @@ class CreateKebutuhanTypesTable extends Migration
             $table->string('unit', 50)->comment = "Ex : KG, G, ONS";
             $table->text('description');
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

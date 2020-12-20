@@ -15,7 +15,7 @@ class ProductiontypeController extends Controller
      */
     public function index()
     {
-        $productionTypes = \App\ProductionType::paginate(5);
+        $productionTypes = \App\ProductionType::where('user_id', \Auth::user()->id)->paginate(5);
         return view('dashboard.modules.mitra.productiontypes.index')
                 ->withProductionTypes($productionTypes);
     }

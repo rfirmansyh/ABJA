@@ -11,15 +11,16 @@
       <li class="menu-header">Dashboard</li>
       {{-- acitve --}}
       @if (Request::is('dashboard/admin*'))
-        <li class="">
-          <a href="" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
+        <li class="{{ Request::is('dashboard/admin') ? 'active' : '' }}">
+          <a href="{{ route('dashboard.admin.index') }}" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
         </li>
         <li class="menu-header">Membership</li>
-        <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users-cog"></i> <span>Mitra</span></a></li>
-        <li class=""><a class="nav-link" href="blank.html"><i class="fas fa-users"></i> <span>Administrator</span></a></li>
+        <li class="{{ Request::is('dashboard/admin/users*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.admin.users.index') }}"><i class="fas fa-users-cog"></i> <span>Mitra</span></a>
+        </li>
         <li class="menu-header">Informasi</li>
-        <li class="">
-          <a class="nav-link" href=""><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
+        <li class="{{ Request::is('dashboard/admin/posts*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ route('dashboard.admin.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
         </li> 
       @elseif (Request::is('dashboard/mitra*'))
         <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
@@ -53,7 +54,7 @@
           <a class="nav-link" href="{{ route('dashboard.mitra.posts.index') }}"><i class="fas fa-newspaper"></i> <span>Berita Jamur</span></a>
         </li>      
       @elseif(Request::is('dashboard/pekerja*'))      
-        <li class="{{ Request::is('dashboard/mitra') ? 'active' : '' }}">
+        <li class="{{ Request::is('dashboard/pekerja') ? 'active' : '' }}">
           <a href="{{ route('dashboard.mitra.index') }}" class="nav-link"><i class="fas fa-compass tx-16"></i><span>Dashboard</span></a>
         </li>
         <li class="menu-header">Aktifitas</li>

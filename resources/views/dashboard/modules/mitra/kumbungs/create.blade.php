@@ -72,7 +72,7 @@
                             <label for="">Luas</label>
                             <div class="input-group mb-3">
                                 <input 
-                                    value={{ old('large') }}
+                                    value="{{ old('large') }}"
                                     type="number" 
                                     step="0.01" 
                                     name="large"

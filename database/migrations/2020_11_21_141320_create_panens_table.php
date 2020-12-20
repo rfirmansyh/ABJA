@@ -20,7 +20,7 @@ class CreatePanensTable extends Migration
             $table->timestamp('panen_at', 0)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->unsignedBigInteger('pemasukan_id')->nullable();
 
-            $table->foreign('pemasukan_id')->references('id')->on('pemasukans');
+            $table->foreign('pemasukan_id')->references('id')->on('pemasukans')->onDelete('cascade');
         });
     }
 

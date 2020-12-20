@@ -23,8 +23,8 @@ class CreateKumbungsTable extends Migration
             $table->unsignedBigInteger('jamur_id');
             $table->unsignedBigInteger('budidaya_id');
 
-            $table->foreign('jamur_id')->references('id')->on('jamurs');
-            $table->foreign('budidaya_id')->references('id')->on('budidayas');
+            $table->foreign('jamur_id')->references('id')->on('jamurs')->onDelete('cascade');
+            $table->foreign('budidaya_id')->references('id')->on('budidayas')->onDelete('cascade');
         });
     }
 

@@ -26,10 +26,10 @@ class CreateProductionsTable extends Migration
             $table->unsignedBigInteger('production_type_id');
             $table->unsignedBigInteger('kumbung_id');
 
-            $table->foreign('production_type_id')->references('id')->on('production_types');
-            $table->foreign('maked_by_uid')->references('id')->on('users');
-            $table->foreign('updated_by_uid')->references('id')->on('users');
-            $table->foreign('kumbung_id')->references('id')->on('kumbungs');
+            $table->foreign('production_type_id')->references('id')->on('production_types')->onDelete('cascade');
+            $table->foreign('maked_by_uid')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('updated_by_uid')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('kumbung_id')->references('id')->on('kumbungs')->onDelete('cascade');
         });
     }
 

@@ -49,10 +49,19 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/adm
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/profile', 'DashboardController@profile')->name('profile');
     
+    // Modules : users
+    Route::get('users/{user}/delete', 'UserController@delete')->name('users.delete');
     Route::resource('users', 'UserController');
+
+    // Modules : posts
+    Route::get('posts/{post}/delete', 'PostController@delete')->name('posts.delete');
+    Route::get('posts/table/{post}', 'PostController@tableShow')->name('posts.table.show');
+    Route::get('posts/table', 'PostController@table')->name('posts.table');
+    Route::resource('posts', 'PostController')->except('destroy');
 
     Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'as' => 'ajax.'], function () {
         Route::get('users', 'AdminController@getUsers')->name('users');
+        Route::get('posts', 'AdminController@getPosts')->name('posts');
     });
 });
 

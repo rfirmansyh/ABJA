@@ -15,4 +15,5 @@ class Keuangan extends Model
     public function pengeluarans() {
         return $this->hasMany('App\Pengeluaran');
     }
+
 }

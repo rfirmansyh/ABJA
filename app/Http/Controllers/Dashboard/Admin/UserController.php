@@ -33,7 +33,10 @@ class UserController extends Controller
         //                 ->count('maintenance_by_uid'); 
         // mencari pekerja dari mitra terkait
         // $pekerja = User::find('2')->budidayas()->get();
-        return view('dashboard.modules.admin.users.index');
+        $users = \App\User::where('role_id', '=', 2)->get();
+        return view('dashboard.modules.admin.users.index')->with([
+            'users' => $users
+        ]);
     }
 
     /**
@@ -179,8 +182,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(User $user)
     {
-        //
+        \Storage::delete($user->photo);
+        $user->delete();
+
+        \Session::flash('alert-type', 'success'); 
+        \Session::flash('alert-message', 'Data User Berhasil Dihapus !'); 
+        return redirect()->route('dashboard.admin.users.index');
     }
 }

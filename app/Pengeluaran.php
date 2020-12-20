@@ -12,4 +12,5 @@ class Pengeluaran extends Model
     public function kebutuhan() {
         return $this->hasOne('App\Kebutuhan');
     }
+
 }

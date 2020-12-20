@@ -25,6 +25,10 @@ class LoginController extends Controller
         logout as performLogout;
     }
 
+
+    
+
+
     /**
      * Where to redirect users after login.
      *
@@ -53,6 +57,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function credentials(Request $request)
+    {
+        return $request->only($this->username(), 'password', 'status');
+    }
+
+
+    protected function attemptLogin(Request $request)
+    {
+        $request->merge(['status' => '1']);
+
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->filled('remember')
+        );
     }
 
     public function logout(Request $request) {

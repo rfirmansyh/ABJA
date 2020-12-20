@@ -18,11 +18,7 @@
                         id="email" 
                         class="form-control @error('email') is-invalid @enderror" 
                         required autocomplete="username" autofocus>
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    
                 </div>
                 <div class="form-group mb-2">
                     <label for="password" class="text-md-right">Password</label>
@@ -34,6 +30,12 @@
                         class="form-control @error('password') is-invalid @enderror" 
                         required autocomplete="current-password" autofocus>
                 </div>
+
+                @error('email')
+                    <div class="text-danger tx-12 my-3" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </div>
+                @enderror
 
                 <div class="d-flex align-items-center justify-content-between  mb-3">
                     <div class="custom-control custom-checkbox custom-control-inline">

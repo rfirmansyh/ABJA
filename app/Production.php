@@ -21,4 +21,5 @@ class Production extends Model
     public function keuangans() {
         return $this->hasMany('App\Keuangan');
     }
+
 }
