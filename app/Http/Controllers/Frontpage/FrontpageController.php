@@ -11,4 +11,14 @@ class FrontpageController extends Controller
     {
         return view('frontpage.modules.index');
     }
+
+    public function about() 
+    {
+        return view('frontpage.modules.about');
+    }
+
+    public function carakerja() 
+    {
+        return view('frontpage.modules.carakerja');
+    }
 }

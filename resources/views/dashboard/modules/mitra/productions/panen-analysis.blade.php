@@ -190,9 +190,9 @@
         }
 
         var chart_pemasukan = chartKeuangan(
-                document.getElementById('pemasukan-chart').getContext('2d'), 
-                parseKeuanganChart('#47c363', keuangan_datasets, forcasted_panen_datasets),
-                'Grafik Perbandingan Peramalan Pemasukan'
-            );
+            document.getElementById('pemasukan-chart').getContext('2d'), 
+            parseKeuanganChart('#47c363', keuangan_datasets, forcasted_panen_datasets),
+            'Grafik Perbandingan Peramalan Pemasukan'
+        );
     </script>
 @endsection

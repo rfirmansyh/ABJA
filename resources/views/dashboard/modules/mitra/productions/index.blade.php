@@ -16,206 +16,217 @@
 @endsection {{-- section : content-header --}}
 
 @section('content') {{-- section : content --}}
-    {{-- list budidaya --}}
-    <div class="row mb-4">
-        <div class="col-md">
-            <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
-        </div>
-        <div class="col-md-4">
-            <form action="" id="select_budidaya_id" method="get">
-            <select 
-                name="select_budidaya_id" 
-                class="selectpicker" 
-                data-style="form-control"
-                data-live-search="true" 
-                onchange=""
-                title="Cari Budidaya..." 
-                data-width="100%">
-                    @foreach ($budidayas as $budidaya)
-                        <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
-                    @endforeach
-            </select>
-            </form>
-        </div>
-    </div>
-    {{-- end of list budidaya --}}
-
-    {{-- main content --}}
-    <div class="card card-primary">
-        <div class="card-body">
-            {{-- filter --}}
-            <div class="card-title d-flex justify-content-between">
-                <h2 class="tx-24 font-weight-bolder">Filter</h2>
-                <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-0 px-3"><i class="fas fa-filter"></i></button>
+    
+    @if (isset($budidayaSelected))
+        {{-- list budidaya --}}
+        <div class="row mb-4">
+            <div class="col-md">
+                <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
             </div>
-            <hr>
-            <div class="collapse" id="collapseExample">
-                <div class="row align-items-end gutters-xs border-bottom pb-4 mb-5"> 
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Status</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Aktif</option>
-                                <option value="2">Nonaktif</option>
-                            </select>
+            <div class="col-md-4">
+                <form action="" id="select_budidaya_id" method="get">
+                <select 
+                    name="select_budidaya_id" 
+                    class="selectpicker" 
+                    data-style="form-control"
+                    data-live-search="true" 
+                    onchange=""
+                    title="Cari Budidaya..." 
+                    data-width="100%">
+                        @foreach ($budidayas as $budidaya)
+                            <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
+                        @endforeach
+                </select>
+                </form>
+            </div>
+        </div>
+        {{-- end of list budidaya --}}
+
+        {{-- main content --}}
+        <div class="card card-primary">
+            <div class="card-body">
+                {{-- filter --}}
+                <div class="card-title d-flex justify-content-between">
+                    <h2 class="tx-24 font-weight-bolder">Filter</h2>
+                    <button data-toggle="collapse" data-target="#collapseExample" class="btn btn-sm btn-outline-primary py-0 px-3"><i class="fas fa-filter"></i></button>
+                </div>
+                <hr>
+                <div class="collapse" id="collapseExample">
+                    <div class="row align-items-end gutters-xs border-bottom pb-4 mb-5"> 
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Pilih Status</label>
+                                <select class="custom-select">
+                                    <option selected>Semua</option>
+                                    <option value="1">Aktif</option>
+                                    <option value="2">Nonaktif</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Pilih Lokasi Kota</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">Jember</option>
-                                <option value="2">Lumajang</option>
-                            </select>
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Pilih Lokasi Kota</label>
+                                <select class="custom-select">
+                                    <option selected>Semua</option>
+                                    <option value="1">Jember</option>
+                                    <option value="2">Lumajang</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Luas</label>
-                            <select class="custom-select">
-                                <option selected>Semua</option>
-                                <option value="1">> 10 M2</option>
-                                <option value="2">Lumajang</option>
-                            </select>
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Luas</label>
+                                <select class="custom-select">
+                                    <option selected>Semua</option>
+                                    <option value="1">> 10 M2</option>
+                                    <option value="2">Lumajang</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group mb-3 mb-md-0">
-                            <label for="">Tanggal Buat</label>
-                            <input type="date" class="form-control">
+                        <div class="col-md">
+                            <div class="form-group mb-3 mb-md-0">
+                                <label for="">Tanggal Buat</label>
+                                <input type="date" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 d-none d-md-block mb-3"></div>
-                    <div class="col-md">
-                        <div class="form-group mb-md-0">
-                            <label for="">Nama Tempat</label>
-                            <input type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
+                        <div class="col-md-12 d-none d-md-block mb-3"></div>
+                        <div class="col-md">
+                            <div class="form-group mb-md-0">
+                                <label for="">Nama Tempat</label>
+                                <input type="text" class="form-control" placeholder="Masukan Nama Untuk Dicari">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <button class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
+                        <div class="col-md-auto">
+                            <button class="btn btn-block btn-lg btn-outline-primary">Proses Filter</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {{-- end of filter --}}
+                {{-- end of filter --}}
 
-            <div class="row">
-                @foreach ($kumbungs as $kumbung)
-                @php
-                    $progress = null; 
-                    // check apa ada produksi di kumbung terkait
-                    if ($kumbung->productions()->orderBy('id', 'desc')->first()) {
-                        // check apa status sedang inprogress / '1' ?
-                        if ($kumbung->productions()->orderBy('id', 'desc')->first()->status === '1') {
-                            $progress = getProgress($kumbung->productions()->orderBy('id', 'desc')->first()->created_at, $kumbung->productions()->orderBy('id', 'desc')->first()->done_at);
+                <div class="row">
+                    @foreach ($kumbungs as $kumbung)
+                    @php
+                        $progress = null; 
+                        // check apa ada produksi di kumbung terkait
+                        if ($kumbung->productions()->orderBy('id', 'desc')->first()) {
+                            // check apa status sedang inprogress / '1' ?
+                            if ($kumbung->productions()->orderBy('id', 'desc')->first()->status === '1') {
+                                $progress = getProgress($kumbung->productions()->orderBy('id', 'desc')->first()->created_at, $kumbung->productions()->orderBy('id', 'desc')->first()->done_at);
+                            }
                         }
-                    }
-                @endphp
+                    @endphp
 
-                <div class="col-lg-6">
-                    <div class="card card-secondary border-bottom">
-                        <div class="card-header flex-column align-items-start tx-18 font-weight-bold">
-                            Kumbung ID : {{ $kumbung->id }}
-                            <div class="tx-12">{{ $kumbung->name }}</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                {{--  --}}
-                                <div class="col-lg-auto">
-                                    <div id="img-card">
-                                        <img src="{{ asset('img/kumbung/default-kumbung.png') }}" alt="">
-									</div>
-                                </div>
-                                {{--  --}}
-                                <div class="col-lg">
-                                    <div class="border-bottom mb-1 pb-1">Di Produksi Oleh :
-                                        <div class="font-weight-bold">
-                                            @if ($progress)
-                                                {{ $kumbung->productions()->orderBy('id', 'desc')->first()->usermake->name }}    
-                                            @else
-                                                Belum Ada Produksi
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="border-bottom mb-1 pb-1">Banyak Produksi :
-                                        <div class="font-weight-bold">
-                                            {{ count($kumbung->productions) }}x Produksi
-                                        </div>
-                                    </div>
-                                    <div class="">Terakhir Selesai Produksi :
-                                        <div class="font-weight-bold">
-                                            @if (count($kumbung->productions) > 1) 
-                                                {{ \Carbon\Carbon::parse($kumbung->productions()->orderBy('id', 'desc')->get()[1]->done_at)->toDayDateTimeString() }}    
-                                            @else
-                                                Belum Ada
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-lg-6">
+                        <div class="card card-secondary border-bottom">
+                            <div class="card-header flex-column align-items-start tx-18 font-weight-bold">
+                                Kumbung ID : {{ $kumbung->id }}
+                                <div class="tx-12">{{ $kumbung->name }}</div>
                             </div>
-                            <div class="row">
-                                @if ($progress)
-                                    <div class="col">
-                                        <div class="font-weight-bold mb-2">Progress Produksi : {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
-                                        <div class="progress">
-                                            <div class="progress-bar text-dark" 
-                                                role="progressbar" 
-                                                style="width: {{ round($progress->percentage,2) }}%; overflow: visible;">
-                                                {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    {{--  --}}
+                                    <div class="col-lg-auto">
+                                        <div id="img-card">
+                                            <img src="{{ asset('img/kumbung/default-kumbung.png') }}" alt="">
                                         </div>
                                     </div>
-                                @else
-                                    <div class="col">
-                                        <div class="font-weight-bold mb-2">Progress Produksi : Belum Melakukan Produksi</div>
-                                        <div class="progress">
-                                            <div class="progress-bar text-dark" 
-                                                role="progressbar" 
-                                                style="width: 0%; overflow: visible;">
-                                                Belum Melakukan Produksi</div>
+                                    {{--  --}}
+                                    <div class="col-lg">
+                                        <div class="border-bottom mb-1 pb-1">Di Produksi Oleh :
+                                            <div class="font-weight-bold">
+                                                @if ($progress)
+                                                    {{ $kumbung->productions()->orderBy('id', 'desc')->first()->usermake->name }}    
+                                                @else
+                                                    Belum Ada Produksi
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="border-bottom mb-1 pb-1">Banyak Produksi :
+                                            <div class="font-weight-bold">
+                                                {{ count($kumbung->productions) }}x Produksi
+                                            </div>
+                                        </div>
+                                        <div class="">Terakhir Selesai Produksi :
+                                            <div class="font-weight-bold">
+                                                @if (count($kumbung->productions) > 1) 
+                                                    {{ \Carbon\Carbon::parse($kumbung->productions()->orderBy('id', 'desc')->get()[1]->done_at)->toDayDateTimeString() }}    
+                                                @else
+                                                    Belum Ada
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
-                                @endif
-                            </div>
-						</div>
-						<div class="card-footer border-top border-light">
-							<div class="row gutters-xs justify-content-end">
-                                <div class="col-sm mb-2 mb-sm-0">
-                                    <button class="btn btn-block h-100 btn-outline-primary">Detail Produksi</button>
                                 </div>
-                                @if ($progress)
-                                <div class="col-sm mb-2 mb-sm-0">
-                                    <button data-inputdata-production-id="{{ $kumbung->productions()->orderBy('id', 'desc')->first()->id }}" class="btn btn-block h-100 btn-primary">Input Data</button>
-                                </div>
-                                @endif
-                                <div class="col-sm">
-                                    @if ($progress && $progress->percentage < 100)
-                                        <button class="btn btn-block h-100 btn-outline-secondary" disabled>Dalam Proses</button>    
-                                    @elseif ($progress && $progress->percentage == 100)
-                                        <button 
-                                            data-updatestatus-production-id="{{ $kumbung->productions()->orderBy('id', 'desc')->first()->id }}" 
-                                            class="btn btn-block h-100 btn-success">Selesaikan</button>   
+                                <div class="row">
+                                    @if ($progress)
+                                        <div class="col">
+                                            <div class="font-weight-bold mb-2">Progress Produksi : {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                                            <div class="progress">
+                                                <div class="progress-bar text-dark" 
+                                                    role="progressbar" 
+                                                    style="width: {{ round($progress->percentage,2) }}%; overflow: visible;">
+                                                    {{ round($progress->percentage,2) }}% : {{ $progress->time_remain }}</div>
+                                            </div>
+                                        </div>
                                     @else
-                                        <button data-toggle="modal" data-target="#m-production-start" data-send="{{ $kumbung->id }}" class="btn btn-block h-100 btn-primary">Mulai Produksi</button>   
+                                        <div class="col">
+                                            <div class="font-weight-bold mb-2">Progress Produksi : Belum Melakukan Produksi</div>
+                                            <div class="progress">
+                                                <div class="progress-bar text-dark" 
+                                                    role="progressbar" 
+                                                    style="width: 0%; overflow: visible;">
+                                                    Belum Melakukan Produksi</div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
-						</div>
-                    </div>
-                </div>    
-                @endforeach
+                            <div class="card-footer border-top border-light">
+                                <div class="row gutters-xs justify-content-end">
+                                    <div class="col-sm mb-2 mb-sm-0">
+                                        <button class="btn btn-block h-100 btn-outline-primary">Detail Produksi</button>
+                                    </div>
+                                    @if ($progress)
+                                    <div class="col-sm mb-2 mb-sm-0">
+                                        <button data-inputdata-production-id="{{ $kumbung->productions()->orderBy('id', 'desc')->first()->id }}" class="btn btn-block h-100 btn-primary">Input Data</button>
+                                    </div>
+                                    @endif
+                                    <div class="col-sm">
+                                        @if ($progress && $progress->percentage < 100)
+                                            <button class="btn btn-block h-100 btn-outline-secondary" disabled>Dalam Proses</button>    
+                                        @elseif ($progress && $progress->percentage == 100)
+                                            <button 
+                                                data-updatestatus-production-id="{{ $kumbung->productions()->orderBy('id', 'desc')->first()->id }}" 
+                                                class="btn btn-block h-100 btn-success">Selesaikan</button>   
+                                        @else
+                                            <button data-toggle="modal" data-target="#m-production-start" data-send="{{ $kumbung->id }}" class="btn btn-block h-100 btn-primary">Mulai Produksi</button>   
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                    @endforeach
 
-                
+                    
+                </div>
+
             </div>
-
         </div>
-    </div>
-    {{-- end of main content --}}
+        {{-- end of main content --}}
 
-    <div class="row justify-content-center justify-content-md-end">
-        <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
-    </div>
+        <div class="row justify-content-center justify-content-md-end">
+            <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
+        </div>
+    @else
+        {{-- list budidaya --}}
+        <div class="row mb-4">
+            <div class="col-md">
+                <h4 class="font-weight-bold border-bottom border-primary pb-3">Tidak ada data</h4>
+            </div>
+        </div>
+        {{-- end of list budidaya --}}
+    @endif
 
     
 @endsection {{-- section : content --}}
@@ -735,7 +746,7 @@
 
         $('[name="select_budidaya_id"]').on('change', function() {
             $('#select_budidaya_id').submit();
-        })
+        });
         
         // INIT DATETIME PICKER
         $('#created_at, #panen_at, #done_at').datetimepicker({

@@ -14,78 +14,90 @@
   </div>
 @endsection {{-- section : content-header --}}
 
-@section('content') {{-- section : content --}}
-    {{-- list budidaya --}}
-    <div class="row mb-4">
-        <div class="col-md">
-            <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
-        </div>
-        <div class="col-md-4">
-            <form action="" id="select_budidaya_id" method="get">
-            <select 
-                name="select_budidaya_id" 
-                class="selectpicker" 
-                data-style="form-control"
-                data-live-search="true" 
-                onchange=""
-                title="Cari Budidaya..." 
-                data-width="100%">
-                    @foreach ($budidayas as $budidaya)
-                        <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
-                    @endforeach
-            </select>
-            </form>
-        </div>
-    </div>
-    {{-- end of list budidaya --}}
 
-    <div class="row">
-        @foreach ($kumbungs as $kumbung)
-        <div class="col-lg-6">
-            <div class="card card-secondary border-bottom">
-                <div class="card-header flex-column align-items-start tx-18 font-weight-bold">
-                    Kumbung ID : {{ $kumbung->id }}
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        {{--  --}}
-                        <div class="col-lg-auto">
-                            <div id="img-card">
-                                <img src="{{ asset('storage/'.$kumbung->photo) }}" alt="">
+@section('content') {{-- section : content --}}
+
+    @if (isset($budidayaSelected))
+        {{-- list budidaya --}}
+        <div class="row mb-4">
+            <div class="col-md">
+                <h4 class="font-weight-bold border-bottom border-primary pb-3">{{ $budidayaSelected->name }}</h4>
+            </div>
+            <div class="col-md-4">
+                <form action="" id="select_budidaya_id" method="get">
+                <select 
+                    name="select_budidaya_id" 
+                    class="selectpicker" 
+                    data-style="form-control"
+                    data-live-search="true" 
+                    onchange=""
+                    title="Cari Budidaya..." 
+                    data-width="100%">
+                        @foreach ($budidayas as $budidaya)
+                            <option value="{{ $budidaya->id }}">{{ $budidaya->name }}</option>
+                        @endforeach
+                </select>
+                </form>
+            </div>
+        </div>
+        {{-- end of list budidaya --}}
+
+        <div class="row">
+            @foreach ($kumbungs as $kumbung)
+            <div class="col-lg-6">
+                <div class="card card-secondary border-bottom">
+                    <div class="card-header flex-column align-items-start tx-18 font-weight-bold">
+                        Kumbung ID : {{ $kumbung->id }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            {{--  --}}
+                            <div class="col-lg-auto">
+                                <div id="img-card">
+                                    <img src="{{ asset('storage/'.$kumbung->photo) }}" alt="">
+                                </div>
                             </div>
-                        </div>
-                        {{--  --}}
-                        <div class="col-lg">
-                            <div class="tx-18 font-weight-bold mb-3">{{ $kumbung->name }}</div>
-                            <div class="d-flex align-items-center border-bottom mb-1 pb-2">Status:
-                                @if ($kumbung->status === '1')
-                                <div class="badge badge-success ml-2">Aktif</div>
-                                @else
-                                <div class="badge badge-secondary ml-2">Nonaktif</div>
-                                @endif
-                            </div>
-                            <div class="border-bottom mb-1 pb-1">Luas Tempat :
-                                <div class="font-weight-bold">{{ $kumbung->large }} M2</div>
-                            </div>
-                            <div class="border-bottom mb-1 pb-1">Type Jamur :
-                                <div class="font-weight-bold">{{ $kumbung->jamur->name }} M2</div>
+                            {{--  --}}
+                            <div class="col-lg">
+                                <div class="tx-18 font-weight-bold mb-3">{{ $kumbung->name }}</div>
+                                <div class="d-flex align-items-center border-bottom mb-1 pb-2">Status:
+                                    @if ($kumbung->status === '1')
+                                    <div class="badge badge-success ml-2">Aktif</div>
+                                    @else
+                                    <div class="badge badge-secondary ml-2">Nonaktif</div>
+                                    @endif
+                                </div>
+                                <div class="border-bottom mb-1 pb-1">Luas Tempat :
+                                    <div class="font-weight-bold">{{ $kumbung->large }} M2</div>
+                                </div>
+                                <div class="border-bottom mb-1 pb-1">Type Jamur :
+                                    <div class="font-weight-bold">{{ $kumbung->jamur->name }} M2</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-footer border-top border-light d-flex justify-content-end">
+                        <a href="{{ route('dashboard.mitra.kumbung.edit', $kumbung->id) }}" class="btn btn-sm btn-warning mr-1">Ubah</a>
+                        <a href="{{ route('dashboard.mitra.kumbung.show', $kumbung->id) }}" class="btn btn-sm btn-primary">Detail</a>
+                    </div>
                 </div>
-                <div class="card-footer border-top border-light d-flex justify-content-end">
-                    <a href="{{ route('dashboard.mitra.kumbung.edit', $kumbung->id) }}" class="btn btn-sm btn-warning mr-1">Ubah</a>
-                    <a href="{{ route('dashboard.mitra.kumbung.show', $kumbung->id) }}" class="btn btn-sm btn-primary">Detail</a>
-                </div>
+            </div> 
+            @endforeach
+        </div>
+
+        <div class="row justify-content-center justify-content-md-end">
+            <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
+        </div>        
+    @else
+        {{-- list budidaya --}}
+        <div class="row mb-4">
+            <div class="col-md">
+                <h4 class="font-weight-bold border-bottom border-primary pb-3">Tidak ada data</h4>
             </div>
-        </div> 
-        @endforeach
-    </div>
+        </div>
+        {{-- end of list budidaya --}}
 
-    <div class="row justify-content-center justify-content-md-end">
-        <div class="col-auto">{{$kumbungs->appends(Request::all())->links()}}</div>
-    </div>
-
+    @endif
     
 @endsection {{-- section : content --}}
 

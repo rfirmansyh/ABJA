@@ -43,6 +43,8 @@ Auth::routes();
 
 Route::group(['namespace' => 'Frontpage', 'as' => 'frontpage.'], function() {
     Route::get('/', 'FrontpageController@home')->name('home');
+    Route::get('/about', 'FrontpageController@about')->name('about');
+    Route::get('/carakerja', 'FrontpageController@carakerja')->name('carakerja');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/admin', 'namespace' => 'Dashboard\Admin', 'as' => 'dashboard.admin.'], function() {
@@ -68,6 +70,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'dashboard/adm
 Route::group(['middleware' => ['auth', 'role:pekerja'], 'prefix' => 'dashboard/pekerja', 'namespace' => 'Dashboard\Pekerja', 'as' => 'dashboard.pekerja.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/profile', 'DashboardController@profile')->name('profile');
+    Route::put('/update', 'DashboardController@update')->name('update');
 
     Route::get('productions', 'ProductionController@index')->name('productions.index');
     Route::post('productions', 'ProductionController@store')->name('productions.store');
@@ -86,6 +89,7 @@ Route::group(['middleware' => ['auth', 'role:pekerja'], 'prefix' => 'dashboard/p
 Route::group(['middleware' => ['auth', 'role:mitra'], 'prefix' => 'dashboard/mitra', 'namespace' => 'Dashboard\Mitra', 'as' => 'dashboard.mitra.'], function() {
     Route::get('/', 'DashboardController@index')->name('index');
     Route::get('/profile', 'DashboardController@profile')->name('profile');
+    Route::put('/update', 'DashboardController@update')->name('update');
     
     // Modules : budidaya
     Route::delete('budidaya/{maintener}', 'BudidayaController@destroyBudidaya')->name('budidaya.maintener.destroy');

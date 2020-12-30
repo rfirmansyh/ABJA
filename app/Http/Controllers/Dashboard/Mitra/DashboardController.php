@@ -71,4 +71,42 @@ class DashboardController extends Controller
             'mitra' => $user
         ]);
     }
+
+    public function update(Request $request)
+    {
+        // $validation = \Validator::make($request->all(), [
+        //     'name'                  => 'required|min:5|max:191',
+        //     'phone'                 => 'required|digits_between:10,12',
+        //     'status'                => 'required',
+        // ])->validate();
+
+        $user = \App\User::find(\Auth::user()->id);
+        $user->name = $request->name;
+        if ($request->file('photo')) {
+            if($user->photo && file_exists(storage_path('app/public/' . $user->photo))){
+                \Storage::delete('public/'.$user->photo);
+            }
+            $file = $request->file('photo')->store('photo/profile', 'public');
+            $user->photo = $file;
+        }
+        $user->phone = $request->phone;
+        $user->bio = $request->bio;
+        if ($request->provinsi && $request->kabupaten && $request->kecamatan && $request->kelurahan) {
+            $user->provinsi = $request->provinsi;
+            $user->kabupaten = $request->kabupaten;
+            $user->kecamatan = $request->kecamatan;
+            $user->kelurahan = $request->kelurahan;
+        }
+        if ($request->detail_address){
+            $user->detail_address = $request->detail_address;
+        }
+        $user->status = $request->status;
+
+        $user->save();
+
+        \Session::flash('alert-type', 'success'); 
+        \Session::flash('alert-message', 'Data Pengurus Berhasil Ditambahkan!'); 
+
+        return redirect()->route('dashboard.mitra.profile');
+    }
 }

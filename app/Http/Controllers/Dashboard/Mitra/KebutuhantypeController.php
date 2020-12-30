@@ -44,6 +44,7 @@ class KebutuhantypeController extends Controller
         $kebutuhanTypes->unit = $request->unit;
         $kebutuhanTypes->description = $request->description;
         $kebutuhanTypes->created_at = Carbon::now();
+        $productionTypes->user_id = \Auth::user()->id;
         $kebutuhanTypes->save();
 
         \Session::flash('alert-type', 'success'); 
@@ -78,6 +79,7 @@ class KebutuhantypeController extends Controller
         $kebutuhanType->unit = $request->unit;
         $kebutuhanType->description = $request->description;
         $kebutuhanType->updated_at = Carbon::now();
+        $productionTypes->user_id = \Auth::user()->id;
         $kebutuhanType->save();
 
         \Session::flash('alert-type', 'success'); 

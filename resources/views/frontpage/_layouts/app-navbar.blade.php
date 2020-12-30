@@ -7,12 +7,17 @@
     
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="#">BERANDA</a>
-                <a class="nav-item nav-link" href="#">TENTANG</a>
-                <a class="nav-item nav-link" href="#">CARA KERJA</a>
-                <a class="nav-item nav-link" href="#">BERITA</a>
+                <a class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('frontpage.home') }}">
+                    BERANDA
+                </a>
+                <a class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('frontpage.about') }}">
+                    TENTANG
+                </a>
+                <a class="nav-item nav-link {{ Request::is('carakerja') ? 'active' : '' }}" href="{{ route('frontpage.carakerja') }}">
+                    CARA KERJA
+                </a>
                 <a class="btn btn-outline-primary mr-3" href="{{ route('login') }}">MASUK</a>
-                <a class="btn btn-primary" href="#">REGISTRASI</a>
+                <a class="btn btn-primary" href="{{ route('register') }}">REGISTRASI</a>
             </div>
         </div>
     </div>

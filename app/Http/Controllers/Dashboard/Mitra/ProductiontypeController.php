@@ -42,6 +42,7 @@ class ProductiontypeController extends Controller
         $productionTypes->name = $request->name;
         $productionTypes->description = $request->description;
         $productionTypes->created_at = Carbon::now();
+        $productionTypes->user_id = \Auth::user()->id;
         $productionTypes->save();
 
         \Session::flash('alert-type', 'success'); 
@@ -75,6 +76,7 @@ class ProductiontypeController extends Controller
         $productionTypes->name = $request->name;
         $productionTypes->description = $request->description;
         $productionTypes->updated_at = Carbon::now();
+        $productionTypes->user_id = \Auth::user()->id;
         $productionTypes->save();
 
         \Session::flash('alert-type', 'success'); 

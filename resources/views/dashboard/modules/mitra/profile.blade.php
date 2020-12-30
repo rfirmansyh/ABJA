@@ -26,7 +26,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('dashboard.mitra.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 <div class="form-group">
                     <label for="">Nama Lengkap</label>

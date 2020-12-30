@@ -12,6 +12,8 @@
 @endsection
 
 @section('content')
+    
+    @if ($budidaya !== null)
     {{-- widget --}}
     <div class="row">
         <div class="col-lg-4 col-12">
@@ -103,6 +105,9 @@
 			</div>
 		</div>
 	</div>
+    @else
+        
+    @endif
 
 @endsection
 

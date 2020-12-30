@@ -25,15 +25,22 @@ class ProductionController extends Controller
             $budidayaSelected = \App\Budidaya::where('owned_by_uid', '=', \Auth::user()->id)->find($request->select_budidaya_id);
         }
 
-        $kumbungs = \App\Kumbung::where('budidaya_id', '=', $budidayaSelected->id)->paginate(4);
         $productionTypes = \App\ProductionType::all();
         $kebutuhanTypes = \App\KebutuhanType::all();
-        return view('dashboard.modules.mitra.productions.index')
-            ->withBudidayas($budidayas)
-            ->withBudidayaSelected($budidayaSelected)
-            ->withKumbungs($kumbungs)
-            ->withProductionTypes($productionTypes)
-            ->withKebutuhanTypes($kebutuhanTypes);
+        if ($budidayaSelected !== null) {
+            $kumbungs = \App\Kumbung::where('budidaya_id', '=', $budidayaSelected->id)->paginate(4);
+            return view('dashboard.modules.mitra.productions.index')
+                ->withBudidayas($budidayas)
+                ->withBudidayaSelected($budidayaSelected)
+                ->withKumbungs($kumbungs)
+                ->withProductionTypes($productionTypes)
+                ->withKebutuhanTypes($kebutuhanTypes);
+        } else {
+            return view('dashboard.modules.mitra.productions.index')
+                    ->withProductionTypes($productionTypes)
+                    ->withKebutuhanTypes($kebutuhanTypes);
+        }
+        
     }
 
 
